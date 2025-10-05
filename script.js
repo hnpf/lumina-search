@@ -352,7 +352,7 @@ function applySettings() {
         customInput.style.display = state.searchEngine === 'custom' ? 'block' : 'none';
     }
 
-    const mainToggles = ['darkMode', 'showWeather', 'showClock', 'showCalendar', 'showTodo', 'showShortcuts', 'showGreeting', 'showAnimations'];
+    const mainToggles = ['showWeather', 'showClock', 'showCalendar', 'showTodo', 'showShortcuts', 'showGreeting', 'showAnimations'];
     document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
         const sw = opt.querySelector('.switch');
         if (mainToggles[idx]) {
@@ -1085,8 +1085,11 @@ document.getElementById('overlay').addEventListener('click', () => {
 });
 
 document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
-    opt.addEventListener('click', () => {
-        const keys = ['darkMode', 'showWeather', 'showClock', 'showCalendar', 'showTodo', 'showQuickActions', 'showShortcuts', 'showGreeting', 'showAnimations'];
+    opt.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const keys = ['showWeather', 'showClock', 'showCalendar', 'showTodo', 'showShortcuts', 'showGreeting', 'showAnimations'];
         if (keys[idx]) {
             state[keys[idx]] = !state[keys[idx]];
             applySettings();
@@ -1100,32 +1103,42 @@ document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
     });
 });
 
-document.getElementById('searchSuggestionsToggle').addEventListener('click', () => {
+document.getElementById('searchSuggestionsToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.searchSuggestions = !state.searchSuggestions;
     applySettings();
     saveSettings();
 });
 
-document.getElementById('animatedBlobsToggle').addEventListener('click', () => {
+document.getElementById('animatedBlobsToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.animatedBlobs = !state.animatedBlobs;
     applySettings();
     saveSettings();
 });
 
-document.getElementById('openInSameTabToggle').addEventListener('click', () => {
+document.getElementById('openInSameTabToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.openInSameTab = !state.openInSameTab;
     applySettings();
     saveSettings();
 });
 
-document.getElementById('shiftEnterToggle').addEventListener('click', () => {
+document.getElementById('shiftEnterToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.shiftEnter = !state.shiftEnter;
     applySettings();
     saveSettings();
 });
 
 // Mobile mode toggle event listeners
-document.getElementById('forceMobileModeToggle').addEventListener('click', () => {
+document.getElementById('forceMobileModeToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.forceMobileMode = !state.forceMobileMode;
     // Disable desktop mode if enabling mobile mode
     if (state.forceMobileMode) {
@@ -1135,7 +1148,9 @@ document.getElementById('forceMobileModeToggle').addEventListener('click', () =>
     saveSettings();
 });
 
-document.getElementById('forceDesktopModeToggle').addEventListener('click', () => {
+document.getElementById('forceDesktopModeToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.forceDesktopMode = !state.forceDesktopMode;
     // Disable mobile mode if enabling desktop mode
     if (state.forceDesktopMode) {
@@ -1145,19 +1160,25 @@ document.getElementById('forceDesktopModeToggle').addEventListener('click', () =
     saveSettings();
 });
 
-document.getElementById('hideWidgetsOnMobileToggle').addEventListener('click', () => {
+document.getElementById('hideWidgetsOnMobileToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.hideWidgetsOnMobile = !state.hideWidgetsOnMobile;
     applySettings();
     saveSettings();
 });
 
-document.getElementById('hideKeyboardShortcutsOnMobileToggle').addEventListener('click', () => {
+document.getElementById('hideKeyboardShortcutsOnMobileToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.hideKeyboardShortcutsOnMobile = !state.hideKeyboardShortcutsOnMobile;
     applySettings();
     saveSettings();
 });
 
-document.getElementById('mobileOptimizedSearchToggle').addEventListener('click', () => {
+document.getElementById('mobileOptimizedSearchToggle').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     state.mobileOptimizedSearch = !state.mobileOptimizedSearch;
     applySettings();
     saveSettings();
