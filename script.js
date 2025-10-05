@@ -795,48 +795,6 @@ function renderSearchHistoryModal() {
                 renderSearchHistoryModal();
             }
         });
-
-        // Touch support for mobile devices
-        shortcut.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                isDragging = false;
-                draggedElement = shortcut;
-
-                setTimeout(() => {
-                    if (draggedElement && !isDragging) {
-                        draggedElement.classList.add('dragging');
-                        isDragging = true;
-                    }
-                }, 150);
-            }
-        }, { passive: true });
-
-        shortcut.addEventListener('touchmove', (e) => {
-            if (!isDragging || !draggedElement) return;
-
-            e.preventDefault();
-            const touch = e.touches[0];
-            const deltaX = touch.clientX - touchStartX;
-            const deltaY = touch.clientY - touchStartY;
-
-            draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(2deg) scale(1.1)`;
-        }, { passive: false });
-
-        shortcut.addEventListener('touchend', (e) => {
-            if (isDragging && draggedElement) {
-                setTimeout(() => {
-                    if (draggedElement) {
-                        draggedElement.style.transform = '';
-                        draggedElement.classList.remove('dragging');
-                    }
-                }, 100);
-
-                isDragging = false;
-                draggedElement = null;
-            }
-        });
     });
 }
 

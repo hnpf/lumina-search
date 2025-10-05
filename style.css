@@ -65,11 +65,19 @@
             color: var(--md-sys-color-on-surface);
             transition: background 0.5s cubic-bezier(0.2, 0, 0, 1), color 0.5s cubic-bezier(0.2, 0, 0, 1);
             min-height: 100vh;
+            min-height: 100dvh; /* Dynamic viewport height for mobile */
             overflow-x: hidden;
             position: relative;
             /* Prevent rendering artifacts */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Mobile body improvements */
+        .mobile-mode body {
+            min-height: 100dvh;
+            max-height: 100dvh;
+            overflow-y: auto;
         }
 
         .background-image {
@@ -2582,68 +2590,82 @@
         .mobile-mode .calendar,
         .mobile-mode .todo-widget {
             position: static !important;
-            margin: 16px auto !important;
+            margin: 8px auto !important;
             left: auto !important;
             right: auto !important;
             top: auto !important;
             transform: none !important;
-            max-width: calc(100% - 32px);
+            max-width: calc(100% - 16px);
             width: 100%;
             animation: fadeInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
         }
 
         .mobile-mode .greeting {
             position: static !important;
-            margin: 16px auto !important;
+            margin: 8px auto !important;
             transform: none !important;
-            max-width: calc(100% - 32px);
+            max-width: calc(100% - 16px);
             width: fit-content;
-            min-width: 200px;
+            min-width: auto;
+            padding: 8px 16px;
+        }
+
+        .mobile-mode .greeting-text {
+            font-size: 14px;
         }
 
         .mobile-mode .shortcuts {
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 12px;
-            margin-top: 32px;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 8px;
+            margin-top: 16px;
             max-width: 100%;
-            padding: 0 16px;
+            padding: 0 8px;
         }
 
         .mobile-mode .shortcut {
-            width: 80px;
-            height: 80px;
-            padding: 12px;
-            font-size: 12px;
+            width: 70px;
+            height: 70px;
+            padding: 8px;
+            font-size: 10px;
         }
 
         .mobile-mode .add-shortcut {
-            width: 80px;
-            height: 80px;
-            padding: 12px;
+            width: 70px;
+            height: 70px;
+            padding: 8px;
         }
 
         .mobile-mode .shortcut-icon {
-            font-size: 24px;
+            font-size: 20px;
         }
 
         .mobile-mode .shortcut-label {
-            font-size: 11px;
+            font-size: 9px;
+            line-height: 1.1;
         }
 
         .mobile-mode .search-container {
-            padding: 12px 20px;
-            margin: 0 16px;
-            max-width: calc(100% - 32px);
+            padding: 8px 16px;
+            margin: 0;
+            max-width: 100%;
+            border-radius: 20px;
         }
 
         .mobile-mode .search-input {
             font-size: 16px; /* Prevent zoom on iOS */
-            padding: 12px 0;
+            padding: 8px 0;
+            line-height: 1.2;
         }
 
         .mobile-mode .search-btn {
-            padding: 10px 24px;
-            font-size: 14px;
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 16px;
+        }
+
+        .mobile-mode .voice-search-btn {
+            width: 32px;
+            height: 32px;
         }
 
         .mobile-mode .voice-search-btn {
@@ -2665,61 +2687,87 @@
         }
 
         .mobile-mode .container {
-            padding: 16px;
+            padding: 12px 8px;
             max-width: 100%;
+            min-height: auto;
         }
 
         .mobile-mode .search-section {
             max-width: 100%;
+            justify-content: flex-start;
+            padding-top: 8px;
+        }
+
+        .mobile-mode .header {
+            margin-bottom: 16px;
         }
 
         /* Mobile-optimized widgets */
         .mobile-mode .weather {
             min-width: auto;
             min-height: auto;
-            padding: 16px 20px;
+            padding: 12px 16px;
         }
 
         .mobile-mode .weather-temp {
-            font-size: 32px;
+            font-size: 28px;
         }
 
         .mobile-mode .weather-desc {
-            font-size: 14px;
+            font-size: 12px;
+        }
+
+        .mobile-mode .weather-location {
+            font-size: 10px;
         }
 
         .mobile-mode .clock {
             min-width: auto;
-            padding: 16px 20px;
+            padding: 12px 16px;
         }
 
         .mobile-mode .clock-time {
-            font-size: 28px;
+            font-size: 24px;
         }
 
         .mobile-mode .clock-date {
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .mobile-mode .calendar {
             min-width: auto;
             min-height: auto;
-            padding: 16px;
+            padding: 12px;
+        }
+
+        .mobile-mode .calendar-month {
+            font-size: 14px;
+        }
+
+        .mobile-mode .calendar-day {
+            font-size: 10px;
         }
 
         .mobile-mode .todo-widget {
             min-width: auto;
             min-height: auto;
-            padding: 16px;
+            padding: 12px;
+        }
+
+        .mobile-mode .todo-header {
+            font-size: 14px;
+            margin-bottom: 8px;
         }
 
         /* Mobile sidebar adjustments */
         .mobile-mode .notes-sidebar,
         .mobile-mode .bookmarks-sidebar {
             width: 100vw;
+            height: 100vh;
             left: -100vw;
             right: auto;
             border-radius: 0;
+            top: 0;
         }
 
         .mobile-mode .notes-sidebar.open {
@@ -2733,6 +2781,16 @@
 
         .mobile-mode .bookmarks-sidebar.open {
             right: 0;
+        }
+
+        .mobile-mode .notes-header,
+        .mobile-mode .bookmarks-header {
+            padding: 16px 20px;
+        }
+
+        .mobile-mode .notes-title,
+        .mobile-mode .bookmarks-title {
+            font-size: 18px;
         }
 
         .mobile-mode .notes-toggle,
@@ -2843,34 +2901,49 @@
 
             .weather, .clock, .calendar, .todo-widget {
                 position: static;
-                margin-bottom: 20px;
+                margin-bottom: 12px;
                 animation: fadeInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
                 width: 100%;
+                padding: 12px;
             }
 
             .greeting {
                 position: static;
-                margin: 20px auto;
+                margin: 8px auto;
                 transform: none;
                 max-width: 100%;
                 width: fit-content;
+                padding: 8px 16px;
+            }
+
+            .greeting-text {
+                font-size: 14px;
             }
 
             .shortcuts {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 16px;
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 8px;
+                margin-top: 16px;
             }
 
             .shortcut {
-                width: 90px;
-                height: 90px;
-                padding: 16px;
+                width: 70px;
+                height: 70px;
+                padding: 8px;
             }
 
             .add-shortcut {
-                width: 90px;
-                height: 90px;
-                padding: 16px;
+                width: 70px;
+                height: 70px;
+                padding: 8px;
+            }
+
+            .shortcut-icon {
+                font-size: 20px;
+            }
+
+            .shortcut-label {
+                font-size: 9px;
             }
 
             .shortcut.dragging {
@@ -2878,9 +2951,17 @@
                 transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
 
-            .shortcuts {
-                gap: 16px;
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            .container {
+                padding: 8px 4px;
+            }
+
+            .search-container {
+                padding: 8px 12px;
+            }
+
+            .search-input {
+                font-size: 16px;
+                padding: 6px 0;
             }
         }
 
