@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Display:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
     <link rel="stylesheet" href="style.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="background-image" id="backgroundImage"></div>
@@ -65,17 +66,17 @@
                 <span class="material-icons-round">add</span>
                 <span>New Tab</span>
             </button>
-            <button class="quick-action" data-action="bookmarks">
-                <span class="material-icons-round">bookmark</span>
-                <span>Bookmarks</span>
+            <button class="quick-action" data-action="search-settings">
+                <span class="material-icons-round">tune</span>
+                <span>Settings</span>
             </button>
-            <button class="quick-action" data-action="history">
-                <span class="material-icons-round">history</span>
-                <span>History</span>
+            <button class="quick-action" data-action="clear-history">
+                <span class="material-icons-round">delete_sweep</span>
+                <span>Clear History</span>
             </button>
-            <button class="quick-action" data-action="downloads">
-                <span class="material-icons-round">download</span>
-                <span>Downloads</span>
+            <button class="quick-action" data-action="screenshot">
+                <span class="material-icons-round">screenshot</span>
+                <span>Screenshot</span>
             </button>
         </div>
     </div>
@@ -152,10 +153,39 @@
         <span class="material-icons-round">notes</span>
     </button>
 
+    <div class="bookmarks-sidebar" id="bookmarksSidebar">
+        <div class="bookmarks-header">
+            <div class="bookmarks-title">Bookmarks</div>
+            <button class="bookmarks-close" id="bookmarksClose">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+        <div class="bookmarks-content">
+            <div class="bookmarks-actions">
+                <button class="bookmarks-add-btn" id="addBookmarkBtn">
+                    <span class="material-icons-round">add</span>
+                    Add Bookmark
+                </button>
+                <button class="bookmarks-import-btn" id="importBookmarksBtn">
+                    <span class="material-icons-round">upload</span>
+                    Import from Browser
+                </button>
+            </div>
+            <div class="bookmarks-list" id="bookmarksList"></div>
+        </div>
+    </div>
+
+    <button class="bookmarks-toggle" id="bookmarksToggle">
+        <span class="material-icons-round">bookmark</span>
+    </button>
+
     <div class="container">
         <div class="header">
             <div class="logo" onclick="location.reload()">lumina</div>
             <div class="header-actions">
+                <button class="icon-btn" id="searchHistoryBtn" title="Search History">
+                    <span class="material-icons-round">history</span>
+                </button>
                 <button class="icon-btn" id="infoBtn" title="About Lumina">
                     <span class="material-icons-round">help_outline</span>
                 </button>
@@ -183,6 +213,41 @@
                 </button>
                 <button type="submit" class="search-btn">Search</button>
             </form>
+
+
+            <div class="search-dropdowns-container" id="searchDropdownsContainer" style="position: relative; width: 100%;">
+                <div class="search-history-dropdown" id="searchHistoryDropdown" style="display: none;"></div>
+                <div class="search-auto-suggestions" id="searchAutoSuggestions" style="display: none;">
+                    <div class="auto-suggestion-item" data-suggestion="Google">
+                        <span class="material-icons-round">search</span>
+                        <span>Search Google</span>
+                    </div>
+                    <div class="auto-suggestion-item" data-suggestion="YouTube">
+                        <span class="material-icons-round">play_circle</span>
+                        <span>Search YouTube</span>
+                    </div>
+                    <div class="auto-suggestion-item" data-suggestion="Discord">
+                        <span class="material-icons-round">chat</span>
+                        <span>Discord</span>
+                    </div>
+                    <div class="auto-suggestion-item" data-suggestion="ChatGPT">
+                        <span class="material-icons-round">assistant</span>
+                        <span>Talk to ChatGPT</span>
+                    </div>
+                    <div class="auto-suggestion-item" data-suggestion="GitHub">
+                        <span class="material-icons-round">code</span>
+                        <span>Search GitHub</span>
+                    </div>
+                    <div class="auto-suggestion-item" data-suggestion="Stack Overflow">
+                        <span class="material-icons-round">help_outline</span>
+                        <span>Search Stack Overflow</span>
+                    </div>
+                    <div class="auto-suggestion-item" data-suggestion="Reddit">
+                        <span class="material-icons-round">forum</span>
+                        <span>Search Reddit</span>
+                    </div>
+                </div>
+            </div>
 
             <div class="search-suggestions" id="searchSuggestions" style="display: none;"></div>
 
@@ -223,26 +288,43 @@
                     </div>
                 </div>
                 <div class="toggle-option" id="clockToggle">
-                    <span>Shortcuts</span>
-                    <div class="switch">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
-                <div class="toggle-option" id="calendarToggle">
-                    <span>BG Bubbles</span>
-                    <div class="switch">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
-                <div class="toggle-option" id="todoToggle">
                     <span>Clock Widget</span>
                     <div class="switch">
                         <div class="switch-thumb"></div>
                     </div>
                 </div>
+                <div class="toggle-option" id="calendarToggle">
+                    <span>Calendar Widget</span>
+                    <div class="switch active">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="todoToggle">
+                    <span>Notes Widget</span>
+                    <div class="switch active">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
                 <div class="toggle-option" id="quickActionsToggle">
+                    <span>Quick Actions</span>
+                    <div class="switch active">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="shortcutsToggle">
+                    <span>Shortcuts</span>
+                    <div class="switch">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="greetingToggle">
                     <span>Greeting</span>
-                     <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px;">- overlaps on certain scalings</div>
+                    <div class="switch">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="animationsToggle">
+                    <span>Background Animation</span>
                     <div class="switch">
                         <div class="switch-thumb"></div>
                     </div>
@@ -250,29 +332,6 @@
             </div>
         </div>
 
-        <div class="setting-group">
-            <label class="setting-label">IN DEVELOPMENT - Extra Widgets!</label>
-            <div class="setting-group-content">
-                <div class="toggle-option" id="shortcutsToggle">
-                    <span>Calendar</span>
-                    <div class="switch active">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
-                <div class="toggle-option" id="animationsToggle">
-                    <span>Quick Task Notes Widget</span>
-                    <div class="switch active">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
-                <div class="toggle-option" id="greetingToggle">
-                    <span>Quick Actions</span>
-                    <div class="switch active">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="setting-group" id="devOptionsGroup">
             <div class="setting-group-header" id="devOptionsHeader">
@@ -308,6 +367,19 @@
                     <label style="font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px; color: var(--md-sys-color-on-surface);">Manual City Override</label>
                     <input type="text" id="manualCity" placeholder="e.g., San Francisco, CA" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); font-family: 'Google Sans', sans-serif; font-size: 14px;">
                 </div>
+
+                <div style="padding: 16px 20px; background: var(--md-sys-color-surface-container-high); border-radius: 16px; margin-bottom: 12px;">
+                    <label style="font-size: 14px; font-weight: 500; display: block; margin-bottom: 12px; color: var(--md-sys-color-on-surface);">Search Engine</label>
+                    <select id="searchEngine" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); font-family: 'Google Sans', sans-serif; font-size: 14px; margin-bottom: 8px;">
+                        <option value="duckduckgo">DuckDuckGo (Privacy-focused)</option>
+                        <option value="google">Google</option>
+                        <option value="bing">Bing</option>
+                        <option value="brave">Brave Search</option>
+                        <option value="custom">Custom Search Engine</option>
+                    </select>
+                    <input type="text" id="customSearchEngine" placeholder="e.g., search.example.com" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); font-family: 'Google Sans', sans-serif; font-size: 14px; display: none;">
+                    <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px;">Choose your preferred search engine. DuckDuckGo remains the default for privacy.</div>
+                </div>
             </div>
         </div>
 
@@ -339,7 +411,12 @@
                 <span>Import Settings</span>
                 <span class="material-icons-round">upload</span>
             </div>
+            <div class="toggle-option" id="importBookmarksBtn">
+                <span>Import Bookmarks (HTML)</span>
+                <span class="material-icons-round">bookmark</span>
+            </div>
             <input type="file" id="importFile" accept=".json" style="display: none;">
+            <input type="file" id="importBookmarksFile" accept=".html" style="display: none;">
         </div>
 
         <div class="setting-group">
@@ -361,35 +438,88 @@
         </div>
     </div>
 
-    <div class="modal" id="infoModal" style="max-width: 600px;">
+    <div class="modal" id="infoModal" style="max-width: 700px;">
         <div class="modal-title">About Lumina</div>
-        <div style="line-height: 1.6; color: var(--md-sys-color-on-surface);">
-            <h3 style="margin: 20px 0 10px 0; color: var(--md-sys-color-primary); font-size: 18px;">Project Overview</h3>
-            <p>Lumina is a modern, privacy-focused search engine interface built with vanilla HTML, CSS, and JavaScript, which really goes to show what you can do with barebone items! It provides a clean, customizable search experience with weather integration, shortcuts, and 12 color themes.</p>
+        <div style="line-height: 1.6; color: var(--md-sys-color-on-surface); max-height: 60vh; overflow-y: auto;">
 
-            <h3 style="margin: 20px 0 10px 0; color: var(--md-sys-color-primary); font-size: 18px;">Development History</h3>
-            <p>Created as a lightweight alternative to heavy search interfaces, Lumina focuses on speed, privacy, and user customization! The small project is based on Material Design principles and responsive design.</p>
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">What is this thing?</h3>
+                <p>So Lumina is basically a search engine interface i made using just plain HTML, CSS, and JavaScript. No fancy frameworks or anything, just the good old web stuff. It's like a privacy-focused alternative to those big search pages that are super heavy and track everything you do.</p>
+            </div>
 
-            <h3 style="margin: 20px 0 10px 0; color: var(--md-sys-color-primary); font-size: 18px;">Backend & APIs</h3>
-            <p><strong>Search:</strong> Powered by DuckDuckGo for privacy-focused search results<br>
-            <strong>Weather:</strong> Open-Meteo API for weather data<br>
-            <strong>Location:</strong> IP-based geolocation (approximate and secure) for weather</p>
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Why'd I make it?</h3>
+                <p>I got tired of search engines that feel slow and cluttered, so I built this thing that puts privacy first and lets you customize everything. It's got weather, notes, bookmarks, and a bunch of other stuff all in one place. Plus it looks pretty nice with all the Material Design stuff.</p>
+            </div>
 
-            <h3 style="margin: 20px 0 10px 0; color: var(--md-sys-color-primary); font-size: 18px;">Privacy Information</h3>
-            <p>• No search queries are stored or tracked<br>
-            • Weather location is approximate (IP-based) for privacy<br>
-            • All settings stored locally in your browser<br>
-            • No analytics or tracking scripts</p>
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Cool features it has</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                        <strong>Search Stuff:</strong><br>
+                        <span style="font-size: 13px;">Works with DuckDuckGo, Google, Bing, and even your own custom search engine. Plus voice search if your browser supports it!</span>
+                    </div>
+                    <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                        <strong>Personalization:</strong><br>
+                        <span style="font-size: 13px;">12 different color themes, custom backgrounds, and you can drag widgets around wherever you want.</span>
+                    </div>
+                    <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                        <strong>Productivity:</strong><br>
+                        <span style="font-size: 13px;">Notes with markdown, bookmarks, weather, clock, calendar, and quick action buttons.</span>
+                    </div>
+                    <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                        <strong>Privacy:</strong><br>
+                        <span style="font-size: 13px;">Doesn't track you, stores everything locally, and uses privacy-focused APIs.</span>
+                    </div>
+                </div>
+            </div>
 
-            <h3 style="margin: 20px 0 10px 0; color: var(--md-sys-color-primary); font-size: 18px;">Disclaimer..</h3>
-            <p style="background: var(--md-sys-color-error-container); color: var(--md-sys-color-on-error-container); padding: 12px; border-radius: 8px; margin: 10px 0;">
-                <strong>⚠️ Location Accuracy:</strong> Weather location is approximate and based on your IP address. For precise weather data, you can manually set your city in Developer Options. We don't request your exact location to protect your privacy.
-            </p>
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">How it works under the hood</h3>
+                <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                    <p style="margin: 0 0 8px 0;"><strong>Tech Stack:</strong> Just some blessed HTML5, CSS3, and JavaScript. No npm packages or build bloat needed!</p>
+                    <p style="margin: 0 0 8px 0;"><strong>APIs:</strong> Gets weather from Open-Meteo (which is privacy-focused) and uses IP location for weather.</p>
+                    <p style="margin: 0;"><strong>Storage:</strong> Everything saves to your browser's local storage, and you can export/import your settings.</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">About me (the creator)</h3>
+                <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                    <p>I'm just some developer who likes making web apps that are fast and respect your privacy. I believe in keeping things simple but powerful - no unnecessary complexity. This project is open source so anyone can contribute or learn from it!</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Privacy stuff</h3>
+                <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                    <ul style="margin: 0; padding-left: 16px; font-size: 14px;">
+                        <li>Your searches don't get stored or sent anywhere</li>
+                        <li>All your settings stay in your browser</li>
+                        <li>Weather location is just approximate (from your IP)</li>
+                        <li>No tracking scripts or analytics junk</li>
+                        <li>Totally transparent about what data it uses</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">What's next?</h3>
+                <div style="background: var(--md-sys-color-info-container); color: var(--md-sys-color-on-info-container); padding: 12px; border-radius: 8px;">
+                    <p>I'll keep making it faster and adding features that actually help people be more productive. Accessibility improvements and maybe more customization options are on the list too. All while keeping the privacy-first approach!</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Wanna help or have ideas?</h3>
+                <p>Your feedback makes this better! If you're a developer, feel free to contribute. If you're a user with suggestions, I'd love to hear them. Let's make the web a bit more private and user-friendly together.</p>
+            </div>
+
         </div>
         <div class="modal-actions">
             <button class="modal-btn primary" id="closeInfo">Got it!</button>
             <a href="https://github.com/hnpf/lumina-search" target="_blank">
-                <button class="modal-btn secondary">Source on github</button>
+                <button class="modal-btn secondary">Check out the code</button>
             </a>
         </div>
     </div>
@@ -403,6 +533,88 @@
         <div class="modal-actions">
             <button class="modal-btn secondary" id="cancelConfirm">Cancel</button>
             <button class="modal-btn delete" id="confirmDelete">Delete</button>
+        </div>
+    </div>
+
+    <div class="modal" id="bookmarkModal">
+        <div class="modal-title">Add Bookmark</div>
+        <input type="text" class="modal-input" id="bookmarkLabel" placeholder="Bookmark name (e.g. Google)">
+        <input type="text" class="modal-input" id="bookmarkUrl" placeholder="URL (e.g. https://google.com)">
+        <input type="text" class="modal-input" id="bookmarkIcon" placeholder="Icon (e.g. search, home, star)">
+        <input type="text" class="modal-input" id="bookmarkCategory" placeholder="Category (optional)">
+        <div class="modal-actions">
+            <button class="modal-btn secondary" id="cancelBookmark">Cancel</button>
+            <button class="modal-btn primary" id="addBookmark">Add Bookmark</button>
+        </div>
+    </div>
+
+    <div class="modal" id="funnyModal" style="max-width: 450px;">
+        <div class="modal-title" style="font-size: 20px; text-align: center;">🚫 ACCESS DENIED 🚫</div>
+        <div style="line-height: 1.6; color: var(--md-sys-color-on-surface); text-align: center; margin: 20px 0; font-size: 16px;">
+            <p style="margin-bottom: 16px;">🎯 <strong>You aren't allowed to do that!</strong> 🎯</p>
+            <p style="font-size: 14px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 20px;">
+                Dragging existing shortcuts onto the "Add" button is strictly prohibited by the International Shortcut Association (ISA).
+                <br><br>
+                <em>Violation Code: 47-B</em>
+            </p>
+            <p style="font-size: 18px; margin: 20px 0; animation: pulse 2s infinite;">
+                💀 WHAT DO YOU CHOOSE? 💀
+            </p>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn secondary" id="funnyOkayBtn" style="background: var(--md-sys-color-surface-container-highest); color: var(--md-sys-color-on-surface);">
+                😇 Okay, I understand
+            </button>
+            <button class="modal-btn delete" id="funnyDieBtn" style="background: #ff5252; color: white; animation: pulse 1.5s infinite;">
+                💀 DIE 💀
+            </button>
+        </div>
+    </div>
+
+    <div class="modal" id="keyboardShortcutsModal" style="max-width: 500px;">
+        <div class="modal-title">Keyboard Shortcuts</div>
+        <div style="line-height: 1.6; color: var(--md-sys-color-on-surface); margin: 20px 0;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                <div>
+                    <strong>Ctrl + N</strong><br>
+                    <span style="font-size: 14px; color: var(--md-sys-color-on-surface-variant);">Open new tab</span>
+                </div>
+                <div>
+                    <strong>Ctrl + /</strong><br>
+                    <span style="font-size: 14px; color: var(--md-sys-color-on-surface-variant);">Toggle shortcuts sidebar</span>
+                </div>
+                <div>
+                    <strong>Ctrl + X</strong><br>
+                    <span style="font-size: 14px; color: var(--md-sys-color-on-surface-variant);">Focus search input</span>
+                </div>
+                <div>
+                    <strong>Ctrl + B</strong><br>
+                    <span style="font-size: 14px; color: var(--md-sys-color-on-surface-variant);">Toggle bookmarks sidebar</span>
+                </div>
+            </div>
+            <p style="font-size: 14px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 16px;">
+                <strong>Tip:</strong> These shortcuts work from anywhere on the page!
+            </p>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn primary" id="closeKeyboardShortcuts">Got it!</button>
+        </div>
+    </div>
+
+    <div class="modal" id="searchHistoryModal" style="max-width: 500px;">
+        <div class="modal-title">Search History</div>
+        <div class="search-history-modal-content">
+            <div class="search-history-modal-header">
+                <button class="modal-btn secondary" id="clearAllHistoryBtn">
+                    <span class="material-icons-round">delete_sweep</span>
+                    Clear All
+                </button>
+                <button class="modal-btn primary" id="closeSearchHistoryModal">
+                    <span class="material-icons-round">close</span>
+                    Close
+                </button>
+            </div>
+            <div class="search-history-modal-list" id="searchHistoryModalList"></div>
         </div>
     </div>
 

@@ -1,4 +1,3 @@
-// a whimsical collection of colors to make your eyes happy
 const colorThemes = {
     amethyst: {
         primary: '#9b59b6',
@@ -115,7 +114,7 @@ const state = {
     colorTheme: 'amethyst',
     showWeather: true,
     showShortcuts: true,
-    showAnimations: true,
+    showAnimations: false,
     searchSuggestions: true,
     animatedBlobs: false,
     openInSameTab: true,
@@ -133,6 +132,13 @@ const state = {
     todos: [],
     searchHistory: [],
     showSearchHistory: true,
+    bookmarks: [
+        {id: Date.now(), name: 'Google', url: 'https://google.com', icon: 'search', category: 'Search'},
+        {id: Date.now() + 1, name: 'GitHub', url: 'https://github.com', icon: 'code', category: 'Development'},
+        {id: Date.now() + 2, name: 'YouTube', url: 'https://youtube.com', icon: 'play_circle', category: 'Entertainment'}
+    ],
+    searchEngine: 'duckduckgo',
+    customSearchEngine: '',
     backgroundImage: '',
     backgroundOpacity: 0.3,
     weatherPosition: null,
@@ -143,13 +149,61 @@ const state = {
     shortcuts: [
         {label: 'YouTube', url: 'https://youtube.com', icon: 'play_circle'},
         {label: 'GitHub', url: 'https://github.com', icon: 'code'},
-        {label: 'Gmail', url: 'https://gmail.com', icon: 'mail'},
-        {label: 'Drive', url: 'https://drive.google.com', icon: 'cloud'},
-        {label: 'Maps', url: 'https://maps.google.com', icon: 'map'},
-        {label: 'Photos', url: 'https://photos.google.com', icon: 'photo_library'}
+        {label: 'Discord', url: 'https://discord.com/app', icon: 'chat'},
+        {label: 'Talk to ChatGPT', url: 'https://chat.openai.com/', icon: 'assistant'},
+        {label: 'Stack Overflow', url: 'https://stackoverflow.com', icon: 'help_outline'},
+        {label: 'Reddit', url: 'https://reddit.com', icon: 'forum'},
+        // {label: 'Maps', url: 'https://maps.google.com', icon: 'map'},
+        // {label: 'Photos', url: 'https://photos.google.com', icon: 'photo_library'}
+        // {label: 'Drive', url: 'https://drive.google.com', icon: 'cloud'}
+        // {label: 'Gmail', url: 'https://gmail.com', icon: 'mail'}
+        // {label: 'Calendar', url: 'https://calendar.google.com', icon: 'event'}
+        // {label: 'Keep', url: 'https://keep.google.com', icon: 'sticky_note_2'}
+        // {label: 'Docs', url: 'https://docs.google.com', icon: 'article'}
+        // {label: 'Sheets', url: 'https://sheets.google.com', icon: 'grid_view'}
+        // {label: 'Slides', url: 'https://slides.google.com', icon: 'present_to_all'}
+        // {label: 'Hangouts', url: 'https://hangouts.google.com', icon: 'chat_bubble'}
+        // {label: 'Wallet', url: 'https://wallet.google.com', icon: 'account_balance_wallet'}
+        // {label: 'News', url: 'https://news.google.com', icon: 'newspaper'}
+        // {label: 'Books', url: 'https://books.google.com', icon: 'book'}
+        // {label: 'Flights', url: 'https://flights.google.com', icon: 'flight_takeoff'}
+        // {label: 'Translate', url: 'https://translate.google.com', icon: 'translate'}
+        // {label: 'Wallet', url: 'https://wallet.google.com', icon: 'account_balance_wallet'}
+        {label: 'YouTube Music', url: 'https://music.youtube.com', icon: 'music_video'},
+        // {label: 'Tiktok', url: 'https://tiktok.com', icon: 'task_outlined'}
+        // {label: 'Spotify', url: 'https://spotify.com', icon: 'music_video'}
+        // {label: 'LinkedIn', url: 'https://linkedin.com', icon: 'task_outlined'}
+        // {label: 'Twitter', url: 'https://twitter.com', icon: 'task_outlined'}
+        // {label: 'Instagram', url: 'https://instagram.com', icon: 'task_outlined'}
+        // {label: 'Snapchat', url: 'https://snapchat.com', icon: 'task_outlined'}
+        // {label: 'Pinterest', url: 'https://pinterest.com', icon: 'task_outlined'}
+        // {label: 'WhatsApp', url: 'https://web.whatsapp.com', icon: 'task_outlined'}
+        // {label: 'Vimeo', url: 'https://vimeo.com', icon: 'task_outlined'}
+        // {label: 'Twitch', url: 'https://twitch.com', icon: 'task_outlined'}
+        // {label: 'Figma', url: 'https://figma.com', icon: 'task_outlined'}
+        // {label: 'Slack', url: 'https://slack.com', icon: 'task_outlined'}
+        // {label: 'Medium', url: 'https://medium.com', icon: 'task_outlined'}
+        {label: 'Wikipedia', url: 'https://wikipedia.com', icon: 'docs_library'}
+        // {label: 'Tumblr', url: 'https://tumblr.com', icon: 'task_outlined'}
+        // {label: 'Quora', url: 'https://quora.com', icon: 'task_outlined'}
+        // {label: 'Goodreads', url: 'https://goodreads.com', icon: 'task_outlined'}
+        // {label: 'IMDb', url: 'https://imdb.com', icon: 'task_outlined'}
+        // {label: 'Coursera', url: 'https://coursera.com', icon: 'task_outlined'}
+        // {label: 'Khan Academy', url: 'https://khanacademy.com', icon: 'task_outlined'}
+        // {label: 'TED', url: 'https://ted.com', icon: 'task_outlined'}
     ]
 };
-
+//                     <div class="auto-suggestion-item" data-suggestion="GitHub">
+//                         <span class="material-icons-round">code</span>
+//                         <span>Search GitHub</span>
+//                     </div>
+//                     <div class="auto-suggestion-item" data-suggestion="Stack Overflow">
+//                         <span class="material-icons-round">help_outline</span>
+//                         <span>Search Stack Overflow</span>
+//                     </div>
+//                     <div class="auto-suggestion-item" data-suggestion="Reddit">
+//                         <span class="material-icons-round">forum</span>
+//                         <span>Search Reddit</span>
 const defaultState = JSON.parse(JSON.stringify(state));
 
 const searchTypes = [
@@ -253,7 +307,20 @@ function applySettings() {
         document.getElementById('manualCity').value = state.manualCity;
     }
 
-    const mainToggles = ['darkMode', 'showWeather', 'showShortcuts', 'showAnimations', 'showClock', 'showGreeting', 'showCalendar', 'showTodo', 'showQuickActions'];
+    if (state.searchEngine) {
+        document.getElementById('searchEngine').value = state.searchEngine;
+    }
+
+    if (state.customSearchEngine) {
+        document.getElementById('customSearchEngine').value = state.customSearchEngine;
+    }
+
+    const customInput = document.getElementById('customSearchEngine');
+    if (customInput) {
+        customInput.style.display = state.searchEngine === 'custom' ? 'block' : 'none';
+    }
+
+    const mainToggles = ['darkMode', 'showWeather', 'showClock', 'showCalendar', 'showTodo', 'showQuickActions', 'showShortcuts', 'showGreeting', 'showAnimations'];
     document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
         const sw = opt.querySelector('.switch');
         if (mainToggles[idx]) {
@@ -345,7 +412,9 @@ function renderShortcuts() {
 
     container.innerHTML = shortcutsHtml + addButton;
 
-    setupDragAndDrop();
+    setTimeout(() => {
+        setupDragAndDrop();
+    }, 100);
 
     document.querySelectorAll('.shortcut-remove').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -365,22 +434,120 @@ function renderShortcuts() {
             document.getElementById('overlay').classList.add('visible');
         });
     }
+
+    const addBookmarkBtn = document.getElementById('addBookmarkBtn');
+    if (addBookmarkBtn) {
+        addBookmarkBtn.addEventListener('click', () => {
+            document.getElementById('bookmarkModal').classList.add('visible');
+            document.getElementById('overlay').classList.add('visible');
+        });
+    }
+
+    const importBookmarksBtn = document.getElementById('importBookmarksBtn');
+    if (importBookmarksBtn) {
+        importBookmarksBtn.addEventListener('click', () => {
+            alert('Browser Bookmark Import\n\nTo import your browser bookmarks:\n1. Export your bookmarks as HTML from your browser\n2. Use the Import Settings feature in Developer Options\n3. Your bookmarks will be available in the Bookmarks sidebar\n\nNote: Direct browser bookmark access requires a browser extension for security reasons.');
+        });
+    }
 }
 
 function setupDragAndDrop() {
     const shortcuts = document.querySelectorAll('.shortcut[data-index]');
+    const addBtn = document.getElementById('addShortcutBtn');
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isDragging = false;
+    let draggedElement = null;
+
+    if (addBtn) {
+        addBtn.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'none';
+        });
+
+        addBtn.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'none';
+            addBtn.style.background = 'var(--md-sys-color-error-container)';
+            addBtn.style.borderColor = 'var(--md-sys-color-error)';
+            addBtn.style.transform = 'scale(1.05) rotate(2deg)';
+            addBtn.style.animation = 'shake 0.5s ease-in-out';
+        });
+
+        addBtn.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            // Reset visual state
+            addBtn.style.background = '';
+            addBtn.style.borderColor = '';
+            addBtn.style.transform = '';
+            addBtn.style.animation = '';
+        });
+
+        addBtn.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Reset visual state immediately
+            addBtn.style.background = '';
+            addBtn.style.borderColor = '';
+            addBtn.style.transform = '';
+            addBtn.style.animation = '';
+
+            const draggedIndex = e.dataTransfer.getData('text/plain');
+            const draggedHtml = e.dataTransfer.getData('text/html');
+            const shortcutIndex = e.dataTransfer.getData('application/shortcut-index');
+
+            if ((draggedIndex && !isNaN(parseInt(draggedIndex))) ||
+                (shortcutIndex && !isNaN(parseInt(shortcutIndex))) ||
+                (draggedHtml && draggedHtml.includes('data-shortcut-link')) ||
+                (draggedHtml && draggedHtml.includes('shortcut-icon'))) {
+                showFunnyModal();
+            }
+        });
+    }
 
     shortcuts.forEach(shortcut => {
         shortcut.draggable = true;
 
         shortcut.addEventListener('dragstart', (e) => {
+            // Add dragging class immediately for smooth animation
             shortcut.classList.add('dragging');
+
+            // Set drag data with multiple formats for better compatibility
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', shortcut.outerHTML);
+            e.dataTransfer.setData('text/plain', shortcut.dataset.index);
+            e.dataTransfer.setData('application/shortcut-index', shortcut.dataset.index);
+
+            const dragImage = shortcut.cloneNode(true);
+            dragImage.style.transform = 'rotate(2deg) scale(1.1)';
+            dragImage.style.opacity = '0.95';
+            dragImage.style.position = 'absolute';
+            dragImage.style.top = '-1000px';
+            dragImage.style.pointerEvents = 'none';
+            dragImage.style.zIndex = '9999';
+
+            document.body.appendChild(dragImage);
+            e.dataTransfer.setDragImage(dragImage, e.offsetX, e.offsetY);
+
+            setTimeout(() => {
+                if (document.body.contains(dragImage)) {
+                    document.body.removeChild(dragImage);
+                }
+            }, 100);
+
+            setTimeout(() => {
+                shortcut.style.pointerEvents = 'none';
+            }, 50);
         });
 
-        shortcut.addEventListener('dragend', () => {
-            shortcut.classList.remove('dragging');
+        shortcut.addEventListener('dragend', (e) => {
+            // Remove dragging class with slight delay for smooth animation
+            setTimeout(() => {
+                shortcut.classList.remove('dragging');
+                shortcut.style.pointerEvents = '';
+            }, 100);
         });
 
         shortcut.addEventListener('dragover', (e) => {
@@ -393,18 +560,24 @@ function setupDragAndDrop() {
             shortcut.classList.add('drag-over');
         });
 
-        shortcut.addEventListener('dragleave', () => {
-            shortcut.classList.remove('drag-over');
+        shortcut.addEventListener('dragleave', (e) => {
+            const rect = shortcut.getBoundingClientRect();
+            const x = e.clientX;
+            const y = e.clientY;
+
+            if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+                shortcut.classList.remove('drag-over');
+            }
         });
 
         shortcut.addEventListener('drop', (e) => {
             e.preventDefault();
             shortcut.classList.remove('drag-over');
 
-            const draggedIndex = parseInt(e.dataTransfer.getData('text/html').match(/data-index="(\d+)"/)?.[1]);
+            const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
             const targetIndex = parseInt(shortcut.dataset.index);
 
-            if (draggedIndex !== targetIndex) {
+            if (draggedIndex !== targetIndex && draggedIndex !== -1) {
                 const draggedItem = state.shortcuts[draggedIndex];
                 state.shortcuts.splice(draggedIndex, 1);
                 state.shortcuts.splice(targetIndex, 0, draggedItem);
@@ -473,7 +646,7 @@ async function loadWeather() {
 function performSearch(query) {
     if (query.trim() && !state.searchHistory.includes(query.trim())) {
         state.searchHistory.unshift(query.trim());
-        if (state.searchHistory.length > 10) {
+        if (state.searchHistory.length > 20) {
             state.searchHistory.pop();
         }
         saveSettings();
@@ -481,13 +654,231 @@ function performSearch(query) {
 
     if (query.includes('.') && !query.includes(' ') && !query.startsWith('http')) {
         const url = query.startsWith('www.') ? `https://${query}` :
-                   query.includes('://') ? query : `https://${query}`;
+                    query.includes('://') ? query : `https://${query}`;
         window.location.href = url;
         return;
     }
 
     const target = state.openInSameTab ? '_self' : '_blank';
-    window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}`, target);
+
+    let searchUrl = '';
+    switch(state.searchEngine) {
+        case 'google':
+            searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            break;
+        case 'bing':
+            searchUrl = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+            break;
+        case 'brave':
+            searchUrl = `https://search.brave.com/search?q=${encodeURIComponent(query)}`;
+            break;
+        case 'custom':
+            const customDomain = state.customSearchEngine.trim();
+            if (customDomain) {
+                const domain = customDomain.replace(/^https?:\/\//, '');
+                searchUrl = `https://${domain}/search?q=${encodeURIComponent(query)}`;
+            } else {
+                searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+            }
+            break;
+        case 'duckduckgo':
+            searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+            break;
+    }
+
+    window.open(searchUrl, target);
+}
+
+function renderSearchHistoryModal() {
+    const modalList = document.getElementById('searchHistoryModalList');
+    if (!modalList) return;
+
+    if (state.searchHistory.length === 0) {
+        modalList.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--md-sys-color-on-surface-variant);">No search history yet</div>';
+        return;
+    }
+
+    modalList.innerHTML = state.searchHistory.map((query, index) => `
+        <div class="search-history-modal-item" data-query="${query}">
+            <div class="search-history-modal-content">
+                <div class="search-history-icon">
+                    <span class="material-icons-round">search</span>
+                </div>
+                <div class="search-history-text">${query}</div>
+                <div class="search-history-time">${index === 0 ? 'Latest' : 'Recent'}</div>
+            </div>
+            <button class="search-history-delete-btn" data-query="${query}" title="Delete this search">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+    `).join('');
+
+    // Add click listeners to history items
+    document.querySelectorAll('.search-history-modal-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (e.target.closest('.search-history-delete-btn')) return;
+
+            const query = item.dataset.query;
+            document.getElementById('searchInput').value = query;
+            document.getElementById('searchHistoryModal').classList.remove('visible');
+            document.getElementById('overlay').classList.remove('visible');
+            performSearch(query);
+        });
+    });
+
+    // Add click listeners to delete buttons
+    document.querySelectorAll('.search-history-delete-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const query = btn.dataset.query;
+            if (confirm(`Delete "${query}" from search history?`)) {
+                state.searchHistory = state.searchHistory.filter(item => item !== query);
+                saveSettings();
+                renderSearchHistoryModal();
+            }
+        });
+
+        // Touch support for mobile devices
+        shortcut.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                isDragging = false;
+                draggedElement = shortcut;
+
+                setTimeout(() => {
+                    if (draggedElement && !isDragging) {
+                        draggedElement.classList.add('dragging');
+                        isDragging = true;
+                    }
+                }, 150);
+            }
+        }, { passive: true });
+
+        shortcut.addEventListener('touchmove', (e) => {
+            if (!isDragging || !draggedElement) return;
+
+            e.preventDefault();
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+
+            draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(2deg) scale(1.1)`;
+        }, { passive: false });
+
+        shortcut.addEventListener('touchend', (e) => {
+            if (isDragging && draggedElement) {
+                setTimeout(() => {
+                    if (draggedElement) {
+                        draggedElement.style.transform = '';
+                        draggedElement.classList.remove('dragging');
+                    }
+                }, 100);
+
+                isDragging = false;
+                draggedElement = null;
+            }
+        });
+    });
+}
+
+function renderBookmarks() {
+    const bookmarksList = document.getElementById('bookmarksList');
+    if (!bookmarksList) return;
+
+    if (state.bookmarks.length === 0) {
+        bookmarksList.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--md-sys-color-on-surface-variant);">No bookmarks yet</div>';
+        return;
+    }
+
+    // Group bookmarks by category
+    const bookmarksByCategory = {};
+    state.bookmarks.forEach(bookmark => {
+        const category = bookmark.category || 'General';
+        if (!bookmarksByCategory[category]) {
+            bookmarksByCategory[category] = [];
+        }
+        bookmarksByCategory[category].push(bookmark);
+    });
+
+    let html = '';
+    Object.keys(bookmarksByCategory).forEach(category => {
+        html += `<div class="bookmark-category">`;
+        html += `<div class="bookmark-category-header">${category}</div>`;
+        html += bookmarksByCategory[category].map(bookmark => `
+            <a href="${bookmark.url}" class="bookmark-item" target="_blank" data-id="${bookmark.id}">
+                <div class="bookmark-icon">
+                    <span class="material-icons-round">${bookmark.icon}</span>
+                </div>
+                <div class="bookmark-info">
+                    <div class="bookmark-name">${bookmark.name}</div>
+                    <div class="bookmark-url">${bookmark.url}</div>
+                    ${bookmark.category ? `<div class="bookmark-category">${bookmark.category}</div>` : ''}
+                </div>
+                <button class="bookmark-delete" data-id="${bookmark.id}">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </a>
+        `).join('');
+        html += `</div>`;
+    });
+
+    bookmarksList.innerHTML = html;
+
+    // Add click listeners to delete buttons
+    document.querySelectorAll('.bookmark-delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const id = Number(btn.dataset.id);
+            const bookmark = state.bookmarks.find(b => b.id === id);
+            const name = bookmark ? bookmark.name : 'this bookmark';
+
+            showConfirmModal(`Delete "${name}"?`, () => {
+                state.bookmarks = state.bookmarks.filter(b => b.id !== id);
+                saveSettings();
+                renderBookmarks();
+            });
+        });
+    });
+}
+
+function setupBookmarks() {
+    const bookmarksSidebar = document.getElementById('bookmarksSidebar');
+    const bookmarksToggle = document.getElementById('bookmarksToggle');
+    const bookmarksClose = document.getElementById('bookmarksClose');
+
+    if (!bookmarksToggle || !bookmarksClose || !bookmarksSidebar) return;
+
+    bookmarksToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        bookmarksSidebar.classList.toggle('open');
+        renderBookmarks();
+    });
+
+    bookmarksClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        bookmarksSidebar.classList.remove('open');
+    });
+
+    // Prevent clicks inside bookmarks sidebar from closing it
+    bookmarksSidebar.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}
+
+function openSearchHistoryModal() {
+    renderSearchHistoryModal();
+    document.getElementById('searchHistoryModal').classList.add('visible');
+    document.getElementById('overlay').classList.add('visible');
+}
+
+function showFunnyModal() {
+    const funnyModal = document.getElementById('funnyModal');
+    const overlay = document.getElementById('overlay');
+
+    funnyModal.classList.add('visible');
+    overlay.classList.add('visible');
 }
 
 document.getElementById('darkModeBtn').addEventListener('click', () => {
@@ -527,7 +918,12 @@ document.getElementById('closeMarkdownHelp').addEventListener('click', () => {
     document.getElementById('overlay').classList.remove('visible');
 });
 
-// Custom confirmation modal system
+document.getElementById('closeKeyboardShortcuts').addEventListener('click', () => {
+    document.getElementById('keyboardShortcutsModal').classList.remove('visible');
+    document.getElementById('overlay').classList.remove('visible');
+    localStorage.setItem('lumina-keyboard-shortcuts-seen', 'true');
+});
+
 let confirmCallback = null;
 
 function showConfirmModal(message, callback) {
@@ -620,6 +1016,25 @@ document.getElementById('voiceSearchBtn').addEventListener('click', () => {
     }
 });
 
+document.getElementById('searchHistoryBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    openSearchHistoryModal();
+});
+
+// Clear all history button in modal
+document.getElementById('clearAllHistoryBtn').addEventListener('click', () => {
+    if (confirm('Clear all search history?')) {
+        state.searchHistory = [];
+        saveSettings();
+        renderSearchHistoryModal();
+    }
+});
+
+document.getElementById('closeSearchHistoryModal').addEventListener('click', () => {
+    document.getElementById('searchHistoryModal').classList.remove('visible');
+    document.getElementById('overlay').classList.remove('visible');
+});
+
 document.getElementById('settingsBtn').addEventListener('click', () => {
     document.getElementById('settingsPanel').classList.add('open');
     document.getElementById('overlay').classList.add('visible');
@@ -641,13 +1056,21 @@ document.getElementById('overlay').addEventListener('click', () => {
     document.getElementById('infoModal').classList.remove('visible');
     document.getElementById('confirmModal').classList.remove('visible');
     document.getElementById('markdownHelpModal').classList.remove('visible');
+    document.getElementById('bookmarkModal').classList.remove('visible');
+    document.getElementById('keyboardShortcutsModal').classList.remove('visible');
+    document.getElementById('searchHistoryModal').classList.remove('visible');
+    document.getElementById('funnyModal').classList.remove('visible');
+
+    document.getElementById('notesSidebar').classList.remove('open');
+    document.getElementById('bookmarksSidebar').classList.remove('open');
+
     document.getElementById('overlay').classList.remove('visible');
     confirmCallback = null; // Reset callback when clicking overlay
 });
 
 document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
     opt.addEventListener('click', () => {
-        const keys = ['darkMode', 'showWeather', 'showShortcuts', 'showAnimations', 'showClock', 'showGreeting', 'showCalendar', 'showTodo', 'showQuickActions'];
+        const keys = ['darkMode', 'showWeather', 'showClock', 'showCalendar', 'showTodo', 'showQuickActions', 'showShortcuts', 'showGreeting', 'showAnimations'];
         if (keys[idx]) {
             state[keys[idx]] = !state[keys[idx]];
             applySettings();
@@ -694,6 +1117,25 @@ document.getElementById('manualCity').addEventListener('input', (e) => {
     }
 });
 
+document.getElementById('searchEngine').addEventListener('change', (e) => {
+    state.searchEngine = e.target.value;
+    const customInput = document.getElementById('customSearchEngine');
+
+    if (e.target.value === 'custom') {
+        customInput.style.display = 'block';
+        customInput.focus();
+    } else {
+        customInput.style.display = 'none';
+    }
+
+    saveSettings();
+});
+
+document.getElementById('customSearchEngine').addEventListener('input', (e) => {
+    state.customSearchEngine = e.target.value;
+    saveSettings();
+});
+
 document.getElementById('exportBtn').addEventListener('click', () => {
     const data = {
         settings: state,
@@ -716,6 +1158,10 @@ document.getElementById('importBtn').addEventListener('click', () => {
     document.getElementById('importFile').click();
 });
 
+document.getElementById('importBookmarksBtn').addEventListener('click', () => {
+    document.getElementById('importBookmarksFile').click();
+});
+
 document.getElementById('importFile').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -734,6 +1180,50 @@ document.getElementById('importFile').addEventListener('change', (e) => {
                 }
             } catch (error) {
                 alert('Error reading settings file: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+    }
+});
+
+document.getElementById('importBookmarksFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const htmlContent = event.target.result;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+
+                // Parse HTML bookmark file
+                const bookmarks = [];
+                const links = doc.querySelectorAll('a');
+
+                links.forEach(link => {
+                    const url = link.getAttribute('href');
+                    const title = link.textContent.trim();
+                    if (url && title && url.startsWith('http')) {
+                        bookmarks.push({
+                            id: Date.now() + Math.random(),
+                            name: title.length > 50 ? title.substring(0, 50) + '...' : title,
+                            url: url,
+                            icon: 'link',
+                            category: 'Imported'
+                        });
+                    }
+                });
+
+                if (bookmarks.length > 0) {
+                    state.bookmarks = [...state.bookmarks, ...bookmarks];
+                    saveSettings();
+                    renderBookmarks();
+                    alert(`Successfully imported ${bookmarks.length} bookmarks!`);
+                } else {
+                    alert('No valid bookmarks found in the HTML file.');
+                }
+            } catch (error) {
+                alert('Error reading bookmarks file: ' + error.message);
             }
         };
         reader.readAsText(file);
@@ -804,11 +1294,125 @@ document.getElementById('cancelShortcut').addEventListener('click', () => {
     document.getElementById('overlay').classList.remove('visible');
 });
 
+document.getElementById('addBookmark').addEventListener('click', () => {
+    const name = document.getElementById('bookmarkLabel').value.trim();
+    const url = document.getElementById('bookmarkUrl').value.trim();
+    const icon = document.getElementById('bookmarkIcon').value.trim() || 'link';
+    const category = document.getElementById('bookmarkCategory').value.trim() || 'General';
+
+    if (name && url) {
+        state.bookmarks.push({
+            id: Date.now(),
+            name,
+            url,
+            icon,
+            category
+        });
+        document.getElementById('bookmarkLabel').value = '';
+        document.getElementById('bookmarkUrl').value = '';
+        document.getElementById('bookmarkIcon').value = '';
+        document.getElementById('bookmarkCategory').value = '';
+        document.getElementById('bookmarkModal').classList.remove('visible');
+        document.getElementById('overlay').classList.remove('visible');
+        renderBookmarks();
+        saveSettings();
+    }
+});
+
+document.getElementById('cancelBookmark').addEventListener('click', () => {
+    document.getElementById('bookmarkLabel').value = '';
+    document.getElementById('bookmarkUrl').value = '';
+    document.getElementById('bookmarkIcon').value = '';
+    document.getElementById('bookmarkCategory').value = '';
+    document.getElementById('bookmarkModal').classList.remove('visible');
+    document.getElementById('overlay').classList.remove('visible');
+});
+
+document.getElementById('funnyOkayBtn').addEventListener('click', () => {
+    document.getElementById('funnyModal').classList.remove('visible');
+    document.getElementById('overlay').classList.remove('visible');
+});
+
+document.getElementById('funnyDieBtn').addEventListener('click', () => {
+    try {
+        // Try to close the current tab (works in most browsers)
+        window.close();
+    } catch (e) {
+        console.log('💀 SELF-DESTRUCT SEQUENCE INITIATED 💀');
+        // Create a funny "crash" effect
+        document.body.innerHTML = `
+            <div style="
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: black; color: red; font-family: monospace;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 48px; z-index: 999999;
+                animation: blink 0.1s infinite;
+            ">
+                💀 SYSTEM CRASH 💀<br>
+                <span style="font-size: 24px; margin-top: 20px;">
+                    You chose... poorly
+                </span>
+            </div>
+            <style>
+                @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+            </style>
+        `;
+
+        setTimeout(() => {
+            window.close();
+        }, 3000);
+    }
+});
+
 document.getElementById('overlay').addEventListener('click', () => {
     document.getElementById('settingsPanel').classList.remove('open');
     document.getElementById('shortcutModal').classList.remove('visible');
+
+    document.getElementById('notesSidebar').classList.remove('open');
+    document.getElementById('bookmarksSidebar').classList.remove('open');
+
     document.getElementById('overlay').classList.remove('visible');
 });
+
+document.addEventListener('keydown', (e) => {
+    const isTyping = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA';
+    if (isTyping && !['Control', 'n', '/', 'x', 'b'].includes(e.key.toLowerCase())) {
+        return;
+    }
+
+    if (e.ctrlKey || e.metaKey) {
+        switch(e.key.toLowerCase()) {
+            case 'n':
+                e.preventDefault();
+                window.open('', '_blank');
+                break;
+            case '/':
+                e.preventDefault();
+                // Show keyboard shortcuts modal
+                document.getElementById('keyboardShortcutsModal').classList.add('visible');
+                document.getElementById('overlay').classList.add('visible');
+                break;
+            case 'x':
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+                break;
+            case 'b':
+                e.preventDefault();
+                document.getElementById('bookmarksToggle').click();
+                break;
+        }
+    }
+});
+
+function showKeyboardShortcutsTutorial() {
+    const hasSeenTutorial = localStorage.getItem('lumina-keyboard-shortcuts-seen');
+    if (!hasSeenTutorial) {
+        setTimeout(() => {
+            document.getElementById('keyboardShortcutsModal').classList.add('visible');
+            document.getElementById('overlay').classList.add('visible');
+        }, 2000); // Show after 2 seconds
+    }
+}
 
 document.getElementById('searchForm').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -829,6 +1433,125 @@ document.getElementById('searchInput').addEventListener('keydown', (e) => {
             e.preventDefault();
             document.getElementById('searchForm').dispatchEvent(new Event('submit'));
         }
+    }
+});
+
+let suggestionsTimeout;
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    const autoSuggestions = document.getElementById('searchAutoSuggestions');
+
+    clearTimeout(suggestionsTimeout);
+
+    suggestionsTimeout = setTimeout(() => {
+        const container = document.getElementById('searchDropdownsContainer');
+
+        const matchingHistory = state.searchHistory.filter(historyItem =>
+            historyItem.toLowerCase().includes(query) && query.length > 0
+        ).slice(0, 4);
+
+        if (matchingHistory.length > 0) {
+            autoSuggestions.innerHTML = matchingHistory.map(historyItem => `
+                <div class="auto-suggestion-item" data-suggestion="${historyItem}">
+                    <span class="material-icons-round">history</span>
+                    <span>${historyItem}</span>
+                </div>
+            `).join('');
+
+            autoSuggestions.querySelectorAll('.auto-suggestion-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const suggestion = item.dataset.suggestion;
+                    document.getElementById('searchInput').value = suggestion;
+                    const container = document.getElementById('searchDropdownsContainer');
+                    autoSuggestions.classList.remove('show');
+                    setTimeout(() => {
+                        autoSuggestions.style.display = 'none';
+                        container.style.minHeight = '0';
+                    }, 300);
+                    performSearch(suggestion);
+                });
+            });
+
+            autoSuggestions.style.display = 'block';
+            const dynamicHeight = Math.min(matchingHistory.length * 48 + 16, 160);
+            container.style.minHeight = dynamicHeight + 'px';
+            setTimeout(() => {
+                autoSuggestions.classList.add('show');
+            }, 10);
+        } else {
+            autoSuggestions.classList.remove('show');
+            setTimeout(() => {
+                autoSuggestions.style.display = 'none';
+                if (document.getElementById('searchHistoryDropdown').style.display === 'none') {
+                    container.style.minHeight = '0';
+                }
+            }, 300);
+        }
+
+        const historyDropdown = document.getElementById('searchHistoryDropdown');
+        if (historyDropdown) {
+            historyDropdown.style.display = 'none';
+        }
+    }, 150);
+});
+
+document.querySelectorAll('.auto-suggestion-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const suggestion = item.dataset.suggestion;
+        const searchInput = document.getElementById('searchInput');
+
+        // Create search query based on suggestion
+        let searchQuery = '';
+        switch(suggestion) {
+            case 'Google':
+                searchQuery = `site:google.com ${searchInput.value}`;
+                break;
+            case 'YouTube':
+                searchQuery = `site:youtube.com ${searchInput.value}`;
+                break;
+            case 'GitHub':
+                searchQuery = `site:github.com ${searchInput.value}`;
+                break;
+            case 'Stack Overflow':
+                searchQuery = `site:stackoverflow.com ${searchInput.value}`;
+                break;
+            case 'Reddit':
+                searchQuery = `site:reddit.com ${searchInput.value}`;
+                break;
+            default:
+                searchQuery = searchInput.value;
+        }
+
+        // Perform search and hide suggestions
+        const container = document.getElementById('searchDropdownsContainer');
+        const autoSuggestions = document.getElementById('searchAutoSuggestions');
+        autoSuggestions.classList.remove('show');
+        setTimeout(() => {
+            autoSuggestions.style.display = 'none';
+            container.style.minHeight = '0';
+        }, 300);
+        performSearch(searchQuery);
+    });
+});
+
+document.addEventListener('click', (e) => {
+    const autoSuggestions = document.getElementById('searchAutoSuggestions');
+    const searchHistory = document.getElementById('searchHistoryDropdown');
+    const searchInput = document.getElementById('searchInput');
+    const historyBtn = document.getElementById('searchHistoryBtn');
+    const container = document.getElementById('searchDropdownsContainer');
+
+    if (!autoSuggestions?.contains(e.target) && !searchHistory?.contains(e.target) &&
+        !searchInput?.contains(e.target) && !historyBtn?.contains(e.target)) {
+        if (autoSuggestions) {
+            autoSuggestions.classList.remove('show');
+            setTimeout(() => {
+                autoSuggestions.style.display = 'none';
+            }, 300);
+        }
+        if (searchHistory) searchHistory.style.display = 'none';
+        if (container) container.style.minHeight = '0';
     }
 });
 
@@ -879,8 +1602,19 @@ function setupNotes() {
     const notesPreview = document.getElementById('notesPreview');
     const notesHelpBtn = document.getElementById('notesHelpBtn');
 
-    notesToggle.addEventListener('click', () => notesSidebar.classList.toggle('open'));
-    notesClose.addEventListener('click', () => notesSidebar.classList.remove('open'));
+    notesToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notesSidebar.classList.toggle('open');
+    });
+    notesClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notesSidebar.classList.remove('open');
+    });
+
+    // Prevent clicks inside notes sidebar from closing it
+    notesSidebar.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 
     const renderNotes = () => {
         notesTabsContainer.innerHTML = '';
@@ -922,7 +1656,6 @@ function setupNotes() {
                 notesTitleInput.value = newNote ? newNote.title : '';
                 notesTextarea.value = newNote ? newNote.content : '';
 
-                // Update preview if in preview mode
                 if (notesPreview.style.display !== 'none') {
                     updatePreview();
                 }
@@ -1048,7 +1781,6 @@ function setupNotes() {
                 notesTitleInput.value = newNote.title;
                 notesTextarea.value = '';
 
-                // Update preview if in preview mode
                 if (notesPreview.style.display !== 'none') {
                     updatePreview();
                 }
@@ -1059,7 +1791,6 @@ function setupNotes() {
         }
     };
 
-    // Markdown parsing function
     function parseMarkdown(text) {
         if (!text) return '';
 
@@ -1108,23 +1839,19 @@ function setupNotes() {
             .replace(/$/, '</p>');
     }
 
-    // Update preview function
     function updatePreview() {
         const markdownText = notesTextarea.value;
         const htmlContent = parseMarkdown(markdownText);
         notesPreview.innerHTML = htmlContent;
     }
 
-    // Toggle preview mode
     function togglePreviewMode() {
         const isPreview = notesPreview.style.display !== 'none';
         if (isPreview) {
-            // Switch to edit mode
             notesPreview.style.display = 'none';
             notesTextarea.style.display = 'block';
             notesTextarea.focus();
         } else {
-            // Switch to preview mode
             updatePreview();
             notesPreview.style.display = 'block';
             notesTextarea.style.display = 'none';
@@ -1145,21 +1872,18 @@ function setupNotes() {
         if (currentNote) {
             currentNote.content = notesTextarea.value;
             saveSettings();
-            // Update preview if in preview mode
             if (notesPreview.style.display !== 'none') {
                 updatePreview();
             }
         }
     });
 
-    // Add preview toggle button
     const previewToggle = document.createElement('button');
     previewToggle.className = 'notes-preview-toggle';
     previewToggle.innerHTML = '<span class="material-icons-round">visibility</span>';
     previewToggle.title = 'Toggle Preview';
     previewToggle.onclick = togglePreviewMode;
 
-    // Insert the toggle button into the notes container
     const notesContainer = document.querySelector('.notes-container');
     if (notesContainer) {
         notesContainer.appendChild(previewToggle);
@@ -1174,7 +1898,6 @@ function setupNotes() {
         notesTextarea.value = currentNote ? currentNote.content : '';
         notesTextarea.placeholder = 'Start writing your note...';
 
-        // Update preview if in preview mode
         if (notesPreview && notesPreview.style.display !== 'none') {
             updatePreview();
         }
@@ -1325,14 +2048,33 @@ function updateQuickActions() {
                 case 'new-tab':
                     window.open('', '_blank');
                     break;
-                case 'bookmarks':
-                    window.open('chrome://bookmarks/', '_blank');
+                case 'new-window':
+                    window.open('', '_blank');
                     break;
-                case 'history':
-                    window.open('chrome://history/', '_blank');
+                case 'search-settings':
+                    document.getElementById('settingsBtn').click();
                     break;
-                case 'downloads':
-                    window.open('chrome://downloads/', '_blank');
+                case 'clear-history':
+                    if (confirm('Clear all search history?')) {
+                        state.searchHistory = [];
+                        saveSettings();
+                        renderSearchHistory();
+                    }
+                    break;
+                case 'incognito':
+                    try {
+                        window.open('about:blank', '_blank');
+                        } catch (e) {
+                        alert('Incognito mode requires a browser extension or manual activation');
+                    }
+                    break;
+                case 'screenshot':
+                    html2canvas(document.body).then(canvas => {
+                        const link = document.createElement('a');
+                        link.download = `lumina-screenshot-${new Date().toISOString().split('T')[0]}.png`;
+                        link.href = canvas.toDataURL();
+                        link.click();
+                    });
                     break;
             }
         });
@@ -1377,4 +2119,6 @@ updateCalendar();
 updateTodo();
 updateQuickActions();
 setupNotes();
+setupBookmarks();
 setupWidgetDragging();
+showKeyboardShortcutsTutorial();
