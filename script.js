@@ -183,7 +183,7 @@ const state = {
         // {label: 'Figma', url: 'https://figma.com', icon: 'task_outlined'}
         // {label: 'Slack', url: 'https://slack.com', icon: 'task_outlined'}
         // {label: 'Medium', url: 'https://medium.com', icon: 'task_outlined'}
-        //{label: 'Wikipedia', url: 'https://wikipedia.com', icon: 'docs_library'}
+        {label: 'Wikipedia', url: 'https://wikipedia.com', icon: 'docs_library'}
         // {label: 'Tumblr', url: 'https://tumblr.com', icon: 'task_outlined'}
         // {label: 'Quora', url: 'https://quora.com', icon: 'task_outlined'}
         // {label: 'Goodreads', url: 'https://goodreads.com', icon: 'task_outlined'}
@@ -255,7 +255,10 @@ function applySettings() {
     document.getElementById('greeting').style.display = state.showGreeting ? 'block' : 'none';
     document.getElementById('calendar').style.display = state.showCalendar ? 'block' : 'none';
     document.getElementById('todoWidget').style.display = state.showTodo ? 'block' : 'none';
-    document.getElementById('quickActions').style.display = state.showQuickActions ? 'block' : 'none';
+    const quickActionsWidget = document.getElementById('quickActionsWidget');
+    if (quickActionsWidget) {
+        quickActionsWidget.style.display = state.showQuickActions ? 'block' : 'none';
+    }
 
     const backgroundImage = document.getElementById('backgroundImage');
     if (state.backgroundImage) {
@@ -293,12 +296,6 @@ function applySettings() {
         todo.style.right = 'auto';
     }
 
-    if (state.quickActionsPosition) {
-        const quickActions = document.getElementById('quickActions');
-        quickActions.style.left = state.quickActionsPosition.left + 'px';
-        quickActions.style.top = state.quickActionsPosition.top + 'px';
-        quickActions.style.right = 'auto';
-    }
 
     document.getElementById('searchSuggestions').style.display = state.searchSuggestions ? 'flex' : 'none';
     document.body.classList.toggle('animated-blobs', state.animatedBlobs);
@@ -327,6 +324,38 @@ function applySettings() {
             sw.classList.toggle('active', state[mainToggles[idx]]);
         }
     });
+
+    // Handle the new quick actions widget toggle specifically
+    const quickActionsToggle = document.getElementById('quickActionsWidgetToggle');
+    if (quickActionsToggle) {
+        const sw = quickActionsToggle.querySelector('.switch');
+        sw.classList.toggle('active', state.showQuickActions);
+
+        quickActionsToggle.addEventListener('click', () => {
+            state.showQuickActions = !state.showQuickActions;
+            applySettings();
+            saveSettings();
+            if (state.showQuickActions) {
+                updateQuickActions();
+                const widget = document.getElementById('quickActionsWidget');
+                if (widget) {
+                    widget.style.display = 'block';
+                    // Ensure proper positioning when showing
+                    if (state.quickActionsPosition) {
+                        widget.style.left = state.quickActionsPosition.left + 'px';
+                        widget.style.top = state.quickActionsPosition.top + 'px';
+                        widget.style.right = 'auto';
+                        widget.style.bottom = 'auto';
+                    } else {
+                        widget.style.right = '24px';
+                        widget.style.bottom = '24px';
+                        widget.style.left = 'auto';
+                        widget.style.top = 'auto';
+                    }
+                }
+            }
+        });
+    }
 
     const devToggles = [
         {id: 'searchSuggestionsToggle', key: 'searchSuggestions'},
@@ -1080,7 +1109,27 @@ document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
             if (keys[idx] === 'showGreeting' && state.showGreeting) updateGreeting();
             if (keys[idx] === 'showCalendar' && state.showCalendar) updateCalendar();
             if (keys[idx] === 'showTodo' && state.showTodo) updateTodo();
-            if (keys[idx] === 'showQuickActions' && state.showQuickActions) updateQuickActions();
+            if (keys[idx] === 'showQuickActions' && state.showQuickActions) {
+                updateQuickActions();
+                // Ensure the widget is visible and positioned correctly
+                const widget = document.getElementById('quickActionsWidget');
+                if (widget) {
+                    widget.style.display = 'block';
+                    // Re-apply positioning after showing
+                    if (state.quickActionsPosition) {
+                        widget.style.left = state.quickActionsPosition.left + 'px';
+                        widget.style.top = state.quickActionsPosition.top + 'px';
+                        widget.style.right = 'auto';
+                        widget.style.bottom = 'auto';
+                    } else {
+                        // Set default position
+                        widget.style.right = '24px';
+                        widget.style.bottom = '24px';
+                        widget.style.left = 'auto';
+                        widget.style.top = 'auto';
+                    }
+                }
+            }
         }
     });
 });
@@ -1912,7 +1961,7 @@ function setupNotes() {
 }
 
 function setupWidgetDragging() {
-    const widgets = ['weather', 'clock', 'calendar', 'todoWidget', 'quickActions'];
+    const widgets = ['weather', 'clock', 'calendar', 'todoWidget', 'quickActionsWidget'];
 
     widgets.forEach(widgetId => {
         const widget = document.getElementById(widgetId);
@@ -1922,7 +1971,16 @@ function setupWidgetDragging() {
         let startX, startY, startLeft, startTop;
 
         widget.addEventListener('mousedown', (e) => {
-            if (e.target.closest('.weather-temp, .weather-desc, .weather-location, .clock-time, .clock-date, .calendar-header, .calendar-grid, .todo-header, .todo-list, .todo-add, .quick-actions-header, .quick-actions-grid')) {
+            // Check if clicking on interactive elements within widgets
+            const interactiveSelectors = [
+                '.weather-temp', '.weather-desc', '.weather-location',
+                '.clock-time', '.clock-date',
+                '.calendar-header', '.calendar-grid',
+                '.todo-header', '.todo-list', '.todo-add',
+                '.quick-actions-widget-header', '.quick-actions-widget-content'
+            ];
+
+            if (e.target.closest(interactiveSelectors.join(', '))) {
                 return;
             }
 
@@ -1939,18 +1997,37 @@ function setupWidgetDragging() {
         });
 
         document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
+            if (!isDragging || !widget) return;
 
             const deltaX = e.clientX - startX;
             const deltaY = e.clientY - startY;
 
-            widget.style.left = (startLeft + deltaX) + 'px';
-            widget.style.top = (startTop + deltaY) + 'px';
+            const widgetRect = widget.getBoundingClientRect();
+            const widgetWidth = widgetRect.width;
+            const widgetHeight = widgetRect.height;
+
+            // Calculate new position with boundary constraints
+            let newLeft = startLeft + deltaX;
+            let newTop = startTop + deltaY;
+
+            // Boundary constraints - keep widget fully visible
+            const minLeft = 0;
+            const minTop = 0;
+            const maxLeft = window.innerWidth - widgetWidth;
+            const maxTop = window.innerHeight - widgetHeight;
+
+            newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
+            newTop = Math.max(minTop, Math.min(newTop, maxTop));
+
+            // Direct position update - no transitions or transforms
+            widget.style.left = newLeft + 'px';
+            widget.style.top = newTop + 'px';
             widget.style.right = 'auto';
+            widget.style.bottom = 'auto';
         });
 
         document.addEventListener('mouseup', () => {
-            if (isDragging) {
+            if (isDragging && widget) {
                 isDragging = false;
                 widget.classList.remove('dragging');
 
@@ -1961,7 +2038,7 @@ function setupWidgetDragging() {
                 if(widgetId === 'clock') state.clockPosition = position;
                 if(widgetId === 'calendar') state.calendarPosition = position;
                 if(widgetId === 'todoWidget') state.todoPosition = position;
-                if(widgetId === 'quickActions') state.quickActionsPosition = position;
+                if(widgetId === 'quickActionsWidget') state.quickActionsPosition = position;
 
                 saveSettings();
             }
@@ -2041,7 +2118,23 @@ function updateTodo() {
 function updateQuickActions() {
     if (!state.showQuickActions) return;
 
-    document.querySelectorAll('.quick-action').forEach(action => {
+    const quickActionsWidget = document.getElementById('quickActionsWidget');
+    if (!quickActionsWidget) return;
+
+    // Ensure proper positioning when updating
+    if (state.quickActionsPosition) {
+        quickActionsWidget.style.left = state.quickActionsPosition.left + 'px';
+        quickActionsWidget.style.top = state.quickActionsPosition.top + 'px';
+        quickActionsWidget.style.right = 'auto';
+        quickActionsWidget.style.bottom = 'auto';
+    } else {
+        quickActionsWidget.style.right = '24px';
+        quickActionsWidget.style.bottom = '24px';
+        quickActionsWidget.style.left = 'auto';
+        quickActionsWidget.style.top = 'auto';
+    }
+
+    document.querySelectorAll('.quick-action-btn').forEach(action => {
         action.addEventListener('click', () => {
             const actionType = action.dataset.action;
             switch(actionType) {
@@ -2122,3 +2215,21 @@ setupNotes();
 setupBookmarks();
 setupWidgetDragging();
 showKeyboardShortcutsTutorial();
+
+// Initialize widget positions after everything is loaded
+setTimeout(() => {
+    const quickActionsWidget = document.getElementById('quickActionsWidget');
+    if (quickActionsWidget && state.showQuickActions) {
+        if (state.quickActionsPosition) {
+            quickActionsWidget.style.left = state.quickActionsPosition.left + 'px';
+            quickActionsWidget.style.top = state.quickActionsPosition.top + 'px';
+            quickActionsWidget.style.right = 'auto';
+            quickActionsWidget.style.bottom = 'auto';
+        } else {
+            quickActionsWidget.style.right = '24px';
+            quickActionsWidget.style.bottom = '24px';
+            quickActionsWidget.style.left = 'auto';
+            quickActionsWidget.style.top = 'auto';
+        }
+    }
+}, 100);

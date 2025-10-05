@@ -56,30 +56,32 @@
         </div>
     </div>
 
-    <div class="quick-actions" id="quickActions" style="display: none;">
-        <div class="quick-actions-header">
+    <!-- New Quick Actions Widget -->
+    <div class="quick-actions-widget" id="quickActionsWidget" style="display: none;">
+        <div class="quick-actions-widget-header">
             <span class="material-icons-round">flash_on</span>
             <span>Quick Actions</span>
         </div>
-        <div class="quick-actions-grid">
-            <button class="quick-action" data-action="new-tab">
+        <div class="quick-actions-widget-content">
+            <button class="quick-action-btn" data-action="new-tab">
                 <span class="material-icons-round">add</span>
                 <span>New Tab</span>
             </button>
-            <button class="quick-action" data-action="search-settings">
+            <button class="quick-action-btn" data-action="search-settings">
                 <span class="material-icons-round">tune</span>
                 <span>Settings</span>
             </button>
-            <button class="quick-action" data-action="clear-history">
+            <button class="quick-action-btn" data-action="clear-history">
                 <span class="material-icons-round">delete_sweep</span>
                 <span>Clear History</span>
             </button>
-            <button class="quick-action" data-action="screenshot">
+            <button class="quick-action-btn" data-action="screenshot">
                 <span class="material-icons-round">screenshot</span>
                 <span>Screenshot</span>
             </button>
         </div>
     </div>
+
 
     <div class="notes-sidebar" id="notesSidebar">
         <div class="notes-header">
@@ -305,7 +307,7 @@
                         <div class="switch-thumb"></div>
                     </div>
                 </div>
-                <div class="toggle-option" id="quickActionsToggle">
+                <div class="toggle-option" id="quickActionsWidgetToggle">
                     <span>Quick Actions</span>
                     <div class="switch active">
                         <div class="switch-thumb"></div>
