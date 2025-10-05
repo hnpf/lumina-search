@@ -183,7 +183,7 @@ const state = {
         // {label: 'Figma', url: 'https://figma.com', icon: 'task_outlined'}
         // {label: 'Slack', url: 'https://slack.com', icon: 'task_outlined'}
         // {label: 'Medium', url: 'https://medium.com', icon: 'task_outlined'}
-        {label: 'Wikipedia', url: 'https://wikipedia.com', icon: 'docs_library'}
+        //{label: 'Wikipedia', url: 'https://wikipedia.com', icon: 'docs_library'}
         // {label: 'Tumblr', url: 'https://tumblr.com', icon: 'task_outlined'}
         // {label: 'Quora', url: 'https://quora.com', icon: 'task_outlined'}
         // {label: 'Goodreads', url: 'https://goodreads.com', icon: 'task_outlined'}
