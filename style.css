@@ -78,28 +78,55 @@
             min-height: 100dvh;
             max-height: 100dvh;
             overflow-y: auto;
+            overflow-x: hidden;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Ensure html also has no overflow */
+        .mobile-mode html {
+            overflow-x: hidden;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
         }
 
         .background-image {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background-size: cover;
-            background-position: center;
+            background-position: center center;
             background-repeat: no-repeat;
+            background-attachment: fixed;
             z-index: -2;
             opacity: 0.3;
             transition: opacity 0.5s ease;
+            /* Ensure no cutoff */
+            min-width: 100vw;
+            min-height: 100vh;
+        }
+
+        /* Ensure background covers full mobile viewport */
+        .mobile-mode .background-image {
+            width: 100vw;
+            height: 100dvh; /* Use dvh for mobile */
+            min-width: 100vw;
+            min-height: 100dvh;
+            background-size: cover;
+            background-position: center center;
+            background-attachment: scroll; /* Better for mobile */
         }
 
         .background-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: -1;
             opacity: 0.6;
@@ -108,6 +135,17 @@
                 radial-gradient(circle at 85% 30%, var(--md-sys-color-secondary-container), transparent 40%),
                 radial-gradient(circle at 60% 80%, var(--md-sys-color-tertiary-container), transparent 40%);
             transition: opacity 0.5s ease;
+            /* Ensure no cutoff */
+            min-width: 100vw;
+            min-height: 100vh;
+        }
+
+        /* Ensure overlay covers full mobile viewport */
+        .mobile-mode .background-overlay {
+            width: 100vw;
+            height: 100dvh;
+            min-width: 100vw;
+            min-height: 100dvh;
         }
 
         body.animated-blobs .background-overlay {
@@ -2690,16 +2728,49 @@
             padding: 12px 8px;
             max-width: 100%;
             min-height: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Ensure full viewport coverage */
+        .mobile-mode body {
+            width: 100vw;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            /* Handle mobile browser UI */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Additional mobile background fix */
+        .mobile-mode .background-image,
+        .mobile-mode .background-overlay {
+            transform: scale(1.05); /* Slightly larger to prevent any edge gaps */
+            width: 105vw;
+            height: 105vh;
+            left: -2.5vw;
+            top: -2.5vh;
         }
 
         .mobile-mode .search-section {
             max-width: 100%;
-            justify-content: flex-start;
-            padding-top: 8px;
+            justify-content: center;
+            padding-top: 20px;
+            min-height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Ensure search container is properly centered */
+        .mobile-mode .search-container {
+            width: calc(100% - 16px);
+            margin: 0 auto;
         }
 
         .mobile-mode .header {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         /* Mobile-optimized widgets */
@@ -2957,11 +3028,30 @@
 
             .search-container {
                 padding: 8px 12px;
+                width: calc(100% - 8px);
+                margin: 0 auto;
             }
 
             .search-input {
                 font-size: 16px;
                 padding: 6px 0;
+            }
+
+            /* Fix background coverage on small screens */
+            .background-image, .background-overlay {
+                width: 105vw !important;
+                height: 105vh !important;
+                left: -2.5vw !important;
+                top: -2.5vh !important;
+                transform: scale(1.05) !important;
+            }
+
+            /* Ensure body has no overflow on small screens */
+            body {
+                overflow-x: hidden !important;
+                width: 100vw !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
         }
 
