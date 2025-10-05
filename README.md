@@ -37,7 +37,7 @@ So I got tired of search engines that feel super slow and cluttered, so I made L
 
 ### Option 1: Just open it in your browser
 1. Go to [https://hnpf.github.io/lumina-search](https://hnpf.github.io/lumina-search) in your browser
-2. Boom! You're done. No installation needed!
+2. That's literally it.
 
 ### Option 2: Run it locally (if you want to tinker)
 For the best experience, especially if you want to modify the code:
@@ -178,3 +178,4 @@ I'm planning to:
 ---
 
 *Built with love for the modern web. Simple, private, and actually pretty fun to use!*
+
