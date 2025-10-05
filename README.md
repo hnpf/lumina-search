@@ -25,7 +25,6 @@ So I got tired of search engines that feel super slow and cluttered, so I made L
 - **Bookmark Management**: Organize bookmarks with categories and icons, plus import from browsers
 - **Weather Integration**: Real-time weather using privacy-focused APIs and approximate IP location
 - **Calendar Widget**: Interactive monthly calendar that highlights today
-- **Quick Actions**: New tab, settings access, and screenshot functionality
 
 ### Privacy & Security
 - **No Tracking**: Your searches stay private - never stored or sent anywhere
@@ -37,7 +36,7 @@ So I got tired of search engines that feel super slow and cluttered, so I made L
 
 ### Option 1: Just open it in your browser
 1. Go to [https://hnpf.github.io/lumina-search](https://hnpf.github.io/lumina-search) in your browser
-2. That's literally it.
+2. Boom! You're done. No installation needed!
 
 ### Option 2: Run it locally (if you want to tinker)
 For the best experience, especially if you want to modify the code:
@@ -65,7 +64,7 @@ Then visit `http://localhost:8000` in your browser.
 ### Making it your own
 1. **Settings Panel**: Click the gear icon and go wild with customization
 2. **Color Themes**: Pick from 12 themes or cycle through them with the palette button
-3. **Widgets**: Toggle weather, clock, calendar, and other widgets on/off, then drag them around
+3. **Widgets**: Toggle weather, clock, calendar, notes, and other widgets on/off, then drag them around
 4. **Background**: Upload your own images and adjust the transparency
 
 ### Keyboard shortcuts (for the speedy folks)
@@ -175,7 +174,16 @@ I'm planning to:
 - Add more search engine options
 - Make the mobile experience smoother
 
+## Changelog
+
+### Recent Updates
+- **Added Full Mobile Mode Support**: Implemented comprehensive mobile device detection, responsive UI/UX, and mobile-optimized features including touch-friendly interfaces, widget management, and developer controls for testing mobile/desktop modes across different devices.
+- **Fixed Settings Panel Visual Issues**: Resolved viewport clipping and pseudo-element rendering problems that were causing the settings panel to be cut off, ensuring full visibility and proper layout on all screen sizes.
+- **Enhanced Mobile Accessibility**: Improved touch interactions, mobile-specific spacing, and responsive design patterns for better usability on mobile devices and accessibility compliance.
+
+### Previous Updates
+- **Removed Quick Actions Widget**: Eliminated the problematic quick actions widget after several bugs and performance issues. The feature was causing interface freezes and has been completely removed for a smoother user experience.
+
 ---
 
 *Built with love for the modern web. Simple, private, and actually pretty fun to use!*
-

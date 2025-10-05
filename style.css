@@ -67,6 +67,9 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            /* Prevent rendering artifacts */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .background-image {
@@ -900,77 +903,6 @@
             box-shadow: var(--shadow-2);
         }
 
-        /* New Quick Actions Widget */
-        .quick-actions-widget {
-            position: fixed;
-            /* Remove default bottom/right positioning to prevent conflicts with saved positions */
-            background: var(--md-sys-color-surface-container-high);
-            border-radius: 24px;
-            padding: 20px;
-            box-shadow: var(--shadow-2);
-            width: 200px;
-            min-height: 140px;
-            z-index: 10;
-            cursor: move;
-            border: 2px solid transparent;
-            user-select: none;
-        }
-
-        .quick-actions-widget-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            color: var(--md-sys-color-on-surface);
-            font-size: 14px;
-        }
-
-        .quick-actions-widget-content {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-
-        .quick-action-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 10px 6px;
-            border-radius: 12px;
-            border: none;
-            background: var(--md-sys-color-surface-container);
-            color: var(--md-sys-color-on-surface);
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border: 1px solid var(--md-sys-color-outline-variant);
-        }
-
-        .quick-action-btn:hover {
-            background: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-on-primary-container);
-            border-color: var(--md-sys-color-primary);
-            transform: translateY(-1px);
-        }
-
-        .quick-action-btn:active {
-            transform: translateY(0);
-        }
-
-        .quick-action-btn .material-icons-round {
-            font-size: 18px;
-        }
-
-        /* Drag state - no transforms or transitions */
-        .quick-actions-widget.dragging {
-            cursor: grabbing;
-            box-shadow: var(--shadow-3);
-            border-color: var(--md-sys-color-primary);
-            background: var(--md-sys-color-surface-container-highest);
-        }
 
         @keyframes slideInLeft {
             from { opacity: 0; transform: translateX(-100px); }
@@ -1648,37 +1580,29 @@
             top: 0;
             bottom: 0;
             width: 440px;
+            height: 100vh;
             background: var(--md-sys-color-surface-container);
             box-shadow: -8px 0 24px rgba(0,0,0,0.15);
             transition: right 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             overflow-y: auto;
             z-index: 1000;
             padding: 32px;
-            border-radius: 28px 0 0 28px;
-            margin: 12px 0;
-            box-shadow: -12px 0 32px rgba(0,0,0,0.2);
+            border-radius: 0;
+            margin: 0;
+            /* Ensure full visibility */
+            box-sizing: border-box;
+            /* Remove any potential clipping */
+            max-height: 100vh;
+            min-height: 100vh;
         }
 
+        /* Remove pseudo-elements that cause clipping */
         .settings-panel::before {
-            content: '';
-            position: absolute;
-            top: -12px;
-            left: 0;
-            right: 0;
-            height: 12px;
-            background: var(--md-sys-color-surface-container);
-            border-radius: 28px 0 0 0;
+            display: none;
         }
 
         .settings-panel::after {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 0;
-            right: 0;
-            height: 12px;
-            background: var(--md-sys-color-surface-container);
-            border-radius: 0 0 0 28px;
+            display: none;
         }
 
         .settings-panel.open {
@@ -1690,6 +1614,49 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 32px;
+            /* Ensure full visibility */
+            padding: 16px 0;
+            margin-top: 0;
+            /* Ensure proper positioning */
+            position: relative;
+            z-index: 1;
+            /* Prevent any cutoff */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Ensure all settings content is fully visible */
+        .settings-panel > * {
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        .settings-panel > *:first-child {
+            margin-top: 0;
+        }
+
+        .settings-panel > *:last-child {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+        }
+
+        /* Ensure mobile mode section is never cut off */
+        .mobile-mode .settings-header {
+            padding: 20px 0 16px 0;
+            margin-bottom: 24px;
+        }
+
+        /* Fix for mobile mode section visibility */
+        .setting-group-content {
+            max-height: 1000px;
+            overflow: visible;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+            opacity: 1;
+        }
+
+        .setting-group:last-child .setting-group-content {
+            overflow: visible;
+            max-height: none;
         }
 
         .settings-title {
@@ -1701,10 +1668,21 @@
         .setting-group {
             margin-bottom: 32px;
             animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Prevent rendering artifacts */
+            contain: layout;
+            /* Ensure proper spacing and prevent cutoff */
+            padding-top: 4px;
+            padding-bottom: 4px;
         }
 
         .setting-group.collapsed {
             margin-bottom: 16px;
+        }
+
+        /* Fix mobile mode section cutoff */
+        .setting-group:last-of-type {
+            margin-bottom: 48px;
+            padding-bottom: 20px;
         }
 
         .setting-group-header {
@@ -2594,12 +2572,276 @@
             box-shadow: var(--shadow-2);
         }
 
+        /* Mobile Mode Styles */
+        .mobile-mode {
+            /* Hide desktop-specific elements in mobile mode */
+        }
+
+        .mobile-mode .weather,
+        .mobile-mode .clock,
+        .mobile-mode .calendar,
+        .mobile-mode .todo-widget {
+            position: static !important;
+            margin: 16px auto !important;
+            left: auto !important;
+            right: auto !important;
+            top: auto !important;
+            transform: none !important;
+            max-width: calc(100% - 32px);
+            width: 100%;
+            animation: fadeInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+        }
+
+        .mobile-mode .greeting {
+            position: static !important;
+            margin: 16px auto !important;
+            transform: none !important;
+            max-width: calc(100% - 32px);
+            width: fit-content;
+            min-width: 200px;
+        }
+
+        .mobile-mode .shortcuts {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 12px;
+            margin-top: 32px;
+            max-width: 100%;
+            padding: 0 16px;
+        }
+
+        .mobile-mode .shortcut {
+            width: 80px;
+            height: 80px;
+            padding: 12px;
+            font-size: 12px;
+        }
+
+        .mobile-mode .add-shortcut {
+            width: 80px;
+            height: 80px;
+            padding: 12px;
+        }
+
+        .mobile-mode .shortcut-icon {
+            font-size: 24px;
+        }
+
+        .mobile-mode .shortcut-label {
+            font-size: 11px;
+        }
+
+        .mobile-mode .search-container {
+            padding: 12px 20px;
+            margin: 0 16px;
+            max-width: calc(100% - 32px);
+        }
+
+        .mobile-mode .search-input {
+            font-size: 16px; /* Prevent zoom on iOS */
+            padding: 12px 0;
+        }
+
+        .mobile-mode .search-btn {
+            padding: 10px 24px;
+            font-size: 14px;
+        }
+
+        .mobile-mode .voice-search-btn {
+            width: 36px;
+            height: 36px;
+        }
+
+        .mobile-mode .header-actions {
+            gap: 4px;
+        }
+
+        .mobile-mode .icon-btn {
+            width: 44px;
+            height: 44px;
+        }
+
+        .mobile-mode .icon-btn .material-icons-round {
+            font-size: 20px;
+        }
+
+        .mobile-mode .container {
+            padding: 16px;
+            max-width: 100%;
+        }
+
+        .mobile-mode .search-section {
+            max-width: 100%;
+        }
+
+        /* Mobile-optimized widgets */
+        .mobile-mode .weather {
+            min-width: auto;
+            min-height: auto;
+            padding: 16px 20px;
+        }
+
+        .mobile-mode .weather-temp {
+            font-size: 32px;
+        }
+
+        .mobile-mode .weather-desc {
+            font-size: 14px;
+        }
+
+        .mobile-mode .clock {
+            min-width: auto;
+            padding: 16px 20px;
+        }
+
+        .mobile-mode .clock-time {
+            font-size: 28px;
+        }
+
+        .mobile-mode .clock-date {
+            font-size: 12px;
+        }
+
+        .mobile-mode .calendar {
+            min-width: auto;
+            min-height: auto;
+            padding: 16px;
+        }
+
+        .mobile-mode .todo-widget {
+            min-width: auto;
+            min-height: auto;
+            padding: 16px;
+        }
+
+        /* Mobile sidebar adjustments */
+        .mobile-mode .notes-sidebar,
+        .mobile-mode .bookmarks-sidebar {
+            width: 100vw;
+            left: -100vw;
+            right: auto;
+            border-radius: 0;
+        }
+
+        .mobile-mode .notes-sidebar.open {
+            left: 0;
+        }
+
+        .mobile-mode .bookmarks-sidebar {
+            right: -100vw;
+            left: auto;
+        }
+
+        .mobile-mode .bookmarks-sidebar.open {
+            right: 0;
+        }
+
+        .mobile-mode .notes-toggle,
+        .mobile-mode .bookmarks-toggle {
+            bottom: 16px;
+        }
+
+        /* Mobile settings panel */
+        .mobile-mode .settings-panel {
+            width: 100vw;
+            height: 100vh;
+            right: -100vw;
+            left: auto;
+            top: 0;
+            bottom: 0;
+            border-radius: 0;
+            margin: 0;
+            padding: 24px;
+            /* Ensure full visibility on mobile */
+            position: fixed;
+            box-sizing: border-box;
+            /* Remove any clipping issues */
+            max-height: 100vh;
+            min-height: 100vh;
+            /* Simplify for better mobile rendering */
+            background: var(--md-sys-color-surface-container);
+            box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .mobile-mode .settings-panel.open {
+            right: 0;
+        }
+
+        /* Ensure mobile mode section is fully visible */
+        .mobile-mode .setting-group:last-of-type {
+            margin-bottom: 60px;
+            padding-bottom: 32px;
+        }
+
+        /* Additional fix for settings panel viewport issues */
+        .settings-panel {
+            /* Prevent any edge clipping */
+            max-height: 100vh;
+            min-height: 100vh;
+            /* Ensure proper containment */
+            contain: layout style;
+            /* Force full visibility */
+            top: 0 !important;
+            left: auto !important;
+            right: -100%;
+        }
+
+        .settings-panel.open {
+            right: 0 !important;
+        }
+
+        /* Fix for any remaining cutoff issues */
+        .mobile-mode .settings-header {
+            padding: 20px 0 16px 0 !important;
+            margin-bottom: 24px;
+        }
+
+        /* Ensure no content gets clipped */
+        .mobile-mode .setting-group:last-of-type {
+            margin-bottom: 80px !important;
+            padding-bottom: 60px !important;
+        }
+
+        /* Touch-friendly interactions */
+        .mobile-mode .shortcut,
+        .mobile-mode .icon-btn,
+        .mobile-mode .toggle-option {
+            cursor: pointer;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hide drag handles on mobile for cleaner look */
+        .mobile-mode .shortcut-drag-handle,
+        .mobile-mode .shortcut-remove {
+            display: none;
+        }
+
+        /* Mobile-specific animations */
+        .mobile-mode .weather,
+        .mobile-mode .clock,
+        .mobile-mode .calendar,
+        .mobile-mode .todo-widget {
+            animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @media (max-width: 768px) {
             .settings-panel {
                 width: 100%;
             }
 
-            .weather, .clock, .calendar, .todo-widget, .quick-actions {
+            .weather, .clock, .calendar, .todo-widget {
                 position: static;
                 margin-bottom: 20px;
                 animation: fadeInScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;

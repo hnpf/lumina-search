@@ -124,7 +124,13 @@ const state = {
     showGreeting: true,
     showCalendar: false,
     showTodo: false,
-    showQuickActions: false,
+    // Mobile mode settings
+    isMobile: false,
+    forceMobileMode: false,
+    forceDesktopMode: false,
+    hideWidgetsOnMobile: true,
+    hideKeyboardShortcutsOnMobile: true,
+    mobileOptimizedSearch: true,
     notes: [
         { id: Date.now(), title: "Hey There!", content: "Hello! Welcome to Lumina; This is your first note! You can edit the title by changing the text above me. then, edit the content by typing in it, and delete freely with the 'x' button! You can also use markdown to format your text. Click the eye icon to toggle between edit and preview modes, and the help button to learn more about markdown. Last of all, have fun!" }
     ],
@@ -145,7 +151,6 @@ const state = {
     clockPosition: null,
     calendarPosition: null,
     todoPosition: null,
-    quickActionsPosition: null,
     shortcuts: [
         {label: 'YouTube', url: 'https://youtube.com', icon: 'play_circle'},
         {label: 'GitHub', url: 'https://github.com', icon: 'code'},
@@ -183,7 +188,7 @@ const state = {
         // {label: 'Figma', url: 'https://figma.com', icon: 'task_outlined'}
         // {label: 'Slack', url: 'https://slack.com', icon: 'task_outlined'}
         // {label: 'Medium', url: 'https://medium.com', icon: 'task_outlined'}
-        {label: 'Wikipedia', url: 'https://wikipedia.com', icon: 'docs_library'}
+        // {label: 'Wikipedia', url: 'https://wikipedia.com', icon: 'docs_library'}
         // {label: 'Tumblr', url: 'https://tumblr.com', icon: 'task_outlined'}
         // {label: 'Quora', url: 'https://quora.com', icon: 'task_outlined'}
         // {label: 'Goodreads', url: 'https://goodreads.com', icon: 'task_outlined'}
@@ -206,6 +211,28 @@ const state = {
 //                         <span>Search Reddit</span>
 const defaultState = JSON.parse(JSON.stringify(state));
 
+// Mobile device detection function
+function detectMobileDevice() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isSmallScreen = window.innerWidth <= 768;
+
+    return isMobileUA || (isTouchDevice && isSmallScreen);
+}
+
+// Get effective mobile state (considers forced modes)
+function getEffectiveMobileState() {
+    if (state.forceMobileMode) return true;
+    if (state.forceDesktopMode) return false;
+    return state.isMobile;
+}
+
+// Check if currently in mobile mode
+function isInMobileMode() {
+    return getEffectiveMobileState();
+}
+
 const searchTypes = [
     {label: 'Images', icon: 'image', suffix: 'images'},
     {label: 'News', icon: 'newspaper', suffix: 'news'},
@@ -219,6 +246,10 @@ function loadSettings() {
     if (saved) {
         Object.assign(state, JSON.parse(saved));
     }
+
+    // Detect mobile device on load
+    state.isMobile = detectMobileDevice();
+
     applySettings();
 }
 
@@ -248,17 +279,21 @@ function applySettings() {
 
     applyColorTheme(state.colorTheme);
 
-    document.getElementById('weather').style.display = state.showWeather ? 'block' : 'none';
-    document.getElementById('shortcuts').style.display = state.showShortcuts ? 'grid' : 'none';
+    // Apply mobile mode styles
+    document.body.classList.toggle('mobile-mode', isInMobileMode());
+
+    // Handle widget visibility in mobile mode
+    const effectiveMobile = isInMobileMode();
+    const hideWidgetsOnMobile = effectiveMobile && state.hideWidgetsOnMobile;
+    const hideKeyboardShortcutsOnMobile = effectiveMobile && state.hideKeyboardShortcutsOnMobile;
+
+    document.getElementById('weather').style.display = (state.showWeather && !hideWidgetsOnMobile) ? 'block' : 'none';
+    document.getElementById('shortcuts').style.display = (state.showShortcuts && !hideKeyboardShortcutsOnMobile) ? 'grid' : 'none';
     document.querySelector('.background-overlay').style.display = state.showAnimations ? 'block' : 'none';
-    document.getElementById('clock').style.display = state.showClock ? 'block' : 'none';
+    document.getElementById('clock').style.display = (state.showClock && !hideWidgetsOnMobile) ? 'block' : 'none';
     document.getElementById('greeting').style.display = state.showGreeting ? 'block' : 'none';
-    document.getElementById('calendar').style.display = state.showCalendar ? 'block' : 'none';
-    document.getElementById('todoWidget').style.display = state.showTodo ? 'block' : 'none';
-    const quickActionsWidget = document.getElementById('quickActionsWidget');
-    if (quickActionsWidget) {
-        quickActionsWidget.style.display = state.showQuickActions ? 'block' : 'none';
-    }
+    document.getElementById('calendar').style.display = (state.showCalendar && !hideWidgetsOnMobile) ? 'block' : 'none';
+    document.getElementById('todoWidget').style.display = (state.showTodo && !hideWidgetsOnMobile) ? 'block' : 'none';
 
     const backgroundImage = document.getElementById('backgroundImage');
     if (state.backgroundImage) {
@@ -317,7 +352,7 @@ function applySettings() {
         customInput.style.display = state.searchEngine === 'custom' ? 'block' : 'none';
     }
 
-    const mainToggles = ['darkMode', 'showWeather', 'showClock', 'showCalendar', 'showTodo', 'showQuickActions', 'showShortcuts', 'showGreeting', 'showAnimations'];
+    const mainToggles = ['darkMode', 'showWeather', 'showClock', 'showCalendar', 'showTodo', 'showShortcuts', 'showGreeting', 'showAnimations'];
     document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
         const sw = opt.querySelector('.switch');
         if (mainToggles[idx]) {
@@ -325,37 +360,6 @@ function applySettings() {
         }
     });
 
-    // Handle the new quick actions widget toggle specifically
-    const quickActionsToggle = document.getElementById('quickActionsWidgetToggle');
-    if (quickActionsToggle) {
-        const sw = quickActionsToggle.querySelector('.switch');
-        sw.classList.toggle('active', state.showQuickActions);
-
-        quickActionsToggle.addEventListener('click', () => {
-            state.showQuickActions = !state.showQuickActions;
-            applySettings();
-            saveSettings();
-            if (state.showQuickActions) {
-                updateQuickActions();
-                const widget = document.getElementById('quickActionsWidget');
-                if (widget) {
-                    widget.style.display = 'block';
-                    // Ensure proper positioning when showing
-                    if (state.quickActionsPosition) {
-                        widget.style.left = state.quickActionsPosition.left + 'px';
-                        widget.style.top = state.quickActionsPosition.top + 'px';
-                        widget.style.right = 'auto';
-                        widget.style.bottom = 'auto';
-                    } else {
-                        widget.style.right = '24px';
-                        widget.style.bottom = '24px';
-                        widget.style.left = 'auto';
-                        widget.style.top = 'auto';
-                    }
-                }
-            }
-        });
-    }
 
     const devToggles = [
         {id: 'searchSuggestionsToggle', key: 'searchSuggestions'},
@@ -371,6 +375,31 @@ function applySettings() {
             sw.classList.toggle('active', state[key]);
         }
     });
+
+    // Mobile mode toggles
+    const mobileModeToggles = [
+        {id: 'forceMobileModeToggle', key: 'forceMobileMode'},
+        {id: 'forceDesktopModeToggle', key: 'forceDesktopMode'},
+        {id: 'hideWidgetsOnMobileToggle', key: 'hideWidgetsOnMobile'},
+        {id: 'hideKeyboardShortcutsOnMobileToggle', key: 'hideKeyboardShortcutsOnMobile'},
+        {id: 'mobileOptimizedSearchToggle', key: 'mobileOptimizedSearch'}
+    ];
+
+    mobileModeToggles.forEach(({id, key}) => {
+        const toggle = document.getElementById(id);
+        if (toggle) {
+            const sw = toggle.querySelector('.switch');
+            sw.classList.toggle('active', state[key]);
+        }
+    });
+
+    // Update mode display
+    const currentModeDisplay = document.getElementById('currentModeDisplay');
+    const deviceTypeDisplay = document.getElementById('deviceTypeDisplay');
+    if (currentModeDisplay && deviceTypeDisplay) {
+        currentModeDisplay.textContent = isInMobileMode() ? 'Mobile' : 'Desktop';
+        deviceTypeDisplay.textContent = state.isMobile ? 'Mobile Device' : 'Desktop Device';
+    }
 
     renderColorGrid();
     renderShortcuts();
@@ -1109,27 +1138,6 @@ document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
             if (keys[idx] === 'showGreeting' && state.showGreeting) updateGreeting();
             if (keys[idx] === 'showCalendar' && state.showCalendar) updateCalendar();
             if (keys[idx] === 'showTodo' && state.showTodo) updateTodo();
-            if (keys[idx] === 'showQuickActions' && state.showQuickActions) {
-                updateQuickActions();
-                // Ensure the widget is visible and positioned correctly
-                const widget = document.getElementById('quickActionsWidget');
-                if (widget) {
-                    widget.style.display = 'block';
-                    // Re-apply positioning after showing
-                    if (state.quickActionsPosition) {
-                        widget.style.left = state.quickActionsPosition.left + 'px';
-                        widget.style.top = state.quickActionsPosition.top + 'px';
-                        widget.style.right = 'auto';
-                        widget.style.bottom = 'auto';
-                    } else {
-                        // Set default position
-                        widget.style.right = '24px';
-                        widget.style.bottom = '24px';
-                        widget.style.left = 'auto';
-                        widget.style.top = 'auto';
-                    }
-                }
-            }
         }
     });
 });
@@ -1154,6 +1162,45 @@ document.getElementById('openInSameTabToggle').addEventListener('click', () => {
 
 document.getElementById('shiftEnterToggle').addEventListener('click', () => {
     state.shiftEnter = !state.shiftEnter;
+    applySettings();
+    saveSettings();
+});
+
+// Mobile mode toggle event listeners
+document.getElementById('forceMobileModeToggle').addEventListener('click', () => {
+    state.forceMobileMode = !state.forceMobileMode;
+    // Disable desktop mode if enabling mobile mode
+    if (state.forceMobileMode) {
+        state.forceDesktopMode = false;
+    }
+    applySettings();
+    saveSettings();
+});
+
+document.getElementById('forceDesktopModeToggle').addEventListener('click', () => {
+    state.forceDesktopMode = !state.forceDesktopMode;
+    // Disable mobile mode if enabling desktop mode
+    if (state.forceDesktopMode) {
+        state.forceMobileMode = false;
+    }
+    applySettings();
+    saveSettings();
+});
+
+document.getElementById('hideWidgetsOnMobileToggle').addEventListener('click', () => {
+    state.hideWidgetsOnMobile = !state.hideWidgetsOnMobile;
+    applySettings();
+    saveSettings();
+});
+
+document.getElementById('hideKeyboardShortcutsOnMobileToggle').addEventListener('click', () => {
+    state.hideKeyboardShortcutsOnMobile = !state.hideKeyboardShortcutsOnMobile;
+    applySettings();
+    saveSettings();
+});
+
+document.getElementById('mobileOptimizedSearchToggle').addEventListener('click', () => {
+    state.mobileOptimizedSearch = !state.mobileOptimizedSearch;
     applySettings();
     saveSettings();
 });
@@ -1961,7 +2008,7 @@ function setupNotes() {
 }
 
 function setupWidgetDragging() {
-    const widgets = ['weather', 'clock', 'calendar', 'todoWidget', 'quickActionsWidget'];
+    const widgets = ['weather', 'clock', 'calendar', 'todoWidget'];
 
     widgets.forEach(widgetId => {
         const widget = document.getElementById(widgetId);
@@ -1977,7 +2024,6 @@ function setupWidgetDragging() {
                 '.clock-time', '.clock-date',
                 '.calendar-header', '.calendar-grid',
                 '.todo-header', '.todo-list', '.todo-add',
-                '.quick-actions-widget-header', '.quick-actions-widget-content'
             ];
 
             if (e.target.closest(interactiveSelectors.join(', '))) {
@@ -2038,7 +2084,6 @@ function setupWidgetDragging() {
                 if(widgetId === 'clock') state.clockPosition = position;
                 if(widgetId === 'calendar') state.calendarPosition = position;
                 if(widgetId === 'todoWidget') state.todoPosition = position;
-                if(widgetId === 'quickActionsWidget') state.quickActionsPosition = position;
 
                 saveSettings();
             }
@@ -2115,64 +2160,6 @@ function updateTodo() {
     });
 }
 
-function updateQuickActions() {
-    if (!state.showQuickActions) return;
-
-    const quickActionsWidget = document.getElementById('quickActionsWidget');
-    if (!quickActionsWidget) return;
-
-    // Ensure proper positioning when updating
-    if (state.quickActionsPosition) {
-        quickActionsWidget.style.left = state.quickActionsPosition.left + 'px';
-        quickActionsWidget.style.top = state.quickActionsPosition.top + 'px';
-        quickActionsWidget.style.right = 'auto';
-        quickActionsWidget.style.bottom = 'auto';
-    } else {
-        quickActionsWidget.style.right = '24px';
-        quickActionsWidget.style.bottom = '24px';
-        quickActionsWidget.style.left = 'auto';
-        quickActionsWidget.style.top = 'auto';
-    }
-
-    document.querySelectorAll('.quick-action-btn').forEach(action => {
-        action.addEventListener('click', () => {
-            const actionType = action.dataset.action;
-            switch(actionType) {
-                case 'new-tab':
-                    window.open('', '_blank');
-                    break;
-                case 'new-window':
-                    window.open('', '_blank');
-                    break;
-                case 'search-settings':
-                    document.getElementById('settingsBtn').click();
-                    break;
-                case 'clear-history':
-                    if (confirm('Clear all search history?')) {
-                        state.searchHistory = [];
-                        saveSettings();
-                        renderSearchHistory();
-                    }
-                    break;
-                case 'incognito':
-                    try {
-                        window.open('about:blank', '_blank');
-                        } catch (e) {
-                        alert('Incognito mode requires a browser extension or manual activation');
-                    }
-                    break;
-                case 'screenshot':
-                    html2canvas(document.body).then(canvas => {
-                        const link = document.createElement('a');
-                        link.download = `lumina-screenshot-${new Date().toISOString().split('T')[0]}.png`;
-                        link.href = canvas.toDataURL();
-                        link.click();
-                    });
-                    break;
-            }
-        });
-    });
-}
 
 document.getElementById('calendarPrev').addEventListener('click', () => {
     currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
@@ -2204,32 +2191,25 @@ document.getElementById('todoInput').addEventListener('keypress', (e) => {
 
 setInterval(updateClock, 1000);
 
+// Handle window resize for mobile detection
+window.addEventListener('resize', () => {
+    const wasMobile = state.isMobile;
+    state.isMobile = detectMobileDevice();
+
+    // Only reapply settings if mobile state changed
+    if (wasMobile !== state.isMobile) {
+        applySettings();
+    }
+});
+
 loadSettings();
 loadWeather();
 updateClock();
 updateGreeting();
 updateCalendar();
 updateTodo();
-updateQuickActions();
 setupNotes();
 setupBookmarks();
 setupWidgetDragging();
 showKeyboardShortcutsTutorial();
 
-// Initialize widget positions after everything is loaded
-setTimeout(() => {
-    const quickActionsWidget = document.getElementById('quickActionsWidget');
-    if (quickActionsWidget && state.showQuickActions) {
-        if (state.quickActionsPosition) {
-            quickActionsWidget.style.left = state.quickActionsPosition.left + 'px';
-            quickActionsWidget.style.top = state.quickActionsPosition.top + 'px';
-            quickActionsWidget.style.right = 'auto';
-            quickActionsWidget.style.bottom = 'auto';
-        } else {
-            quickActionsWidget.style.right = '24px';
-            quickActionsWidget.style.bottom = '24px';
-            quickActionsWidget.style.left = 'auto';
-            quickActionsWidget.style.top = 'auto';
-        }
-    }
-}, 100);

@@ -56,31 +56,6 @@
         </div>
     </div>
 
-    <!-- New Quick Actions Widget -->
-    <div class="quick-actions-widget" id="quickActionsWidget" style="display: none;">
-        <div class="quick-actions-widget-header">
-            <span class="material-icons-round">flash_on</span>
-            <span>Quick Actions</span>
-        </div>
-        <div class="quick-actions-widget-content">
-            <button class="quick-action-btn" data-action="new-tab">
-                <span class="material-icons-round">add</span>
-                <span>New Tab</span>
-            </button>
-            <button class="quick-action-btn" data-action="search-settings">
-                <span class="material-icons-round">tune</span>
-                <span>Settings</span>
-            </button>
-            <button class="quick-action-btn" data-action="clear-history">
-                <span class="material-icons-round">delete_sweep</span>
-                <span>Clear History</span>
-            </button>
-            <button class="quick-action-btn" data-action="screenshot">
-                <span class="material-icons-round">screenshot</span>
-                <span>Screenshot</span>
-            </button>
-        </div>
-    </div>
 
 
     <div class="notes-sidebar" id="notesSidebar">
@@ -307,12 +282,6 @@
                         <div class="switch-thumb"></div>
                     </div>
                 </div>
-                <div class="toggle-option" id="quickActionsWidgetToggle">
-                    <span>Quick Actions</span>
-                    <div class="switch active">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
                 <div class="toggle-option" id="shortcutsToggle">
                     <span>Shortcuts</span>
                     <div class="switch">
@@ -381,6 +350,50 @@
                     </select>
                     <input type="text" id="customSearchEngine" placeholder="e.g., search.example.com" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); font-family: 'Google Sans', sans-serif; font-size: 14px; display: none;">
                     <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px;">Choose your preferred search engine. DuckDuckGo remains the default for privacy.</div>
+                </div>
+
+                <div class="setting-group">
+                    <label class="setting-label">Mobile Mode</label>
+                    <div class="setting-group-content">
+                        <div style="padding: 16px 20px; background: var(--md-sys-color-surface-container-high); border-radius: 16px; margin-bottom: 16px;">
+                            <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 8px;">
+                                <strong>Current Mode:</strong> <span id="currentModeDisplay">Desktop</span>
+                            </div>
+                            <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant);">
+                                <strong>Device Type:</strong> <span id="deviceTypeDisplay">Unknown</span>
+                            </div>
+                        </div>
+                        <div class="toggle-option" id="forceMobileModeToggle">
+                            <span>Force Mobile Mode</span>
+                            <div class="switch">
+                                <div class="switch-thumb"></div>
+                            </div>
+                        </div>
+                        <div class="toggle-option" id="forceDesktopModeToggle">
+                            <span>Force Desktop Mode</span>
+                            <div class="switch">
+                                <div class="switch-thumb"></div>
+                            </div>
+                        </div>
+                        <div class="toggle-option" id="hideWidgetsOnMobileToggle">
+                            <span>Hide Widgets on Mobile</span>
+                            <div class="switch active">
+                                <div class="switch-thumb"></div>
+                            </div>
+                        </div>
+                        <div class="toggle-option" id="hideKeyboardShortcutsOnMobileToggle">
+                            <span>Hide Shortcuts on Mobile</span>
+                            <div class="switch active">
+                                <div class="switch-thumb"></div>
+                            </div>
+                        </div>
+                        <div class="toggle-option" id="mobileOptimizedSearchToggle">
+                            <span>Mobile-Optimized Search</span>
+                            <div class="switch active">
+                                <div class="switch-thumb"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
