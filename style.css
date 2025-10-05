@@ -2695,11 +2695,6 @@
             line-height: 1.2;
         }
 
-        .mobile-mode .search-btn {
-            padding: 8px 16px;
-            font-size: 13px;
-            border-radius: 16px;
-        }
 
         .mobile-mode .voice-search-btn {
             width: 32px;
