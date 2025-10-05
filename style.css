@@ -2727,7 +2727,7 @@
         .mobile-mode .container {
             padding: 12px 8px;
             max-width: 100%;
-            min-height: auto;
+            min-height: 100vh;
             width: 100%;
             box-sizing: border-box;
         }
@@ -2756,11 +2756,11 @@
         .mobile-mode .search-section {
             max-width: 100%;
             justify-content: center;
-            padding-top: 20px;
-            min-height: calc(100vh - 200px);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 20px 0;
         }
 
         /* Ensure search container is properly centered */
