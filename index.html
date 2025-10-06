@@ -12,6 +12,16 @@
 <body>
     <div class="background-image" id="backgroundImage"></div>
     <div class="background-overlay"></div>
+    <div class="background-shapes" id="backgroundShapes">
+        <div class="floating-shape circle" style="top: 15%; left: 10%;"></div>
+        <div class="floating-shape square" style="top: 70%; left: 80%;"></div>
+        <div class="floating-shape triangle" style="top: 40%; left: 20%;"></div>
+        <div class="floating-shape diamond" style="top: 25%; left: 85%;"></div>
+        <div class="floating-shape circle" style="top: 60%; left: 15%;"></div>
+        <div class="floating-shape square" style="top: 80%; left: 60%;"></div>
+        <div class="floating-shape triangle" style="top: 10%; left: 70%;"></div>
+        <div class="floating-shape diamond" style="top: 85%; left: 25%;"></div>
+    </div>
 
     <div class="overlay" id="overlay"></div>
 
@@ -35,26 +45,18 @@
                 <span class="material-icons-round">chevron_left</span>
             </button>
             <div class="calendar-month" id="calendarMonth">January 2024</div>
-            <button class="calendar-nav" id="calendarNext">
-                <span class="material-icons-round">chevron_right</span>
-            </button>
+            <div class="calendar-actions">
+                <button class="calendar-nav" id="addEventBtn" title="Add Event">
+                    <span class="material-icons-round">add</span>
+                </button>
+                <button class="calendar-nav" id="calendarNext">
+                    <span class="material-icons-round">chevron_right</span>
+                </button>
+            </div>
         </div>
         <div class="calendar-grid" id="calendarGrid"></div>
     </div>
 
-    <div class="todo-widget" id="todoWidget" style="display: none;">
-        <div class="todo-header">
-            <span class="material-icons-round">checklist</span>
-            <span>Quick Tasks</span>
-        </div>
-        <div class="todo-list" id="todoList"></div>
-        <div class="todo-add">
-            <input type="text" class="todo-input" id="todoInput" placeholder="Add a task...">
-            <button class="todo-add-btn" id="todoAddBtn">
-                <span class="material-icons-round">add</span>
-            </button>
-        </div>
-    </div>
 
 
 
@@ -74,6 +76,42 @@
                 <button class="notes-help-btn" id="notesHelpBtn" title="Markdown Help">
                     <span class="material-icons-round">help_outline</span>
                 </button>
+            </div>
+        </div>
+
+        <div class="notes-todo-section" id="notesTodoSection">
+            <div class="notes-todo-header">
+                <div class="notes-todo-title">
+                    <span class="material-icons-round">checklist</span>
+                    <span>Tasks</span>
+                </div>
+                <div class="notes-todo-actions">
+                    <select class="todo-category-filter" id="todoCategoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                    <button class="notes-todo-add-btn" id="notesTodoAddBtn" title="Add Task">
+                        <span class="material-icons-round">add</span>
+                    </button>
+                </div>
+            </div>
+            <div class="notes-todo-list" id="notesTodoList"></div>
+            <div class="notes-todo-input-area" id="notesTodoInputArea" style="display: none;">
+                <input type="text" class="notes-todo-input" id="notesTodoInput" placeholder="Enter task...">
+                <select class="notes-todo-category-input" id="notesTodoCategoryInput">
+                    <option value="General">General</option>
+                    <option value="Work">Work</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Health">Health</option>
+                </select>
+                <div class="notes-todo-input-actions">
+                    <button class="notes-todo-save-btn" id="notesTodoSaveBtn">
+                        <span class="material-icons-round">check</span>
+                    </button>
+                    <button class="notes-todo-cancel-btn" id="notesTodoCancelBtn">
+                        <span class="material-icons-round">close</span>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -188,6 +226,9 @@
                 <button type="button" class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
                     <span class="material-icons-round">mic</span>
                 </button>
+                <button type="submit" class="search-btn desktop-only" id="searchBtn" title="Search">
+                    <span class="material-icons-round">arrow_forward</span>
+                </button>
             </form>
 
 
@@ -239,56 +280,202 @@
             </button>
         </div>
 
-        <div class="setting-group">
-            <label class="setting-label">Appearance</label>
-            <div class="toggle-option" id="darkModeToggle">
-                <span>Dark Mode</span>
-                <div class="switch">
-                    <div class="switch-thumb"></div>
-                </div>
-            </div>
-        </div>
 
         <div class="setting-group">
             <label class="setting-label">Color Theme</label>
             <div class="color-grid" id="colorGrid"></div>
         </div>
 
+        <div class="setting-group" id="customThemeGroup">
+            <div class="setting-group-header" id="customThemeHeader">
+                <label class="setting-label" style="margin: 0;">Custom Theme Creator</label>
+                <span class="material-icons-round">expand_more</span>
+            </div>
+            <div class="setting-group-content" id="customThemeContent">
+                <div class="theme-customization-panel">
+                    <div class="color-pickers-grid">
+                        <div class="color-picker-item">
+                            <label>Primary Color</label>
+                            <div class="custom-color-picker" id="primaryColorPicker" data-color="#6750A4" data-color-key="primary">
+                                <div class="color-swatch" style="background-color: #6750A4;"></div>
+                                <span class="color-value">#6750A4</span>
+                                <span class="material-icons-round color-dropdown-arrow">arrow_drop_down</span>
+                            </div>
+                            <input type="hidden" id="primaryColorText" value="#6750A4">
+                        </div>
+                        <div class="color-picker-item">
+                            <label>Primary Container</label>
+                            <div class="custom-color-picker" id="primaryContainerColorPicker" data-color="#E9DDFF" data-color-key="primaryContainer">
+                                <div class="color-swatch" style="background-color: #E9DDFF;"></div>
+                                <span class="color-value">#E9DDFF</span>
+                                <span class="material-icons-round color-dropdown-arrow">arrow_drop_down</span>
+                            </div>
+                            <input type="hidden" id="primaryContainerColorText" value="#E9DDFF">
+                        </div>
+                        <div class="color-picker-item">
+                            <label>On Primary Container</label>
+                            <div class="custom-color-picker" id="onPrimaryContainerColorPicker" data-color="#22005D" data-color-key="onPrimaryContainer">
+                                <div class="color-swatch" style="background-color: #22005D;"></div>
+                                <span class="color-value">#22005D</span>
+                                <span class="material-icons-round color-dropdown-arrow">arrow_drop_down</span>
+                            </div>
+                            <input type="hidden" id="onPrimaryContainerColorText" value="#22005D">
+                        </div>
+                        <div class="color-picker-item">
+                            <label>Secondary Color</label>
+                            <div class="custom-color-picker" id="secondaryColorPicker" data-color="#625B71" data-color-key="secondary">
+                                <div class="color-swatch" style="background-color: #625B71;"></div>
+                                <span class="color-value">#625B71</span>
+                                <span class="material-icons-round color-dropdown-arrow">arrow_drop_down</span>
+                            </div>
+                            <input type="hidden" id="secondaryColorText" value="#625B71">
+                        </div>
+                        <div class="color-picker-item">
+                            <label>Secondary Container</label>
+                            <div class="custom-color-picker" id="secondaryContainerColorPicker" data-color="#E8DEF8" data-color-key="secondaryContainer">
+                                <div class="color-swatch" style="background-color: #E8DEF8;"></div>
+                                <span class="color-value">#E8DEF8</span>
+                                <span class="material-icons-round color-dropdown-arrow">arrow_drop_down</span>
+                            </div>
+                            <input type="hidden" id="secondaryContainerColorText" value="#E8DEF8">
+                        </div>
+                        <div class="color-picker-item">
+                            <label>Tertiary Color</label>
+                            <div class="custom-color-picker" id="tertiaryColorPicker" data-color="#7E5260" data-color-key="tertiary">
+                                <div class="color-swatch" style="background-color: #7E5260;"></div>
+                                <span class="color-value">#7E5260</span>
+                                <span class="material-icons-round color-dropdown-arrow">arrow_drop_down</span>
+                            </div>
+                            <input type="hidden" id="tertiaryColorText" value="#7E5260">
+                        </div>
+                        <div class="color-picker-item">
+                            <label>Tertiary Container</label>
+                            <div class="custom-color-picker" id="tertiaryContainerColorPicker" data-color="#FFD9E3" data-color-key="tertiaryContainer">
+                                <div class="color-swatch" style="background-color: #FFD9E3;"></div>
+                                <span class="color-value">#FFD9E3</span>
+                                <span class="material-icons-round color-dropdown-arrow">arrow_drop_down</span>
+                            </div>
+                            <input type="hidden" id="tertiaryContainerColorText" value="#FFD9E3">
+                        </div>
+                    </div>
+
+
+                    <div class="theme-preview">
+                        <div class="theme-preview-card">
+                            <div class="preview-header">Theme Preview</div>
+                            <div class="preview-content">
+                                <div class="preview-primary" id="previewPrimary"></div>
+                                <div class="preview-secondary" id="previewSecondary"></div>
+                                <div class="preview-surface" id="previewSurface"></div>
+                                <div class="preview-text">Sample text to preview your theme</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="theme-actions">
+                        <button class="theme-btn secondary" id="resetCustomTheme">
+                            <span class="material-icons-round">refresh</span>
+                            Reset to Current
+                        </button>
+                        <button class="theme-btn primary" id="applyCustomTheme">
+                            <span class="material-icons-round">preview</span>
+                            Apply Theme
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="setting-group" id="themeManagementGroup">
+            <div class="setting-group-header" id="themeManagementHeader">
+                <label class="setting-label" style="margin: 0;">Theme Management</label>
+                <span class="material-icons-round">expand_more</span>
+            </div>
+            <div class="setting-group-content" id="themeManagementContent">
+                <div class="theme-management-panel">
+                    <div class="font-selection-management">
+                        <label class="setting-label">Font Family</label>
+                        <select id="fontFamilySelect">
+                            <option value="'Google Sans', sans-serif">Google Sans</option>
+                            <option value="Inter, sans-serif">Inter</option>
+                            <option value="Roboto, sans-serif">Roboto</option>
+                            <option value="'Open Sans', sans-serif">Open Sans</option>
+                            <option value="Lato, sans-serif">Lato</option>
+                            <option value="Montserrat, sans-serif">Montserrat</option>
+                            <option value="Poppins, sans-serif">Poppins</option>
+                            <option value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
+                            <option value="Nunito, sans-serif">Nunito</option>
+                            <option value="Raleway, sans-serif">Raleway</option>
+                            <option value="Ubuntu, sans-serif">Ubuntu</option>
+                            <option value="'Playfair Display', serif">Playfair Display</option>
+                            <option value="Merriweather, serif">Merriweather</option>
+                            <option value="Georgia, serif">Georgia</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                        </select>
+                        <div id="currentFontDisplay" style="margin-top: 8px; font-size: 12px; color: var(--md-sys-color-on-surface-variant);">Current: Google Sans</div>
+                    </div>
+
+                    <div class="custom-themes-list" id="customThemesList">
+                        <div class="no-custom-themes" id="noCustomThemes">
+                            <span class="material-icons-round">palette</span>
+                            <p>No custom themes yet. Create one above!</p>
+                        </div>
+                    </div>
+
+                    <div class="theme-management-actions">
+                        <div class="theme-save-section">
+                            <input type="text" id="themeNameInput" placeholder="Theme name..." style="flex: 1; margin-right: 8px;">
+                            <button class="theme-btn primary" id="saveCustomTheme">
+                                <span class="material-icons-round">save</span>
+                                Save Theme
+                            </button>
+                        </div>
+
+                        <div class="theme-import-export">
+                            <button class="theme-btn secondary" id="exportTheme">
+                                <span class="material-icons-round">download</span>
+                                Export Theme
+                            </button>
+                            <button class="theme-btn secondary" id="importTheme">
+                                <span class="material-icons-round">upload</span>
+                                Import Theme
+                            </button>
+                            <input type="file" id="importThemeFile" accept=".json" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="setting-group">
             <label class="setting-label">Widgets</label>
             <div class="setting-group-content">
                 <div class="toggle-option" id="weatherToggle">
-                    <span>Clock</span>
+                    <span>Weather</span>
                     <div class="switch active">
                         <div class="switch-thumb"></div>
                     </div>
                 </div>
                 <div class="toggle-option" id="clockToggle">
-                    <span>Calendar</span>
+                    <span>Clock</span>
                     <div class="switch">
                         <div class="switch-thumb"></div>
                     </div>
                 </div>
                 <div class="toggle-option" id="calendarToggle">
-                    <span>Quick Tasks</span>
-                    <div class="switch active">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
-                <div class="toggle-option" id="todoToggle">
-                    <span>Shortcuts</span>
+                    <span>Calendar</span>
                     <div class="switch active">
                         <div class="switch-thumb"></div>
                     </div>
                 </div>
                 <div class="toggle-option" id="shortcutsToggle">
-                    <span>Greeting</span>
-                    <div class="switch">
+                    <span>Shortcuts</span>
+                    <div class="switch active">
                         <div class="switch-thumb"></div>
                     </div>
                 </div>
                 <div class="toggle-option" id="greetingToggle">
-                    <span>Background Bubbles</span>
+                    <span>Greeting</span>
                     <div class="switch">
                         <div class="switch-thumb"></div>
                     </div>
@@ -305,12 +492,6 @@
             <div class="setting-group-content">
                 <div class="toggle-option" id="searchSuggestionsToggle">
                     <span>Search Suggestions</span>
-                    <div class="switch">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
-                <div class="toggle-option" id="animatedBlobsToggle">
-                    <span>Animated Blobs</span>
                     <div class="switch">
                         <div class="switch-thumb"></div>
                     </div>
@@ -393,6 +574,12 @@
 
         <div class="setting-group">
             <label class="setting-label">Background</label>
+            <div class="toggle-option" id="backgroundShapesToggle">
+                <span>Background Shapes</span>
+                <div class="switch">
+                    <div class="switch-thumb"></div>
+                </div>
+            </div>
             <div class="toggle-option" id="backgroundImageBtn">
                 <span>Upload Background</span>
                 <span class="material-icons-round">image</span>
@@ -419,10 +606,6 @@
                 <span>Import Settings</span>
                 <span class="material-icons-round">upload</span>
             </div>
-            <div class="toggle-option" id="importBookmarksBtn">
-                <span>Import Bookmarks (HTML)</span>
-                <span class="material-icons-round">bookmark</span>
-            </div>
             <input type="file" id="importFile" accept=".json" style="display: none;">
             <input type="file" id="importBookmarksFile" accept=".html" style="display: none;">
         </div>
@@ -430,7 +613,7 @@
         <div class="setting-group">
             <button class="reset-btn" id="resetBtn">
                 <span class="material-icons-round">restore</span>
-                Restore Defaults
+                Restore to Defaults
             </button>
         </div>
     </div>
@@ -556,6 +739,33 @@
         </div>
     </div>
 
+    <div class="modal" id="calendarEventModal">
+        <div class="modal-title">Add Calendar Event</div>
+        <input type="text" class="modal-input" id="eventTitle" placeholder="Event title" autocomplete="off">
+        <textarea class="modal-input" id="eventDescription" placeholder="Event description (optional)" rows="3" autocomplete="off"></textarea>
+        <input type="date" class="modal-input" id="eventDate" autocomplete="off">
+        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+            <input type="time" class="modal-input" id="eventStartTime" placeholder="Start time" style="flex: 1;" autocomplete="off">
+            <input type="time" class="modal-input" id="eventEndTime" placeholder="End time" style="flex: 1;" autocomplete="off">
+        </div>
+        <input type="text" class="modal-input" id="eventCategory" placeholder="Category (e.g. Work, Personal)" autocomplete="off">
+        <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--md-sys-color-on-surface);">Event Color</label>
+            <div style="display: flex; gap: 8px;">
+                <button class="color-option active" data-color="#3498db" style="background-color: #3498db;"></button>
+                <button class="color-option" data-color="#2ecc71" style="background-color: #2ecc71;"></button>
+                <button class="color-option" data-color="#e74c3c" style="background-color: #e74c3c;"></button>
+                <button class="color-option" data-color="#f39c12" style="background-color: #f39c12;"></button>
+                <button class="color-option" data-color="#9b59b6" style="background-color: #9b59b6;"></button>
+                <button class="color-option" data-color="#1abc9c" style="background-color: #1abc9c;"></button>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn secondary" id="cancelEvent">Cancel</button>
+            <button class="modal-btn primary" id="saveEvent">Save Event</button>
+        </div>
+    </div>
+
     <div class="modal" id="funnyModal" style="max-width: 450px;">
         <div class="modal-title" style="font-size: 20px; text-align: center;">🚫 ACCESS DENIED 🚫</div>
         <div style="line-height: 1.6; color: var(--md-sys-color-on-surface); text-align: center; margin: 20px 0; font-size: 16px;">
@@ -606,6 +816,47 @@
         </div>
         <div class="modal-actions">
             <button class="modal-btn primary" id="closeKeyboardShortcuts">Got it!</button>
+        </div>
+    </div>
+
+    <div class="modal" id="colorPickerModal" style="max-width: 320px;">
+        <div class="modal-title">Choose Color</div>
+        <div class="color-picker-modal-content">
+            <div class="color-picker-canvas-container">
+                <canvas id="colorPickerCanvas" width="256" height="256"></canvas>
+                <div class="color-picker-cursor" id="colorPickerCursor"></div>
+            </div>
+            <div class="color-picker-hue-container">
+                <canvas id="hueCanvas" width="256" height="32"></canvas>
+                <div class="hue-picker-cursor" id="huePickerCursor"></div>
+            </div>
+            <div class="color-picker-preview">
+                <div class="preview-color" id="previewColor"></div>
+                <div class="color-input-group">
+                    <input type="text" id="colorPickerHexInput" placeholder="#000000" maxlength="7">
+                    <div class="alpha-control">
+                        <span style="font-size: 11px; color: var(--md-sys-color-on-surface-variant);">Opacity:</span>
+                        <input type="range" id="colorPickerAlpha" min="0" max="1" step="0.01" value="1">
+
+                    </div>
+                </div>
+            </div>
+            <div class="color-picker-presets">
+                <div class="preset-color" data-color="#6750A4" style="background-color: #6750A4;"></div>
+                <div class="preset-color" data-color="#E9DDFF" style="background-color: #E9DDFF;"></div>
+                <div class="preset-color" data-color="#22005D" style="background-color: #22005D;"></div>
+                <div class="preset-color" data-color="#625B71" style="background-color: #625B71;"></div>
+                <div class="preset-color" data-color="#E8DEF8" style="background-color: #E8DEF8;"></div>
+                <div class="preset-color" data-color="#7E5260" style="background-color: #7E5260;"></div>
+                <div class="preset-color" data-color="#FFD9E3" style="background-color: #FFD9E3;"></div>
+                <div class="preset-color" data-color="#FEF7FF" style="background-color: #FEF7FF;"></div>
+                <div class="preset-color" data-color="#1D1B20" style="background-color: #1D1B20;"></div>
+                <div class="preset-color" data-color="#FFFFFF" style="background-color: #FFFFFF; border: 1px solid #ddd;"></div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn secondary" id="cancelColorPicker">Cancel</button>
+            <button class="modal-btn primary" id="applyColorPicker">Apply</button>
         </div>
     </div>
 

@@ -1,122 +1,271 @@
-const colorThemes = {
-    amethyst: {
-        primary: '#9b59b6',
-        primaryContainer: '#d7bde2',
-        onPrimaryContainer: '#5b2c6f',
-        secondary: '#8e44ad',
-        secondaryContainer: '#c39bd3',
-        tertiary: '#a569bd',
-        tertiaryContainer: '#d2b4de'
+// Enhanced theme configuration system
+const themeConfig = {
+    // Predefined color themes
+    colorThemes: {
+        amethyst: {
+            primary: '#9b59b6',
+            primaryContainer: '#d7bde2',
+            onPrimaryContainer: '#5b2c6f',
+            secondary: '#8e44ad',
+            secondaryContainer: '#c39bd3',
+            tertiary: '#a569bd',
+            tertiaryContainer: '#d2b4de'
+        },
+        ruby: {
+            primary: '#e91e63',
+            primaryContainer: '#f48fb1',
+            onPrimaryContainer: '#880e4f',
+            secondary: '#ec407a',
+            secondaryContainer: '#f8bbd0',
+            tertiary: '#ad1457',
+            tertiaryContainer: '#fce4ec'
+        },
+        jade: {
+            primary: '#2ecc71',
+            primaryContainer: '#a9dfbf',
+            onPrimaryContainer: '#196f3d',
+            secondary: '#58d68d',
+            secondaryContainer: '#abebc6',
+            tertiary: '#28b463',
+            tertiaryContainer: '#d4efdf'
+        },
+        sapphire: {
+            primary: '#3498db',
+            primaryContainer: '#aed6f1',
+            onPrimaryContainer: '#1a5276',
+            secondary: '#5dade2',
+            secondaryContainer: '#a9cce3',
+            tertiary: '#2e86c1',
+            tertiaryContainer: '#d6eaf8'
+        },
+        topaz: {
+            primary: '#f1c40f',
+            primaryContainer: '#f9e79f',
+            onPrimaryContainer: '#7d6608',
+            secondary: '#f4d03f',
+            secondaryContainer: '#fcf3cf',
+            tertiary: '#d4ac0d',
+            tertiaryContainer: '#fef9e7'
+        },
+        rosequartz: {
+            primary: '#f5b7b1',
+            primaryContainer: '#fadbd8',
+            onPrimaryContainer: '#8e44ad',
+            secondary: '#f1948a',
+            secondaryContainer: '#f5cba7',
+            tertiary: '#ec7063',
+            tertiaryContainer: '#fdebd0'
+        },
+        gold: {
+            primary: '#f1c40f',
+            primaryContainer: '#fdebd0',
+            onPrimaryContainer: '#b7950b',
+            secondary: '#f39c12',
+            secondaryContainer: '#fdebd0',
+            tertiary: '#d68910',
+            tertiaryContainer: '#fef5e7'
+        },
+        moonstone: {
+            primary: '#95a5a6',
+            primaryContainer: '#e5e8e8',
+            onPrimaryContainer: '#566573',
+            secondary: '#bdc3c7',
+            secondaryContainer: '#eaeded',
+            tertiary: '#7f8c8d',
+            tertiaryContainer: '#f2f3f4'
+        },
+        sunstone: {
+            primary: '#e67e22',
+            primaryContainer: '#f5cba7',
+            onPrimaryContainer: '#7e57c2',
+            secondary: '#f39c12',
+            secondaryContainer: '#fdebd0',
+            tertiary: '#d35400',
+            tertiaryContainer: '#fae5d3'
+        },
+        peridot: {
+            primary: '#82e0aa',
+            primaryContainer: '#d5f5e3',
+            onPrimaryContainer: '#1d8348',
+            secondary: '#a3e4d7',
+            secondaryContainer: '#d1f2eb',
+            tertiary: '#73c6b6',
+            tertiaryContainer: '#e8f6f3'
+        },
+        obsidian: {
+            primary: '#34495e',
+            primaryContainer: '#aab7b8',
+            onPrimaryContainer: '#17202a',
+            secondary: '#5d6d7e',
+            secondaryContainer: '#d6dbdf',
+            tertiary: '#2c3e50',
+            tertiaryContainer: '#eaeded'
+        },
+        pearl: {
+            primary: '#fdfefe',
+            primaryContainer: '#f4f6f7',
+            onPrimaryContainer: '#5d6d7e',
+            secondary: '#f8f9f9',
+            secondaryContainer: '#f2f3f4',
+            tertiary: '#f0f3f4',
+            tertiaryContainer: '#e5e8e8'
+        }
     },
-    ruby: {
-        primary: '#e91e63',
-        primaryContainer: '#f48fb1',
-        onPrimaryContainer: '#880e4f',
-        secondary: '#ec407a',
-        secondaryContainer: '#f8bbd0',
-        tertiary: '#ad1457',
-        tertiaryContainer: '#fce4ec'
+
+    // Available fonts for themes
+    availableFonts: [
+        { name: 'Google Sans', family: "'Google Sans', sans-serif" },
+        { name: 'Inter', family: 'Inter, sans-serif' },
+        { name: 'Roboto', family: 'Roboto, sans-serif' },
+        { name: 'Open Sans', family: "'Open Sans', sans-serif" },
+        { name: 'Lato', family: 'Lato, sans-serif' },
+        { name: 'Montserrat', family: 'Montserrat, sans-serif' },
+        { name: 'Poppins', family: 'Poppins, sans-serif' },
+        { name: 'Source Sans Pro', family: "'Source Sans Pro', sans-serif" },
+        { name: 'Nunito', family: 'Nunito, sans-serif' },
+        { name: 'Raleway', family: 'Raleway, sans-serif' },
+        { name: 'Ubuntu', family: 'Ubuntu, sans-serif' },
+        { name: 'Playfair Display', family: "'Playfair Display', serif" },
+        { name: 'Merriweather', family: 'Merriweather, serif' },
+        { name: 'Georgia', family: 'Georgia, serif' },
+        { name: 'Times New Roman', family: "'Times New Roman', serif" }
+    ],
+
+    // Custom themes storage
+    customThemes: {},
+
+    // Theme management functions
+    saveCustomTheme: function(name, themeData) {
+        this.customThemes[name] = {
+            ...themeData,
+            name: name,
+            type: 'custom',
+            created: new Date().toISOString(),
+            colors: themeData.colors,
+            fonts: themeData.fonts,
+            metadata: themeData.metadata || {}
+        };
+        this.saveCustomThemes();
     },
-    jade: {
-        primary: '#2ecc71',
-        primaryContainer: '#a9dfbf',
-        onPrimaryContainer: '#196f3d',
-        secondary: '#58d68d',
-        secondaryContainer: '#abebc6',
-        tertiary: '#28b463',
-        tertiaryContainer: '#d4efdf'
+
+    deleteCustomTheme: function(name) {
+        delete this.customThemes[name];
+        this.saveCustomThemes();
     },
-    sapphire: {
-        primary: '#3498db',
-        primaryContainer: '#aed6f1',
-        onPrimaryContainer: '#1a5276',
-        secondary: '#5dade2',
-        secondaryContainer: '#a9cce3',
-        tertiary: '#2e86c1',
-        tertiaryContainer: '#d6eaf8'
+
+    loadCustomThemes: function() {
+        const saved = localStorage.getItem('luminaCustomThemes');
+        if (saved) {
+            try {
+                this.customThemes = JSON.parse(saved);
+            } catch (e) {
+                console.error('Error loading custom themes:', e);
+                this.customThemes = {};
+            }
+        }
     },
-    topaz: {
-        primary: '#f1c40f',
-        primaryContainer: '#f9e79f',
-        onPrimaryContainer: '#7d6608',
-        secondary: '#f4d03f',
-        secondaryContainer: '#fcf3cf',
-        tertiary: '#d4ac0d',
-        tertiaryContainer: '#fef9e7'
+
+    saveCustomThemes: function() {
+        localStorage.setItem('luminaCustomThemes', JSON.stringify(this.customThemes));
     },
-    rosequartz: {
-        primary: '#f5b7b1',
-        primaryContainer: '#fadbd8',
-        onPrimaryContainer: '#8e44ad',
-        secondary: '#f1948a',
-        secondaryContainer: '#f5cba7',
-        tertiary: '#ec7063',
-        tertiaryContainer: '#fdebd0'
+
+    exportTheme: function(themeName) {
+        const theme = this.getTheme(themeName);
+        if (!theme) return null;
+
+        return {
+            name: themeName,
+            type: theme.type || 'predefined',
+            colors: theme.colors || theme,
+            fonts: theme.fonts || { primary: "'Google Sans', sans-serif" },
+            metadata: theme.metadata || {},
+            exportDate: new Date().toISOString(),
+            version: '1.0'
+        };
     },
-    gold: {
-        primary: '#f1c40f',
-        primaryContainer: '#fdebd0',
-        onPrimaryContainer: '#b7950b',
-        secondary: '#f39c12',
-        secondaryContainer: '#fdebd0',
-        tertiary: '#d68910',
-        tertiaryContainer: '#fef5e7'
+
+    importTheme: function(themeData) {
+        if (!themeData.name || !themeData.colors) {
+            throw new Error('Invalid theme format');
+        }
+
+        const themeName = themeData.name;
+        this.customThemes[themeName] = {
+            name: themeName,
+            type: 'custom',
+            colors: themeData.colors,
+            fonts: themeData.fonts || { primary: "'Google Sans', sans-serif" },
+            metadata: themeData.metadata || {},
+            imported: new Date().toISOString()
+        };
+
+        this.saveCustomThemes();
+        return themeName;
     },
-    moonstone: {
-        primary: '#95a5a6',
-        primaryContainer: '#e5e8e8',
-        onPrimaryContainer: '#566573',
-        secondary: '#bdc3c7',
-        secondaryContainer: '#eaeded',
-        tertiary: '#7f8c8d',
-        tertiaryContainer: '#f2f3f4'
+
+    getTheme: function(themeName) {
+        // Check custom themes first
+        if (this.customThemes[themeName]) {
+            return this.customThemes[themeName];
+        }
+
+        // Check predefined themes
+        if (this.colorThemes[themeName]) {
+            return {
+                name: themeName,
+                type: 'predefined',
+                colors: this.colorThemes[themeName],
+                fonts: { primary: "'Google Sans', sans-serif" },
+                metadata: { builtIn: true }
+            };
+        }
+
+        return null;
     },
-    sunstone: {
-        primary: '#e67e22',
-        primaryContainer: '#f5cba7',
-        onPrimaryContainer: '#7e57c2',
-        secondary: '#f39c12',
-        secondaryContainer: '#fdebd0',
-        tertiary: '#d35400',
-        tertiaryContainer: '#fae5d3'
+
+    getAllThemes: function() {
+        const themes = {};
+
+        // Add predefined themes
+        Object.keys(this.colorThemes).forEach(name => {
+            themes[name] = {
+                name: name,
+                type: 'predefined',
+                colors: this.colorThemes[name],
+                fonts: { primary: "'Google Sans', sans-serif" },
+                metadata: { builtIn: true }
+            };
+        });
+
+        // Add custom themes
+        Object.keys(this.customThemes).forEach(name => {
+            themes[name] = this.customThemes[name];
+        });
+
+        return themes;
     },
-    peridot: {
-        primary: '#82e0aa',
-        primaryContainer: '#d5f5e3',
-        onPrimaryContainer: '#1d8348',
-        secondary: '#a3e4d7',
-        secondaryContainer: '#d1f2eb',
-        tertiary: '#73c6b6',
-        tertiaryContainer: '#e8f6f3'
-    },
-    obsidian: {
-        primary: '#34495e',
-        primaryContainer: '#aab7b8',
-        onPrimaryContainer: '#17202a',
-        secondary: '#5d6d7e',
-        secondaryContainer: '#d6dbdf',
-        tertiary: '#2c3e50',
-        tertiaryContainer: '#eaeded'
-    },
-    pearl: {
-        primary: '#fdfefe',
-        primaryContainer: '#f4f6f7',
-        onPrimaryContainer: '#5d6d7e',
-        secondary: '#f8f9f9',
-        secondaryContainer: '#f2f3f4',
-        tertiary: '#f0f3f4',
-        tertiaryContainer: '#e5e8e8'
+
+    getThemeNames: function() {
+        return {
+            predefined: Object.keys(this.colorThemes),
+            custom: Object.keys(this.customThemes)
+        };
     }
 };
 
+// Legacy compatibility - keep the old colorThemes object for backward compatibility
+const colorThemes = themeConfig.colorThemes;
+
 const state = {
     darkMode: false,
+    autoDarkMode: false,
     colorTheme: 'amethyst',
+    customTheme: null, // For storing current custom theme data
+    fontFamily: "'Google Sans', sans-serif",
     showWeather: true,
     showShortcuts: true,
     showAnimations: false,
     searchSuggestions: true,
-    animatedBlobs: false,
     openInSameTab: true,
     shiftEnter: true,
     manualCity: '',
@@ -135,7 +284,12 @@ const state = {
         { id: Date.now(), title: "Hey There!", content: "Hello! Welcome to Lumina; This is your first note! You can edit the title by changing the text above me. then, edit the content by typing in it, and delete freely with the 'x' button! You can also use markdown to format your text. Click the eye icon to toggle between edit and preview modes, and the help button to learn more about markdown. Last of all, have fun!" }
     ],
     currentNoteId: null,
-    todos: [],
+    todos: [
+        { text: "Welcome to Lumina todos!", completed: false, category: "General" },
+        { text: "Try creating a new todo with categories", completed: false, category: "General" },
+        { text: "Use the filter dropdown to sort by category", completed: false, category: "General" }
+    ],
+    todoCategories: ['General', 'Work', 'Personal', 'Shopping', 'Health'],
     searchHistory: [],
     showSearchHistory: true,
     bookmarks: [
@@ -147,10 +301,34 @@ const state = {
     customSearchEngine: '',
     backgroundImage: '',
     backgroundOpacity: 0.3,
+    showBackgroundShapes: false,
     weatherPosition: null,
     clockPosition: null,
     calendarPosition: null,
     todoPosition: null,
+    calendarEvents: [
+        // Sample events for demonstration
+        {
+            id: Date.now(),
+            title: 'Team Meeting',
+            description: 'Weekly team standup meeting',
+            date: '2024-12-20',
+            startTime: '10:00',
+            endTime: '11:00',
+            category: 'Work',
+            color: '#3498db'
+        },
+        {
+            id: Date.now() + 1,
+            title: 'Lunch with Sarah',
+            description: 'Catch up over lunch',
+            date: '2024-12-22',
+            startTime: '12:30',
+            endTime: '14:00',
+            category: 'Personal',
+            color: '#2ecc71'
+        }
+    ],
     shortcuts: [
         {label: 'YouTube', url: 'https://youtube.com', icon: 'play_circle'},
         {label: 'GitHub', url: 'https://github.com', icon: 'code'},
@@ -211,6 +389,9 @@ const state = {
 //                         <span>Search Reddit</span>
 const defaultState = JSON.parse(JSON.stringify(state));
 
+// Set default auto dark mode based on system preference
+defaultState.autoDarkMode = detectSystemDarkMode();
+
 // Mobile device detection function
 function detectMobileDevice() {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -219,6 +400,11 @@ function detectMobileDevice() {
     const isSmallScreen = window.innerWidth <= 768;
 
     return isMobileUA || (isTouchDevice && isSmallScreen);
+}
+
+// Detect system dark mode preference
+function detectSystemDarkMode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
 // Get effective mobile state (considers forced modes)
@@ -244,8 +430,15 @@ const searchTypes = [
 function loadSettings() {
     const saved = localStorage.getItem('searchSettings');
     if (saved) {
-        Object.assign(state, JSON.parse(saved));
+        try {
+            Object.assign(state, JSON.parse(saved));
+        } catch (e) {
+            console.error('Error loading settings:', e);
+        }
     }
+
+    // Load custom themes
+    themeConfig.loadCustomThemes();
 
     // Detect mobile device on load
     state.isMobile = detectMobileDevice();
@@ -258,26 +451,63 @@ function saveSettings() {
 }
 
 function applyColorTheme(themeName) {
-    const theme = colorThemes[themeName];
+    const theme = themeConfig.getTheme(themeName);
+    if (!theme) return;
+
     const root = document.documentElement;
-    root.style.setProperty('--md-sys-color-primary', theme.primary);
-    root.style.setProperty('--md-sys-color-primary-container', theme.primaryContainer);
-    root.style.setProperty('--md-sys-color-on-primary-container', theme.onPrimaryContainer);
-    root.style.setProperty('--md-sys-color-secondary', theme.secondary);
-    root.style.setProperty('--md-sys-color-secondary-container', theme.secondaryContainer);
-    root.style.setProperty('--md-sys-color-tertiary', theme.tertiary);
-    root.style.setProperty('--md-sys-color-tertiary-container', theme.tertiaryContainer);
+
+    // Apply color variables
+    if (theme.colors) {
+        root.style.setProperty('--md-sys-color-primary', theme.colors.primary);
+        root.style.setProperty('--md-sys-color-primary-container', theme.colors.primaryContainer);
+        root.style.setProperty('--md-sys-color-on-primary-container', theme.colors.onPrimaryContainer);
+        root.style.setProperty('--md-sys-color-secondary', theme.colors.secondary);
+        root.style.setProperty('--md-sys-color-secondary-container', theme.colors.secondaryContainer);
+        root.style.setProperty('--md-sys-color-tertiary', theme.colors.tertiary);
+        root.style.setProperty('--md-sys-color-tertiary-container', theme.colors.tertiaryContainer);
+    }
+
+    // Apply font family
+    if (theme.fonts && theme.fonts.primary) {
+        root.style.setProperty('--font-family-primary', theme.fonts.primary);
+        state.fontFamily = theme.fonts.primary;
+    }
+
+    // Update font family display in settings if available
+    const fontDisplay = document.getElementById('currentFontDisplay');
+    if (fontDisplay) {
+        const fontName = themeConfig.availableFonts.find(f => f.family === theme.fonts?.primary)?.name || 'Google Sans';
+        fontDisplay.textContent = fontName;
+    }
 }
 
 function applySettings() {
-    document.documentElement.setAttribute('data-theme', state.darkMode ? 'dark' : 'light');
-    document.getElementById('darkModeBtn').querySelector('.material-icons-round').textContent =
-        state.darkMode ? 'light_mode' : 'dark_mode';
+    // Handle auto dark mode
+    let effectiveDarkMode = state.darkMode;
+    if (state.autoDarkMode) {
+        effectiveDarkMode = detectSystemDarkMode();
+    }
 
-    const darkModeSwitch = document.querySelector('#darkModeToggle .switch');
-    if (darkModeSwitch) darkModeSwitch.classList.toggle('active', state.darkMode);
+    document.documentElement.setAttribute('data-theme', effectiveDarkMode ? 'dark' : 'light');
+
+    // Update header button icon based on current mode
+    const darkModeIcon = document.getElementById('darkModeBtn').querySelector('.material-icons-round');
+    if (state.autoDarkMode) {
+        darkModeIcon.textContent = 'auto_fix_high';
+    } else if (effectiveDarkMode) {
+        darkModeIcon.textContent = 'dark_mode';
+    } else {
+        darkModeIcon.textContent = 'light_mode';
+    }
+
 
     applyColorTheme(state.colorTheme);
+
+    // Apply font family
+    if (state.fontFamily) {
+        document.body.style.fontFamily = state.fontFamily;
+        document.documentElement.style.setProperty('--font-family-primary', state.fontFamily);
+    }
 
     // Apply mobile mode styles
     document.body.classList.toggle('mobile-mode', isInMobileMode());
@@ -293,7 +523,6 @@ function applySettings() {
     document.getElementById('clock').style.display = (state.showClock && !hideWidgetsOnMobile) ? 'block' : 'none';
     document.getElementById('greeting').style.display = state.showGreeting ? 'block' : 'none';
     document.getElementById('calendar').style.display = (state.showCalendar && !hideWidgetsOnMobile) ? 'block' : 'none';
-    document.getElementById('todoWidget').style.display = (state.showTodo && !hideWidgetsOnMobile) ? 'block' : 'none';
 
     const backgroundImage = document.getElementById('backgroundImage');
     if (state.backgroundImage) {
@@ -302,6 +531,11 @@ function applySettings() {
     } else {
         backgroundImage.style.backgroundImage = '';
         backgroundImage.style.opacity = '0';
+    }
+
+    const backgroundShapes = document.getElementById('backgroundShapes');
+    if (backgroundShapes) {
+        backgroundShapes.style.opacity = state.showBackgroundShapes ? '1' : '0';
     }
 
     if (state.weatherPosition) {
@@ -324,16 +558,9 @@ function applySettings() {
         calendar.style.right = 'auto';
     }
 
-    if (state.todoPosition) {
-        const todo = document.getElementById('todoWidget');
-        todo.style.left = state.todoPosition.left + 'px';
-        todo.style.top = state.todoPosition.top + 'px';
-        todo.style.right = 'auto';
-    }
 
 
     document.getElementById('searchSuggestions').style.display = state.searchSuggestions ? 'flex' : 'none';
-    document.body.classList.toggle('animated-blobs', state.animatedBlobs);
 
     if (state.manualCity) {
         document.getElementById('manualCity').value = state.manualCity;
@@ -352,18 +579,30 @@ function applySettings() {
         customInput.style.display = state.searchEngine === 'custom' ? 'block' : 'none';
     }
 
-    const mainToggles = ['showWeather', 'showClock', 'showCalendar', 'showTodo', 'showShortcuts', 'showGreeting', 'showAnimations'];
-    document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
-        const sw = opt.querySelector('.switch');
-        if (mainToggles[idx]) {
-            sw.classList.toggle('active', state[mainToggles[idx]]);
+    // Simple toggle state application
+    const toggleMap = {
+        'weatherToggle': 'showWeather',
+        'clockToggle': 'showClock',
+        'calendarToggle': 'showCalendar',
+        'todoToggle': 'showTodo',
+        'shortcutsToggle': 'showShortcuts',
+        'greetingToggle': 'showGreeting',
+        'backgroundShapesToggle': 'showBackgroundShapes'
+    };
+
+    Object.entries(toggleMap).forEach(([id, key]) => {
+        const toggle = document.getElementById(id);
+        if (toggle) {
+            const sw = toggle.querySelector('.switch');
+            if (sw) {
+                sw.classList.toggle('active', state[key]);
+            }
         }
     });
 
 
     const devToggles = [
         {id: 'searchSuggestionsToggle', key: 'searchSuggestions'},
-        {id: 'animatedBlobsToggle', key: 'animatedBlobs'},
         {id: 'openInSameTabToggle', key: 'openInSameTab'},
         {id: 'shiftEnterToggle', key: 'shiftEnter'}
     ];
@@ -864,6 +1103,12 @@ function setupBookmarks() {
     const bookmarksToggle = document.getElementById('bookmarksToggle');
     const bookmarksClose = document.getElementById('bookmarksClose');
 
+    console.log('Bookmarks elements:', {
+        bookmarksSidebar,
+        bookmarksToggle,
+        bookmarksClose
+    });
+
     if (!bookmarksToggle || !bookmarksClose || !bookmarksSidebar) return;
 
     bookmarksToggle.addEventListener('click', (e) => {
@@ -897,11 +1142,34 @@ function showFunnyModal() {
     overlay.classList.add('visible');
 }
 
+// Dark mode button cycles through: manual light -> manual dark -> auto
 document.getElementById('darkModeBtn').addEventListener('click', () => {
-    state.darkMode = !state.darkMode;
+    if (state.autoDarkMode) {
+        // Currently auto, switch to manual dark
+        state.autoDarkMode = false;
+        state.darkMode = true;
+    } else if (state.darkMode) {
+        // Currently manual dark, switch to manual light
+        state.darkMode = false;
+    } else {
+        // Currently manual light, switch to auto
+        state.darkMode = false;
+        state.autoDarkMode = true;
+    }
     applySettings();
     saveSettings();
 });
+
+
+// Listen for system dark mode preference changes
+if (window.matchMedia) {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', (e) => {
+        if (state.autoDarkMode) {
+            applySettings();
+        }
+    });
+}
 
 document.getElementById('themeBtn').addEventListener('click', () => {
     const themes = Object.keys(colorThemes);
@@ -909,6 +1177,871 @@ document.getElementById('themeBtn').addEventListener('click', () => {
     state.colorTheme = themes[(currentIdx + 1) % themes.length];
     applySettings();
     saveSettings();
+});
+
+// Custom Theme Creator functionality
+let customThemeData = {
+    colors: {
+        primary: '#6750A4',
+        primaryContainer: '#E9DDFF',
+        onPrimaryContainer: '#22005D',
+        secondary: '#625B71',
+        secondaryContainer: '#E8DEF8',
+        tertiary: '#7E5260',
+        tertiaryContainer: '#FFD9E3'
+    },
+    fonts: {
+        primary: "'Google Sans', sans-serif"
+    }
+};
+
+let currentColorPicker = null;
+let colorPickerModal = null;
+let colorPickerCanvas = null;
+let hueCanvas = null;
+let isDraggingCanvas = false;
+let isDraggingHue = false;
+
+function initializeCustomThemeCreator() {
+    // Initialize color pickers with current theme values
+    updateColorPickersFromCurrentTheme();
+
+    // Setup color picker event listeners
+    setupColorPickerListeners();
+
+    // Setup font selection listener
+    setupFontSelectionListener();
+
+    // Setup theme action listeners
+    setupThemeActionListeners();
+
+    // Setup theme management listeners
+    setupThemeManagementListeners();
+
+    // Setup custom color picker modal
+    setupCustomColorPicker();
+
+    // Initial preview update
+    updateThemePreview();
+}
+
+function updateColorPickersFromCurrentTheme() {
+    const currentTheme = themeConfig.getTheme(state.colorTheme);
+    if (currentTheme && currentTheme.colors) {
+        customThemeData.colors = { ...currentTheme.colors };
+        customThemeData.fonts = { ...currentTheme.fonts };
+        updateColorPickerInputs();
+        updateFontSelectionDisplay();
+    }
+}
+
+function updateFontSelectionDisplay() {
+    const fontSelect = document.getElementById('fontFamilySelect');
+    const fontDisplay = document.getElementById('currentFontDisplay');
+
+    if (fontSelect) {
+        fontSelect.value = customThemeData.fonts.primary;
+    }
+
+    if (fontDisplay) {
+        const fontName = themeConfig.availableFonts.find(f => f.family === customThemeData.fonts.primary)?.name || 'Google Sans';
+        fontDisplay.textContent = `Current: ${fontName}`;
+    }
+}
+
+function updateColorPickerInputs() {
+    // Update color picker inputs
+    document.getElementById('primaryColorPicker').value = customThemeData.colors.primary;
+    document.getElementById('primaryColorText').value = customThemeData.colors.primary;
+    document.getElementById('primaryContainerColorPicker').value = customThemeData.colors.primaryContainer;
+    document.getElementById('primaryContainerColorText').value = customThemeData.colors.primaryContainer;
+    document.getElementById('onPrimaryContainerColorPicker').value = customThemeData.colors.onPrimaryContainer;
+    document.getElementById('onPrimaryContainerColorText').value = customThemeData.colors.onPrimaryContainer;
+    document.getElementById('secondaryColorPicker').value = customThemeData.colors.secondary;
+    document.getElementById('secondaryColorText').value = customThemeData.colors.secondary;
+    document.getElementById('secondaryContainerColorPicker').value = customThemeData.colors.secondaryContainer;
+    document.getElementById('secondaryContainerColorText').value = customThemeData.colors.secondaryContainer;
+    document.getElementById('tertiaryColorPicker').value = customThemeData.colors.tertiary;
+    document.getElementById('tertiaryColorText').value = customThemeData.colors.tertiary;
+    document.getElementById('tertiaryContainerColorPicker').value = customThemeData.colors.tertiaryContainer;
+    document.getElementById('tertiaryContainerColorText').value = customThemeData.colors.tertiaryContainer;
+
+    // Update font selection
+    document.getElementById('fontFamilySelect').value = customThemeData.fonts.primary;
+}
+
+function setupColorPickerListeners() {
+    // Custom color picker click listeners
+    const colorPickerIds = [
+        'primary', 'primaryContainer', 'onPrimaryContainer',
+        'secondary', 'secondaryContainer', 'tertiary', 'tertiaryContainer'
+    ];
+
+    colorPickerIds.forEach(id => {
+        const colorPicker = document.getElementById(`${id}ColorPicker`);
+        const textInput = document.getElementById(`${id}ColorText`);
+
+        if (colorPicker) {
+            colorPicker.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentColorPicker = {
+                    element: colorPicker,
+                    colorKey: id,
+                    currentColor: customThemeData.colors[id]
+                };
+                showColorPickerModal();
+            });
+        }
+
+        if (textInput) {
+            textInput.addEventListener('input', (e) => {
+                const value = e.target.value.trim();
+                if (/^#[0-9A-F]{6}$/i.test(value)) {
+                    customThemeData.colors[id] = value;
+                    updateColorPickerDisplay(id, value);
+                    updateThemePreview();
+                }
+            });
+
+            textInput.addEventListener('blur', (e) => {
+                const value = e.target.value.trim();
+                if (!/^#[0-9A-F]{6}$/i.test(value)) {
+                    e.target.value = customThemeData.colors[id];
+                }
+            });
+        }
+    });
+}
+
+function setupFontSelectionListener() {
+    const fontSelect = document.getElementById('fontFamilySelect');
+    const fontDisplay = document.getElementById('currentFontDisplay');
+
+    if (fontSelect) {
+        fontSelect.addEventListener('change', (e) => {
+            customThemeData.fonts.primary = e.target.value;
+            updateFontSelectionDisplay();
+            updateThemePreview();
+        });
+    }
+
+    // Ensure font selection is visible
+    if (fontSelect) {
+        fontSelect.style.display = 'block';
+        fontSelect.style.visibility = 'visible';
+    }
+
+    if (fontDisplay) {
+        fontDisplay.style.display = 'block';
+        fontDisplay.style.visibility = 'visible';
+    }
+}
+
+function updateThemePreview() {
+    const root = document.documentElement;
+
+    // Apply preview colors as CSS custom properties
+    root.style.setProperty('--preview-primary', customThemeData.colors.primary);
+    root.style.setProperty('--preview-primary-container', customThemeData.colors.primaryContainer);
+    root.style.setProperty('--preview-on-primary-container', customThemeData.colors.onPrimaryContainer);
+    root.style.setProperty('--preview-secondary', customThemeData.colors.secondary);
+    root.style.setProperty('--preview-secondary-container', customThemeData.colors.secondaryContainer);
+    root.style.setProperty('--preview-tertiary', customThemeData.colors.tertiary);
+    root.style.setProperty('--preview-tertiary-container', customThemeData.colors.tertiaryContainer);
+    root.style.setProperty('--preview-font-family', customThemeData.fonts.primary);
+
+    // Update preview elements
+    const previewPrimary = document.getElementById('previewPrimary');
+    const previewSecondary = document.getElementById('previewSecondary');
+    const previewSurface = document.getElementById('previewSurface');
+
+    if (previewPrimary) {
+        previewPrimary.style.background = 'var(--preview-primary)';
+        previewPrimary.style.color = customThemeData.colors.onPrimaryContainer;
+        previewPrimary.style.fontFamily = customThemeData.fonts.primary;
+    }
+
+    if (previewSecondary) {
+        previewSecondary.style.background = 'var(--preview-secondary-container)';
+        previewSecondary.style.color = customThemeData.colors.onPrimaryContainer;
+        previewSecondary.style.fontFamily = customThemeData.fonts.primary;
+    }
+
+    if (previewSurface) {
+        previewSurface.style.background = 'var(--md-sys-color-surface-container)';
+        previewSurface.style.color = 'var(--md-sys-color-on-surface)';
+        previewSurface.style.fontFamily = customThemeData.fonts.primary;
+    }
+}
+
+function setupThemeActionListeners() {
+    // Reset to current theme
+    document.getElementById('resetCustomTheme')?.addEventListener('click', () => {
+        updateColorPickersFromCurrentTheme();
+        updateThemePreview();
+    });
+
+    // Apply custom theme
+    document.getElementById('applyCustomTheme')?.addEventListener('click', () => {
+        applyCustomThemeToApp();
+    });
+}
+
+function applyCustomThemeToApp() {
+    const root = document.documentElement;
+
+    // Apply the custom theme colors
+    Object.entries(customThemeData.colors).forEach(([key, value]) => {
+        root.style.setProperty(`--md-sys-color-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`, value);
+    });
+
+    // Apply the custom font
+    root.style.setProperty('--font-family-primary', customThemeData.fonts.primary);
+    document.body.style.fontFamily = customThemeData.fonts.primary;
+
+    // Update state
+    state.fontFamily = customThemeData.fonts.primary;
+
+    // Show success feedback
+    showThemeAppliedFeedback();
+}
+
+function showThemeAppliedFeedback() {
+    const applyBtn = document.getElementById('applyCustomTheme');
+    const originalText = applyBtn.innerHTML;
+
+    applyBtn.innerHTML = '<span class="material-icons-round">check</span> Applied!';
+    applyBtn.style.background = 'var(--md-sys-color-primary)';
+    applyBtn.style.color = 'var(--md-sys-color-on-primary)';
+
+    setTimeout(() => {
+        applyBtn.innerHTML = originalText;
+        applyBtn.style.background = '';
+        applyBtn.style.color = '';
+    }, 2000);
+}
+
+function setupThemeManagementListeners() {
+    // Save custom theme
+    document.getElementById('saveCustomTheme')?.addEventListener('click', () => {
+        const themeName = document.getElementById('themeNameInput').value.trim();
+        if (themeName) {
+            saveCustomTheme(themeName);
+        } else {
+            alert('Please enter a name for your theme.');
+        }
+    });
+
+    // Export theme
+    document.getElementById('exportTheme')?.addEventListener('click', () => {
+        exportCurrentCustomTheme();
+    });
+
+    // Import theme
+    document.getElementById('importTheme')?.addEventListener('click', () => {
+        document.getElementById('importThemeFile').click();
+    });
+
+    // Import theme file change
+    document.getElementById('importThemeFile')?.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            importThemeFromFile(file);
+        }
+    });
+}
+
+function setupCustomColorPicker() {
+    colorPickerModal = document.getElementById('colorPickerModal');
+    colorPickerCanvas = document.getElementById('colorPickerCanvas');
+    hueCanvas = document.getElementById('hueCanvas');
+
+    if (!colorPickerModal || !colorPickerCanvas || !hueCanvas) return;
+
+    // Setup modal event listeners
+    document.getElementById('cancelColorPicker')?.addEventListener('click', hideColorPickerModal);
+    document.getElementById('applyColorPicker')?.addEventListener('click', applyColorPicker);
+
+    // Setup canvas event listeners
+    colorPickerCanvas.addEventListener('mousedown', startCanvasDrag);
+    document.addEventListener('mousemove', handleCanvasDrag);
+    document.addEventListener('mouseup', stopCanvasDrag);
+
+    colorPickerCanvas.addEventListener('touchstart', handleCanvasTouch);
+    colorPickerCanvas.addEventListener('touchmove', handleCanvasTouch);
+
+    hueCanvas.addEventListener('mousedown', startHueDrag);
+    document.addEventListener('mousemove', handleHueDrag);
+    document.addEventListener('mouseup', stopHueDrag);
+
+    hueCanvas.addEventListener('touchstart', handleHueTouch);
+    hueCanvas.addEventListener('touchmove', handleHueTouch);
+
+    // Setup input listeners
+    document.getElementById('colorPickerHexInput')?.addEventListener('input', handleHexInput);
+    document.getElementById('colorPickerAlpha')?.addEventListener('input', handleAlphaInput);
+
+    // Setup preset colors
+    document.querySelectorAll('.preset-color').forEach(preset => {
+        preset.addEventListener('click', () => {
+            const color = preset.dataset.color;
+            setColorPickerColor(color);
+        });
+    });
+
+    // Initialize canvases
+    initializeColorPickerCanvases();
+}
+
+function showColorPickerModal() {
+    if (!colorPickerModal || !currentColorPicker) return;
+
+    colorPickerModal.classList.add('visible');
+    document.getElementById('overlay').classList.add('visible');
+
+    // Initialize color picker with current color
+    setColorPickerColor(currentColorPicker.currentColor);
+    drawColorPickerCanvases();
+}
+
+function hideColorPickerModal() {
+    if (colorPickerModal) {
+        colorPickerModal.classList.remove('visible');
+        document.getElementById('overlay').classList.remove('visible');
+    }
+    currentColorPicker = null;
+}
+
+function applyColorPicker() {
+    if (!currentColorPicker) return;
+
+    const hexInput = document.getElementById('colorPickerHexInput');
+    const alpha = document.getElementById('colorPickerAlpha').value;
+
+    if (hexInput) {
+        const color = hexInput.value + Math.round(alpha * 255).toString(16).padStart(2, '0');
+        updateColorFromPicker(color);
+    }
+
+    hideColorPickerModal();
+}
+
+function updateColorFromPicker(color) {
+    if (!currentColorPicker) return;
+
+    customThemeData.colors[currentColorPicker.colorKey] = color;
+    updateColorPickerDisplay(currentColorPicker.colorKey, color);
+    updateThemePreview();
+}
+
+function updateColorPickerDisplay(colorKey, color) {
+    const colorPicker = document.getElementById(`${colorKey}ColorPicker`);
+    const textInput = document.getElementById(`${colorKey}ColorText`);
+
+    if (colorPicker) {
+        const swatch = colorPicker.querySelector('.color-swatch');
+        const value = colorPicker.querySelector('.color-value');
+
+        if (swatch) swatch.style.backgroundColor = color;
+        if (value) value.textContent = color;
+        colorPicker.dataset.color = color;
+    }
+
+    if (textInput) {
+        textInput.value = color;
+    }
+}
+
+function setColorPickerColor(color) {
+    const hexInput = document.getElementById('colorPickerHexInput');
+    const previewColor = document.getElementById('previewColor');
+    const alphaSlider = document.getElementById('colorPickerAlpha');
+    const alphaValue = document.getElementById('alphaValue');
+
+    if (hexInput) hexInput.value = color.length > 7 ? color.substring(0, 7) : color;
+    if (previewColor) previewColor.style.backgroundColor = color;
+    if (alphaSlider) {
+        const alpha = color.length > 7 ? parseInt(color.substring(7), 16) / 255 : 1;
+        alphaSlider.value = alpha;
+    }
+    if (alphaValue) alphaValue.textContent = Math.round((color.length > 7 ? parseInt(color.substring(7), 16) / 255 : 1) * 100) + '%';
+
+    // Parse color for canvas positioning
+    const rgb = hexToRgb(color.length > 7 ? color.substring(0, 7) : color);
+    if (rgb) {
+        const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+        updateCanvasPositions(hsv.h, hsv.s, hsv.v);
+    }
+}
+
+function initializeColorPickerCanvases() {
+    drawHueCanvas();
+    drawColorPickerCanvases();
+}
+
+function drawHueCanvas() {
+    if (!hueCanvas) return;
+
+    const ctx = hueCanvas.getContext('2d');
+    const width = hueCanvas.width;
+    const height = hueCanvas.height;
+
+    for (let i = 0; i < width; i++) {
+        const hue = (i / width) * 360;
+        ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+        ctx.fillRect(i, 0, 1, height);
+    }
+}
+
+function drawColorPickerCanvases() {
+    if (!colorPickerCanvas) return;
+
+    const ctx = colorPickerCanvas.getContext('2d');
+    const width = colorPickerCanvas.width;
+    const height = colorPickerCanvas.height;
+
+    const hexInput = document.getElementById('colorPickerHexInput');
+    const hue = hexInput ? parseInt(hexInput.value.replace('#', '').substring(0, 2), 16) / 255 * 360 : 0;
+
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+            const saturation = (x / width) * 100;
+            const value = ((height - y) / height) * 100;
+            ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${value}%)`;
+            ctx.fillRect(x, y, 1, 1);
+        }
+    }
+}
+
+function updateCanvasPositions(hue, saturation, value) {
+    if (!colorPickerCanvas || !hueCanvas) return;
+
+    // Update color picker cursor
+    const canvasRect = colorPickerCanvas.getBoundingClientRect();
+    const x = (saturation / 100) * canvasRect.width;
+    const y = ((100 - value) / 100) * canvasRect.height;
+
+    const cursor = document.getElementById('colorPickerCursor');
+    if (cursor) {
+        cursor.style.left = x + 'px';
+        cursor.style.top = y + 'px';
+        cursor.style.display = 'block';
+    }
+
+    // Update hue cursor
+    const hueRect = hueCanvas.getBoundingClientRect();
+    const hueX = (hue / 360) * hueRect.width;
+
+    const hueCursor = document.getElementById('huePickerCursor');
+    if (hueCursor) {
+        hueCursor.style.left = hueX + 'px';
+        hueCursor.style.display = 'block';
+    }
+}
+
+function startCanvasDrag(e) {
+    isDraggingCanvas = true;
+    handleCanvasDrag(e);
+}
+
+function handleCanvasDrag(e) {
+    if (!isDraggingCanvas || !colorPickerCanvas) return;
+
+    const rect = colorPickerCanvas.getBoundingClientRect();
+    const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+    const y = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+
+    const saturation = (x / rect.width) * 100;
+    const value = ((rect.height - y) / rect.height) * 100;
+
+    updateColorFromCanvas(saturation, value);
+}
+
+function startHueDrag(e) {
+    isDraggingHue = true;
+    handleHueDrag(e);
+}
+
+function handleHueDrag(e) {
+    if (!isDraggingHue || !hueCanvas) return;
+
+    const rect = hueCanvas.getBoundingClientRect();
+    const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+    const hue = (x / rect.width) * 360;
+
+    updateHue(hue);
+}
+
+function stopCanvasDrag() {
+    isDraggingCanvas = false;
+}
+
+function stopHueDrag() {
+    isDraggingHue = false;
+}
+
+function handleCanvasTouch(e) {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const rect = colorPickerCanvas.getBoundingClientRect();
+        const x = Math.max(0, Math.min(rect.width, touch.clientX - rect.left));
+        const y = Math.max(0, Math.min(rect.height, touch.clientY - rect.top));
+
+        const saturation = (x / rect.width) * 100;
+        const value = ((rect.height - y) / rect.height) * 100;
+
+        updateColorFromCanvas(saturation, value);
+    }
+}
+
+function handleHueTouch(e) {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        const rect = hueCanvas.getBoundingClientRect();
+        const x = Math.max(0, Math.min(rect.width, touch.clientX - rect.left));
+        const hue = (x / rect.width) * 360;
+
+        updateHue(hue);
+    }
+}
+
+function updateColorFromCanvas(saturation, value) {
+    const hexInput = document.getElementById('colorPickerHexInput');
+    const hue = hexInput ? parseInt(hexInput.value.replace('#', '').substring(0, 2), 16) / 255 * 360 : 0;
+
+    const rgb = hsvToRgb(hue, saturation, value);
+    const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+
+    if (hexInput) hexInput.value = hex;
+    const previewColor = document.getElementById('previewColor');
+    if (previewColor) previewColor.style.backgroundColor = hex;
+
+    updateCanvasPositions(hue, saturation, value);
+}
+
+function updateHue(hue) {
+    const hexInput = document.getElementById('colorPickerHexInput');
+    if (hexInput) {
+        const currentColor = hexInput.value;
+        const rgb = hexToRgb(currentColor);
+        if (rgb) {
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            const newRgb = hsvToRgb(hue, hsv.s, hsv.v);
+            const newHex = rgbToHex(newRgb.r, newRgb.g, newRgb.b);
+
+            hexInput.value = newHex;
+            const previewColor = document.getElementById('previewColor');
+            if (previewColor) previewColor.style.backgroundColor = newHex;
+
+            drawColorPickerCanvases();
+            updateCanvasPositions(hue, hsv.s, hsv.v);
+        }
+    }
+}
+
+function handleHexInput(e) {
+    const value = e.target.value.trim();
+    if (/^#[0-9A-F]{6}$/i.test(value)) {
+        setColorPickerColor(value);
+        drawColorPickerCanvases();
+    }
+}
+
+function handleAlphaInput(e) {
+    const alpha = e.target.value;
+    const alphaValue = document.getElementById('alphaValue');
+    if (alphaValue) alphaValue.textContent = Math.round(alpha * 100) + '%';
+
+    // Update preview with alpha if needed
+    const hexInput = document.getElementById('colorPickerHexInput');
+    if (hexInput) {
+        const baseColor = hexInput.value;
+        const previewColor = document.getElementById('previewColor');
+        if (previewColor) {
+            previewColor.style.backgroundColor = baseColor;
+            previewColor.style.opacity = alpha;
+        }
+    }
+}
+
+// Utility functions for color conversion
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function rgbToHsv(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, v = max;
+
+    const d = max - min;
+    s = max === 0 ? 0 : d / max;
+
+    if (max === min) {
+        h = 0;
+    } else {
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return { h: h * 360, s: s * 100, v: v * 100 };
+}
+
+function hsvToRgb(h, s, v) {
+    h /= 360;
+    s /= 100;
+    v /= 100;
+
+    let r, g, b;
+    const i = Math.floor(h * 6);
+    const f = h * 6 - i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
+
+    switch (i % 6) {
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        case 5: r = v; g = p; b = q; break;
+    }
+
+    return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+    };
+}
+
+function saveCustomTheme(themeName) {
+    themeConfig.saveCustomTheme(themeName, {
+        colors: customThemeData.colors,
+        fonts: customThemeData.fonts,
+        metadata: {
+            description: `Custom theme created by user`,
+            version: '1.0'
+        }
+    });
+
+    // Update the custom themes list
+    renderCustomThemesList();
+
+    // Clear the input
+    document.getElementById('themeNameInput').value = '';
+
+    // Show success message
+    alert(`Theme "${themeName}" saved successfully!`);
+}
+
+function exportCurrentCustomTheme() {
+    const themeData = {
+        name: 'My Custom Theme',
+        colors: customThemeData.colors,
+        fonts: customThemeData.fonts,
+        metadata: {
+            description: 'Exported custom theme',
+            exported: new Date().toISOString()
+        },
+        exportDate: new Date().toISOString(),
+        version: '1.0'
+    };
+
+    const blob = new Blob([JSON.stringify(themeData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `lumina-custom-theme-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function importThemeFromFile(file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        try {
+            const themeData = JSON.parse(event.target.result);
+
+            // Validate theme data
+            if (!themeData.colors || !themeData.name) {
+                throw new Error('Invalid theme file format');
+            }
+
+            // Import the theme
+            const themeName = themeConfig.importTheme(themeData);
+
+            // Update the custom theme data
+            customThemeData.colors = { ...themeData.colors };
+            customThemeData.fonts = themeData.fonts || { primary: "'Google Sans', sans-serif" };
+
+            // Update the UI
+            updateColorPickerInputs();
+            updateThemePreview();
+
+            // Update the custom themes list
+            renderCustomThemesList();
+
+            alert(`Theme "${themeName}" imported successfully!`);
+        } catch (error) {
+            alert('Error importing theme: ' + error.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+function renderCustomThemesList() {
+    const container = document.getElementById('customThemesList');
+    const noThemesMsg = document.getElementById('noCustomThemes');
+
+    const customThemes = themeConfig.getAllThemes();
+    const customThemeNames = Object.keys(themeConfig.customThemes);
+
+    if (customThemeNames.length === 0) {
+        container.innerHTML = `
+            <div class="no-custom-themes" id="noCustomThemes">
+                <span class="material-icons-round">palette</span>
+                <p>No custom themes yet. Create one above!</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = customThemeNames.map(name => {
+        const theme = customThemes[name];
+        return `
+            <div class="custom-theme-item" data-theme="${name}">
+                <div class="custom-theme-colors">
+                    <div class="custom-theme-color-swatch" style="background: ${theme.colors.primary}"></div>
+                    <div class="custom-theme-color-swatch" style="background: ${theme.colors.secondary}"></div>
+                    <div class="custom-theme-color-swatch" style="background: ${theme.colors.tertiary}"></div>
+                </div>
+                <div class="custom-theme-info">
+                    <div class="custom-theme-name">${name}</div>
+                    <div class="custom-theme-meta">Custom • ${theme.fonts?.primary ? 'Custom font' : 'Default font'}</div>
+                </div>
+                <div class="custom-theme-actions">
+                    <button class="custom-theme-btn apply" data-theme="${name}" title="Apply Theme">
+                        <span class="material-icons-round">preview</span>
+                    </button>
+                    <button class="custom-theme-btn delete" data-theme="${name}" title="Delete Theme">
+                        <span class="material-icons-round">delete</span>
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    // Add event listeners for custom theme actions
+    container.querySelectorAll('.custom-theme-btn.apply').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const themeName = btn.dataset.theme;
+            applyCustomThemeFromList(themeName);
+        });
+    });
+
+    container.querySelectorAll('.custom-theme-btn.delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const themeName = btn.dataset.theme;
+            if (confirm(`Delete custom theme "${themeName}"?`)) {
+                deleteCustomTheme(themeName);
+            }
+        });
+    });
+
+    // Add click listener to theme items
+    container.querySelectorAll('.custom-theme-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const themeName = item.dataset.theme;
+            loadCustomThemeForEditing(themeName);
+        });
+    });
+}
+
+function applyCustomThemeFromList(themeName) {
+    const theme = themeConfig.getTheme(themeName);
+    if (theme) {
+        const root = document.documentElement;
+
+        // Apply colors
+        Object.entries(theme.colors).forEach(([key, value]) => {
+            root.style.setProperty(`--md-sys-color-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`, value);
+        });
+
+        // Apply font
+        if (theme.fonts?.primary) {
+            root.style.setProperty('--font-family-primary', theme.fonts.primary);
+            document.body.style.fontFamily = theme.fonts.primary;
+            state.fontFamily = theme.fonts.primary;
+        }
+
+        // Update state
+        state.colorTheme = themeName;
+        state.fontFamily = theme.fonts?.primary || "'Google Sans', sans-serif";
+
+        saveSettings();
+        showThemeAppliedFeedback();
+    }
+}
+
+function deleteCustomTheme(themeName) {
+    themeConfig.deleteCustomTheme(themeName);
+    renderCustomThemesList();
+
+    // If this theme was currently applied, reset to default
+    if (state.colorTheme === themeName) {
+        state.colorTheme = 'amethyst';
+        applySettings();
+        saveSettings();
+    }
+}
+
+function loadCustomThemeForEditing(themeName) {
+    const theme = themeConfig.getTheme(themeName);
+    if (theme) {
+        customThemeData.colors = { ...theme.colors };
+        customThemeData.fonts = { ...theme.fonts };
+
+        updateColorPickerInputs();
+        updateThemePreview();
+
+        // Switch to the custom theme tab
+        const customThemeHeader = document.getElementById('customThemeHeader');
+        if (customThemeHeader) {
+            customThemeHeader.click();
+        }
+    }
+}
+
+// Initialize custom theme creator when settings panel opens
+document.getElementById('settingsBtn').addEventListener('click', () => {
+    setTimeout(() => {
+        initializeCustomThemeCreator();
+        renderCustomThemesList();
+    }, 100);
 });
 
 document.getElementById('infoBtn').addEventListener('click', () => {
@@ -922,6 +2055,7 @@ document.getElementById('closeInfo').addEventListener('click', () => {
 });
 
 // Markdown help modal
+const notesHelpBtn = document.getElementById('notesHelpBtn');
 if (notesHelpBtn) {
     notesHelpBtn.addEventListener('click', () => {
         document.getElementById('markdownHelpModal').classList.add('visible');
@@ -1066,6 +2200,16 @@ document.getElementById('devOptionsHeader').addEventListener('click', () => {
     group.classList.toggle('collapsed');
 });
 
+document.getElementById('customThemeHeader').addEventListener('click', () => {
+    const group = document.getElementById('customThemeGroup');
+    group.classList.toggle('collapsed');
+});
+
+document.getElementById('themeManagementHeader').addEventListener('click', () => {
+    const group = document.getElementById('themeManagementGroup');
+    group.classList.toggle('collapsed');
+});
+
 document.getElementById('overlay').addEventListener('click', () => {
     document.getElementById('settingsPanel').classList.remove('open');
     document.getElementById('shortcutModal').classList.remove('visible');
@@ -1076,32 +2220,68 @@ document.getElementById('overlay').addEventListener('click', () => {
     document.getElementById('keyboardShortcutsModal').classList.remove('visible');
     document.getElementById('searchHistoryModal').classList.remove('visible');
     document.getElementById('funnyModal').classList.remove('visible');
+    document.getElementById('calendarEventModal').classList.remove('visible');
 
     document.getElementById('notesSidebar').classList.remove('open');
     document.getElementById('bookmarksSidebar').classList.remove('open');
 
     document.getElementById('overlay').classList.remove('visible');
     confirmCallback = null; // Reset callback when clicking overlay
+
+    // Remove any event selection modals
+    const eventSelectionModal = document.querySelector('.modal .event-list');
+    if (eventSelectionModal) {
+        const modal = eventSelectionModal.closest('.modal');
+        if (modal) modal.remove();
+    }
 });
 
-document.querySelectorAll('.toggle-option').forEach((opt, idx) => {
-    opt.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const keys = ['showWeather', 'showClock', 'showCalendar', 'showTodo', 'showShortcuts', 'showGreeting', 'showAnimations'];
-        if (keys[idx]) {
-            state[keys[idx]] = !state[keys[idx]];
-            applySettings();
-            saveSettings();
-            if (keys[idx] === 'showWeather' && state.showWeather) loadWeather();
-            if (keys[idx] === 'showClock' && state.showClock) updateClock();
-            if (keys[idx] === 'showGreeting' && state.showGreeting) updateGreeting();
-            if (keys[idx] === 'showCalendar' && state.showCalendar) updateCalendar();
-            if (keys[idx] === 'showTodo' && state.showTodo) updateTodo();
-        }
-    });
+// Simple event listener attachment
+document.getElementById('weatherToggle')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    state.showWeather = !state.showWeather;
+    applySettings();
+    saveSettings();
+    if (state.showWeather) loadWeather();
 });
+
+document.getElementById('clockToggle')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    state.showClock = !state.showClock;
+    applySettings();
+    saveSettings();
+    if (state.showClock) updateClock();
+});
+
+document.getElementById('calendarToggle')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    state.showCalendar = !state.showCalendar;
+    applySettings();
+    saveSettings();
+    if (state.showCalendar) updateCalendar();
+});
+
+
+document.getElementById('shortcutsToggle')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    state.showShortcuts = !state.showShortcuts;
+    applySettings();
+    saveSettings();
+});
+
+document.getElementById('greetingToggle')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    state.showGreeting = !state.showGreeting;
+    applySettings();
+    saveSettings();
+    if (state.showGreeting) updateGreeting();
+});
+
 
 document.getElementById('searchSuggestionsToggle').addEventListener('click', (e) => {
     e.preventDefault();
@@ -1111,13 +2291,6 @@ document.getElementById('searchSuggestionsToggle').addEventListener('click', (e)
     saveSettings();
 });
 
-document.getElementById('animatedBlobsToggle').addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    state.animatedBlobs = !state.animatedBlobs;
-    applySettings();
-    saveSettings();
-});
 
 document.getElementById('openInSameTabToggle').addEventListener('click', (e) => {
     e.preventDefault();
@@ -1335,9 +2508,19 @@ document.getElementById('backgroundOpacity').addEventListener('input', (e) => {
     saveSettings();
 });
 
+document.getElementById('backgroundShapesToggle')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    state.showBackgroundShapes = !state.showBackgroundShapes;
+    applySettings();
+    saveSettings();
+});
+
 document.getElementById('resetBtn').addEventListener('click', () => {
     if (confirm('Are you sure you want to reset all settings to default?')) {
         Object.assign(state, JSON.parse(JSON.stringify(defaultState)));
+        // Update default auto dark mode based on current system preference
+        state.autoDarkMode = detectSystemDarkMode();
         applySettings();
         saveSettings();
         loadWeather();
@@ -1401,6 +2584,24 @@ document.getElementById('cancelBookmark').addEventListener('click', () => {
     document.getElementById('bookmarkCategory').value = '';
     document.getElementById('bookmarkModal').classList.remove('visible');
     document.getElementById('overlay').classList.remove('visible');
+});
+
+// Calendar Event Modal Event Listeners
+document.getElementById('saveEvent').addEventListener('click', saveEvent);
+
+document.getElementById('cancelEvent').addEventListener('click', () => {
+    document.getElementById('calendarEventModal').classList.remove('visible');
+    document.getElementById('overlay').classList.remove('visible');
+});
+
+// Color selection for events
+document.querySelectorAll('.modal .color-option').forEach(option => {
+    option.addEventListener('click', () => {
+        document.querySelectorAll('.modal .color-option').forEach(opt => {
+            opt.classList.remove('active');
+        });
+        option.classList.add('active');
+    });
 });
 
 document.getElementById('funnyOkayBtn').addEventListener('click', () => {
@@ -1490,6 +2691,15 @@ function showKeyboardShortcutsTutorial() {
 }
 
 document.getElementById('searchForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const query = document.getElementById('searchInput').value.trim();
+    if (query) {
+        performSearch(query);
+    }
+});
+
+// Search button functionality (desktop mode only)
+document.getElementById('searchBtn').addEventListener('click', (e) => {
     e.preventDefault();
     const query = document.getElementById('searchInput').value.trim();
     if (query) {
@@ -1677,6 +2887,22 @@ function setupNotes() {
     const notesPreview = document.getElementById('notesPreview');
     const notesHelpBtn = document.getElementById('notesHelpBtn');
 
+    console.log('Notes elements:', {
+        notesSidebar,
+        notesToggle,
+        notesClose,
+        notesTextarea,
+        notesTitleInput,
+        notesTabsContainer,
+        notesPreview,
+        notesHelpBtn
+    });
+
+    if (!notesSidebar || !notesToggle || !notesClose) {
+        console.error('Critical notes elements are missing');
+        return;
+    }
+
     notesToggle.addEventListener('click', (e) => {
         e.stopPropagation();
         notesSidebar.classList.toggle('open');
@@ -1768,6 +2994,9 @@ function setupNotes() {
                     state.notes.splice(targetIndex, 0, draggedItem);
                     saveSettings();
                     renderNotes();
+
+                    // Initialize notes todo display
+                    updateNotesTodo();
                 }
             });
         });
@@ -1984,90 +3213,194 @@ function setupNotes() {
     }
 
     renderNotes();
+
+    // Setup notes todo functionality after render
+    setTimeout(() => {
+        try {
+            console.log('Setting up notes todo functionality...');
+            setupNotesTodo();
+        } catch (e) {
+            console.error('Error setting up notes todo:', e);
+        }
+    }, 500); // Increased delay to ensure DOM is ready
+}
+
+function refreshCategoryFilter() {
+    const categoryFilter = document.getElementById('todoCategoryFilter');
+    const categoryInput = document.getElementById('notesTodoCategoryInput');
+
+    if (categoryFilter && state.todos) {
+        const uniqueCategories = [...new Set(state.todos.map(todo => todo.category || 'General'))];
+        console.log('Refreshing category filter with categories:', uniqueCategories);
+        categoryFilter.innerHTML = '<option value="">All Categories</option>' +
+            uniqueCategories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+
+        // Also update the input dropdown
+        if (categoryInput) {
+            uniqueCategories.forEach(cat => {
+                if (!categoryInput.querySelector(`option[value="${cat}"]`)) {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    categoryInput.appendChild(option);
+                }
+            });
+        }
+    }
+}
+
+function setupNotesTodo() {
+    try {
+        const notesTodoAddBtn = document.getElementById('notesTodoAddBtn');
+        const notesTodoSaveBtn = document.getElementById('notesTodoSaveBtn');
+        const notesTodoCancelBtn = document.getElementById('notesTodoCancelBtn');
+        const notesTodoInput = document.getElementById('notesTodoInput');
+        const todoCategoryFilter = document.getElementById('todoCategoryFilter');
+
+        console.log('Notes todo elements:', {
+            notesTodoAddBtn,
+            notesTodoSaveBtn,
+            notesTodoCancelBtn,
+            notesTodoInput,
+            todoCategoryFilter
+        });
+
+        // Setup event listeners regardless of sidebar state - they'll work when sidebar opens
+        const notesSidebar = document.getElementById('notesSidebar');
+        if (!notesSidebar) {
+            console.log('Notes sidebar not found, skipping todo setup');
+            return;
+        }
+
+        // Setup event listeners only if elements exist
+        if (notesTodoAddBtn) {
+            notesTodoAddBtn.addEventListener('click', showNotesTodoInput);
+        }
+
+        if (notesTodoSaveBtn) {
+            notesTodoSaveBtn.addEventListener('click', saveNotesTodoItem);
+        }
+
+        if (notesTodoCancelBtn) {
+            notesTodoCancelBtn.addEventListener('click', hideNotesTodoInput);
+        }
+
+        if (notesTodoInput) {
+            notesTodoInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    saveNotesTodoItem();
+                }
+            });
+        }
+
+        if (todoCategoryFilter) {
+            todoCategoryFilter.addEventListener('change', (e) => {
+                console.log('Category filter changed to:', e.target.value);
+                updateNotesTodo();
+            });
+        }
+
+        // Initialize todo display and category filter
+        console.log('Initializing todo display with existing todos:', state.todos ? state.todos.length : 0);
+        refreshCategoryFilter();
+        if (state.todos && state.todos.length > 0) {
+            updateNotesTodo();
+        }
+    } catch (e) {
+        console.error('Error in setupNotesTodo:', e);
+    }
 }
 
 function setupWidgetDragging() {
-    const widgets = ['weather', 'clock', 'calendar', 'todoWidget'];
+    try {
+        const widgets = ['weather', 'clock', 'calendar'];
 
-    widgets.forEach(widgetId => {
-        const widget = document.getElementById(widgetId);
-        if (!widget) return;
+        console.log('Widget elements:', widgets.map(id => ({
+            id,
+            element: document.getElementById(id)
+        })));
 
-        let isDragging = false;
-        let startX, startY, startLeft, startTop;
+        widgets.forEach(widgetId => {
+            const widget = document.getElementById(widgetId);
+            if (!widget) return;
 
-        widget.addEventListener('mousedown', (e) => {
-            // Check if clicking on interactive elements within widgets
-            const interactiveSelectors = [
-                '.weather-temp', '.weather-desc', '.weather-location',
-                '.clock-time', '.clock-date',
-                '.calendar-header', '.calendar-grid',
-                '.todo-header', '.todo-list', '.todo-add',
-            ];
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
 
-            if (e.target.closest(interactiveSelectors.join(', '))) {
-                return;
-            }
+            widget.addEventListener('mousedown', (e) => {
+                // Check if clicking on interactive elements within widgets
+                const interactiveSelectors = [
+                    '.weather-temp', '.weather-desc', '.weather-location',
+                    '.clock-time', '.clock-date',
+                    '.calendar-header', '.calendar-grid',
+                    '.todo-header', '.todo-list', '.todo-add',
+                ];
 
-            isDragging = true;
-            widget.classList.add('dragging');
+                if (e.target.closest(interactiveSelectors.join(', '))) {
+                    return;
+                }
 
-            startX = e.clientX;
-            startY = e.clientY;
-            const rect = widget.getBoundingClientRect();
-            startLeft = rect.left;
-            startTop = rect.top;
+                isDragging = true;
+                widget.classList.add('dragging');
 
-            e.preventDefault();
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging || !widget) return;
-
-            const deltaX = e.clientX - startX;
-            const deltaY = e.clientY - startY;
-
-            const widgetRect = widget.getBoundingClientRect();
-            const widgetWidth = widgetRect.width;
-            const widgetHeight = widgetRect.height;
-
-            // Calculate new position with boundary constraints
-            let newLeft = startLeft + deltaX;
-            let newTop = startTop + deltaY;
-
-            // Boundary constraints - keep widget fully visible
-            const minLeft = 0;
-            const minTop = 0;
-            const maxLeft = window.innerWidth - widgetWidth;
-            const maxTop = window.innerHeight - widgetHeight;
-
-            newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
-            newTop = Math.max(minTop, Math.min(newTop, maxTop));
-
-            // Direct position update - no transitions or transforms
-            widget.style.left = newLeft + 'px';
-            widget.style.top = newTop + 'px';
-            widget.style.right = 'auto';
-            widget.style.bottom = 'auto';
-        });
-
-        document.addEventListener('mouseup', () => {
-            if (isDragging && widget) {
-                isDragging = false;
-                widget.classList.remove('dragging');
-
+                startX = e.clientX;
+                startY = e.clientY;
                 const rect = widget.getBoundingClientRect();
-                const position = { left: rect.left, top: rect.top };
+                startLeft = rect.left;
+                startTop = rect.top;
 
-                if(widgetId === 'weather') state.weatherPosition = position;
-                if(widgetId === 'clock') state.clockPosition = position;
-                if(widgetId === 'calendar') state.calendarPosition = position;
-                if(widgetId === 'todoWidget') state.todoPosition = position;
+                e.preventDefault();
+            });
 
-                saveSettings();
-            }
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging || !widget) return;
+
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+
+                const widgetRect = widget.getBoundingClientRect();
+                const widgetWidth = widgetRect.width;
+                const widgetHeight = widgetRect.height;
+
+                // Calculate new position with boundary constraints
+                let newLeft = startLeft + deltaX;
+                let newTop = startTop + deltaY;
+
+                // Boundary constraints - keep widget fully visible
+                const minLeft = 0;
+                const minTop = 0;
+                const maxLeft = window.innerWidth - widgetWidth;
+                const maxTop = window.innerHeight - widgetHeight;
+
+                newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
+                newTop = Math.max(minTop, Math.min(newTop, maxTop));
+
+                // Direct position update - no transitions or transforms
+                widget.style.left = newLeft + 'px';
+                widget.style.top = newTop + 'px';
+                widget.style.right = 'auto';
+                widget.style.bottom = 'auto';
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging && widget) {
+                    isDragging = false;
+                    widget.classList.remove('dragging');
+
+                    const rect = widget.getBoundingClientRect();
+                    const position = { left: rect.left, top: rect.top };
+
+                    if(widgetId === 'weather') state.weatherPosition = position;
+                    if(widgetId === 'clock') state.clockPosition = position;
+                    if(widgetId === 'calendar') state.calendarPosition = position;
+
+                    saveSettings();
+                }
+            });
         });
-    });
+    } catch (e) {
+        console.error('Error setting up widget dragging:', e);
+    }
 }
 
 let currentCalendarDate = new Date();
@@ -2096,10 +3429,221 @@ function updateCalendar() {
 
     for (let day = 1; day <= daysInMonth; day++) {
         const isToday = new Date().toDateString() === new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), day).toDateString();
-        html += `<div class="calendar-day ${isToday ? 'today' : ''}">${day}</div>`;
+        const dateString = `${currentCalendarDate.getFullYear()}-${(currentCalendarDate.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+        const dayEvents = getEventsForDate(dateString);
+
+        let eventsHtml = '';
+        if (dayEvents.length > 0) {
+            eventsHtml = dayEvents.slice(0, 2).map((event, index) => `
+                <div class="calendar-event-dot" style="background-color: ${event.color || '#3498db'};" title="${event.title}" data-event-id="${event.id}" data-event-index="${index}"></div>
+            `).join('');
+
+            if (dayEvents.length > 2) {
+                eventsHtml += `<div class="calendar-event-more" title="${dayEvents.length - 2} more events">+${dayEvents.length - 2}</div>`;
+            }
+        }
+
+        html += `<div class="calendar-day ${isToday ? 'today' : ''}" data-date="${dateString}">
+            <div class="calendar-day-number">${day}</div>
+            <div class="calendar-events">${eventsHtml}</div>
+        </div>`;
     }
 
     grid.innerHTML = html;
+
+    // Add click listeners to calendar days for adding/managing events
+    document.querySelectorAll('.calendar-day[data-date]').forEach(dayEl => {
+        dayEl.addEventListener('click', (e) => {
+            // Don't trigger if clicking on an event dot (handled separately)
+            if (e.target.closest('.calendar-event-dot')) return;
+
+            const date = dayEl.dataset.date;
+            const dayEvents = getEventsForDate(date);
+
+            if (dayEvents.length > 0) {
+                // Show event selection modal for dates with existing events
+                showEventSelectionModal(date, dayEvents);
+            } else {
+                // Show add event modal for empty dates
+                showEventModal(date);
+            }
+        });
+    });
+
+    // Add click listeners to event dots for editing
+    document.querySelectorAll('.calendar-event-dot[data-event-id]').forEach(dotEl => {
+        dotEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const eventId = dotEl.dataset.eventId;
+            const event = state.calendarEvents.find(ev => ev.id == eventId);
+            if (event) {
+                showEventModal(event.date, event);
+            }
+        });
+
+        // Add hover effects and tooltips
+        dotEl.addEventListener('mouseenter', (e) => {
+            dotEl.style.transform = 'scale(1.2)';
+            dotEl.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+            dotEl.style.zIndex = '10';
+
+            // Show tooltip with event title
+            const tooltip = document.createElement('div');
+            tooltip.className = 'event-tooltip';
+            tooltip.textContent = dotEl.title;
+            tooltip.style.position = 'absolute';
+            tooltip.style.bottom = '20px';
+            tooltip.style.left = '50%';
+            tooltip.style.transform = 'translateX(-50%)';
+            tooltip.style.background = 'var(--md-sys-color-surface-container-highest)';
+            tooltip.style.color = 'var(--md-sys-color-on-surface)';
+            tooltip.style.padding = '4px 8px';
+            tooltip.style.borderRadius = '6px';
+            tooltip.style.fontSize = '11px';
+            tooltip.style.whiteSpace = 'nowrap';
+            tooltip.style.boxShadow = 'var(--shadow-2)';
+            tooltip.style.zIndex = '1003';
+            tooltip.style.pointerEvents = 'none';
+
+            dotEl.appendChild(tooltip);
+        });
+
+        dotEl.addEventListener('mouseleave', () => {
+            dotEl.style.transform = 'scale(1)';
+            dotEl.style.boxShadow = 'none';
+            dotEl.style.zIndex = '';
+
+            // Remove tooltip
+            const tooltip = dotEl.querySelector('.event-tooltip');
+            if (tooltip) {
+                tooltip.remove();
+            }
+        });
+    });
+}
+
+function getEventsForDate(dateString) {
+    return state.calendarEvents.filter(event => event.date === dateString);
+}
+
+function showEventModal(date = null, eventToEdit = null) {
+    const modal = document.getElementById('calendarEventModal');
+    const overlay = document.getElementById('overlay');
+
+    // Reset form
+    document.getElementById('eventTitle').value = '';
+    document.getElementById('eventDescription').value = '';
+    document.getElementById('eventDate').value = date || new Date().toISOString().split('T')[0];
+    document.getElementById('eventStartTime').value = '';
+    document.getElementById('eventEndTime').value = '';
+    document.getElementById('eventCategory').value = '';
+
+    // Reset color selection
+    document.querySelectorAll('.modal .color-option').forEach(opt => {
+        opt.classList.remove('active');
+    });
+    document.querySelector('.modal .color-option').classList.add('active');
+
+    if (eventToEdit) {
+        // Edit mode
+        document.getElementById('eventTitle').value = eventToEdit.title;
+        document.getElementById('eventDescription').value = eventToEdit.description || '';
+        document.getElementById('eventDate').value = eventToEdit.date;
+        document.getElementById('eventStartTime').value = eventToEdit.startTime || '';
+        document.getElementById('eventEndTime').value = eventToEdit.endTime || '';
+        document.getElementById('eventCategory').value = eventToEdit.category || '';
+
+        // Set active color
+        document.querySelectorAll('.modal .color-option').forEach(opt => {
+            if (opt.dataset.color === eventToEdit.color) {
+                opt.classList.add('active');
+            } else {
+                opt.classList.remove('active');
+            }
+        });
+
+        // Update modal title and button text
+        modal.querySelector('.modal-title').textContent = 'Edit Calendar Event';
+        document.getElementById('saveEvent').textContent = 'Update Event';
+
+        // Store event ID for update
+        document.getElementById('saveEvent').dataset.editId = eventToEdit.id;
+    } else {
+        // Add mode
+        modal.querySelector('.modal-title').textContent = 'Add Calendar Event';
+        document.getElementById('saveEvent').textContent = 'Save Event';
+        delete document.getElementById('saveEvent').dataset.editId;
+    }
+
+    modal.classList.add('visible');
+    overlay.classList.add('visible');
+}
+
+function saveEvent() {
+    const title = document.getElementById('eventTitle').value.trim();
+    const description = document.getElementById('eventDescription').value.trim();
+    const date = document.getElementById('eventDate').value;
+    const startTime = document.getElementById('eventStartTime').value;
+    const endTime = document.getElementById('eventEndTime').value;
+    const category = document.getElementById('eventCategory').value.trim();
+
+    const activeColorOption = document.querySelector('.modal .color-option.active');
+    const color = activeColorOption ? activeColorOption.dataset.color : '#3498db';
+
+    if (!title || !date) {
+        alert('Please fill in at least the title and date.');
+        return;
+    }
+
+    const editId = document.getElementById('saveEvent').dataset.editId;
+
+    if (editId) {
+        // Update existing event
+        const eventIndex = state.calendarEvents.findIndex(e => e.id == editId);
+        if (eventIndex !== -1) {
+            state.calendarEvents[eventIndex] = {
+                ...state.calendarEvents[eventIndex],
+                title,
+                description,
+                date,
+                startTime,
+                endTime,
+                category,
+                color
+            };
+        }
+    } else {
+        // Create new event
+        const newEvent = {
+            id: Date.now() + Math.random(),
+            title,
+            description,
+            date,
+            startTime,
+            endTime,
+            category,
+            color
+        };
+        state.calendarEvents.push(newEvent);
+    }
+
+    saveSettings();
+    updateCalendar();
+
+    // Close modal
+    document.getElementById('calendarEventModal').classList.remove('visible');
+    document.getElementById('overlay').classList.remove('visible');
+}
+
+function deleteEvent(eventId) {
+    const event = state.calendarEvents.find(e => e.id == eventId);
+    const eventTitle = event ? event.title : 'this event';
+
+    showConfirmModal(`Delete "${eventTitle}"?`, () => {
+        state.calendarEvents = state.calendarEvents.filter(e => e.id != eventId);
+        saveSettings();
+        updateCalendar();
+    });
 }
 
 function updateTodo() {
@@ -2114,6 +3658,7 @@ function updateTodo() {
                 ${todo.completed ? '✓' : ''}
             </button>
             <span class="todo-text ${todo.completed ? 'completed' : ''}">${todo.text}</span>
+            <span class="todo-category ${todo.category || 'General'}">${todo.category || 'General'}</span>
             <button class="todo-delete" data-index="${index}">
                 <span class="material-icons-round">close</span>
             </button>
@@ -2124,7 +3669,6 @@ function updateTodo() {
         checkbox.addEventListener('click', () => {
             const index = parseInt(checkbox.dataset.index);
             state.todos[index].completed = !state.todos[index].completed;
-            updateTodo();
             saveSettings();
         });
     });
@@ -2139,6 +3683,180 @@ function updateTodo() {
     });
 }
 
+// New notes-integrated todo functions
+function updateNotesTodo() {
+    const todoList = document.getElementById('notesTodoList');
+    const categoryFilter = document.getElementById('todoCategoryFilter');
+    if (!todoList) return;
+
+    if (!state.todos) state.todos = [];
+
+    // Update category filter options
+    if (categoryFilter) {
+        refreshCategoryFilter();
+    }
+
+    // Filter todos based on selected category
+    const selectedCategory = categoryFilter ? categoryFilter.value : '';
+    const filteredTodos = selectedCategory ?
+        state.todos.filter(todo => (todo.category || 'General') === selectedCategory) :
+        state.todos;
+
+    todoList.innerHTML = filteredTodos.map((todo, index) => `
+        <div class="notes-todo-item" data-index="${index}">
+            <button class="notes-todo-checkbox ${todo.completed ? 'checked' : ''}">
+                ${todo.completed ? '✓' : ''}
+            </button>
+            <span class="notes-todo-text ${todo.completed ? 'completed' : ''}">${todo.text}</span>
+            <span class="notes-todo-category">${todo.category || 'General'}</span>
+            <button class="notes-todo-edit" data-index="${index}">
+                <span class="material-icons-round">edit</span>
+            </button>
+            <button class="notes-todo-delete" data-index="${index}">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+    `).join('');
+
+    // Add event listeners
+    document.querySelectorAll('.notes-todo-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const index = parseInt(e.target.closest('.notes-todo-item').dataset.index);
+            const actualIndex = selectedCategory ?
+                state.todos.findIndex(todo => (todo.category || 'General') === selectedCategory && state.todos.indexOf(todo) === index) :
+                index;
+            if (actualIndex !== -1) {
+                state.todos[actualIndex].completed = !state.todos[actualIndex].completed;
+                updateNotesTodo();
+                saveSettings();
+            }
+        });
+    });
+
+    document.querySelectorAll('.notes-todo-delete').forEach(deleteBtn => {
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const index = parseInt(e.target.closest('.notes-todo-item').dataset.index);
+            const actualIndex = selectedCategory ?
+                state.todos.findIndex(todo => (todo.category || 'General') === selectedCategory && state.todos.indexOf(todo) === index) :
+                index;
+            if (actualIndex !== -1) {
+                state.todos.splice(actualIndex, 1);
+                saveSettings();
+                refreshCategoryFilter(); // Refresh categories after deletion
+                updateNotesTodo();
+            }
+        });
+    });
+
+    document.querySelectorAll('.notes-todo-edit').forEach(editBtn => {
+        editBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const item = e.target.closest('.notes-todo-item');
+            const index = parseInt(item.dataset.index);
+            const actualIndex = selectedCategory ?
+                state.todos.findIndex(todo => (todo.category || 'General') === selectedCategory && state.todos.indexOf(todo) === index) :
+                index;
+            if (actualIndex !== -1) {
+                editNotesTodoItem(actualIndex);
+            }
+        });
+    });
+}
+
+function showNotesTodoInput() {
+    const inputArea = document.getElementById('notesTodoInputArea');
+    const input = document.getElementById('notesTodoInput');
+    const categoryInput = document.getElementById('notesTodoCategoryInput');
+
+    if (inputArea && input && categoryInput) {
+        inputArea.style.display = 'flex';
+        input.focus();
+        input.value = '';
+        categoryInput.value = 'General';
+        console.log('Todo input area shown');
+    } else {
+        console.error('Todo input elements not found:', {
+            inputArea,
+            input,
+            categoryInput
+        });
+    }
+}
+
+function hideNotesTodoInput() {
+    const inputArea = document.getElementById('notesTodoInputArea');
+    inputArea.style.display = 'none';
+}
+
+function saveNotesTodoItem() {
+    const input = document.getElementById('notesTodoInput');
+    const categoryInput = document.getElementById('notesTodoCategoryInput');
+    const text = input.value.trim();
+    const category = categoryInput.value;
+
+    if (text) {
+        if (!state.todos) state.todos = [];
+        state.todos.push({
+            text,
+            completed: false,
+            category: category || 'General'
+        });
+        saveSettings();
+        refreshCategoryFilter(); // Refresh the category filter with new categories
+        updateNotesTodo();
+        hideNotesTodoInput();
+        console.log('Todo saved with category:', category);
+    } else {
+        console.log('No text entered for todo');
+    }
+}
+
+function editNotesTodoItem(index) {
+    const todo = state.todos[index];
+    if (!todo) return;
+
+    const inputArea = document.getElementById('notesTodoInputArea');
+    const input = document.getElementById('notesTodoInput');
+    const categoryInput = document.getElementById('notesTodoCategoryInput');
+
+    inputArea.style.display = 'flex';
+    input.focus();
+    input.value = todo.text;
+    categoryInput.value = todo.category || 'General';
+
+    // Replace save functionality temporarily
+    const saveBtn = document.getElementById('notesTodoSaveBtn');
+    const originalClick = saveBtn.onclick;
+    saveBtn.onclick = () => {
+        const newText = input.value.trim();
+        const newCategory = categoryInput.value;
+        if (newText) {
+            state.todos[index] = {
+                text: newText,
+                completed: todo.completed,
+                category: newCategory || 'General'
+            };
+            saveSettings();
+            refreshCategoryFilter(); // Refresh the category filter
+            updateNotesTodo();
+            hideNotesTodoInput();
+            saveBtn.onclick = originalClick;
+            console.log('Todo edited with category:', newCategory);
+        }
+    };
+
+    // Add escape key to cancel edit
+    const cancelBtn = document.getElementById('notesTodoCancelBtn');
+    const originalCancelClick = cancelBtn.onclick;
+    cancelBtn.onclick = () => {
+        hideNotesTodoInput();
+        saveBtn.onclick = originalClick;
+        cancelBtn.onclick = originalCancelClick;
+    };
+}
+
 
 document.getElementById('calendarPrev').addEventListener('click', () => {
     currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
@@ -2150,23 +3868,260 @@ document.getElementById('calendarNext').addEventListener('click', () => {
     updateCalendar();
 });
 
-document.getElementById('todoAddBtn').addEventListener('click', () => {
-    const input = document.getElementById('todoInput');
-    const text = input.value.trim();
-    if (text) {
-        if (!state.todos) state.todos = [];
-        state.todos.push({ text, completed: false });
-        input.value = '';
-        updateTodo();
-        saveSettings();
-    }
+// Add Event button
+document.getElementById('addEventBtn').addEventListener('click', () => {
+    showEventModal();
 });
 
-document.getElementById('todoInput').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        document.getElementById('todoAddBtn').click();
-    }
-});
+// Show event selection modal for dates with existing events
+function showEventSelectionModal(date, events) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.maxWidth = '500px';
+
+    const dateObj = new Date(date);
+    const formattedDate = dateObj.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    modal.innerHTML = `
+        <div class="modal-title">
+            Events for ${formattedDate}
+        </div>
+        <div class="event-list" style="max-height: 300px; overflow-y: auto; margin: 20px 0;">
+            ${events.map(event => `
+                <div class="event-item" data-event-id="${event.id}" style="
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 16px;
+                    margin-bottom: 8px;
+                    background: var(--md-sys-color-surface-container-high);
+                    border-radius: 12px;
+                    border-left: 4px solid ${event.color || '#3498db'};
+                    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    cursor: pointer;
+                ">
+                    <div class="event-color-dot" style="
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 50%;
+                        background-color: ${event.color || '#3498db'};
+                        flex-shrink: 0;
+                    "></div>
+                    <div class="event-info" style="flex: 1;">
+                        <div class="event-title" style="
+                            font-weight: 600;
+                            color: var(--md-sys-color-on-surface);
+                            margin-bottom: 4px;
+                        ">${event.title}</div>
+                        ${event.description ? `<div class="event-description" style="
+                            font-size: 13px;
+                            color: var(--md-sys-color-on-surface-variant);
+                            margin-bottom: 4px;
+                        ">${event.description}</div>` : ''}
+                        <div class="event-time" style="
+                            font-size: 12px;
+                            color: var(--md-sys-color-on-surface-variant);
+                        ">
+                            ${event.startTime ? `${event.startTime}${event.endTime ? ' - ' + event.endTime : ''}` : 'All day'}
+                            ${event.category ? ` • ${event.category}` : ''}
+                        </div>
+                    </div>
+                    <div class="event-actions" style="display: flex; gap: 4px;">
+                        <button class="event-btn edit" data-event-id="${event.id}" style="
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 16px;
+                            border: none;
+                            background: var(--md-sys-color-primary-container);
+                            color: var(--md-sys-color-on-primary-container);
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: all 0.3s;
+                        ">
+                            <span class="material-icons-round" style="font-size: 16px;">edit</span>
+                        </button>
+                        <button class="event-btn delete" data-event-id="${event.id}" style="
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 16px;
+                            border: none;
+                            background: var(--md-sys-color-error-container);
+                            color: var(--md-sys-color-on-error-container);
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: all 0.3s;
+                        ">
+                            <span class="material-icons-round" style="font-size: 16px;">delete</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn secondary" id="closeEventSelection">Close</button>
+            <button class="modal-btn primary" id="addNewEvent">
+                <span class="material-icons-round">add</span>
+                Add New Event
+            </button>
+        </div>
+    `;
+
+    modal.classList.add('visible');
+    document.getElementById('overlay').classList.add('visible');
+    document.body.appendChild(modal);
+
+    // Handle edit buttons
+    modal.querySelectorAll('.event-btn.edit').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const eventId = btn.dataset.eventId;
+            const event = events.find(ev => ev.id == eventId);
+            if (event) {
+                modal.remove();
+                document.getElementById('overlay').classList.remove('visible');
+                showEventModal(event.date, event);
+            }
+        });
+
+        // Hover effects for edit buttons
+        btn.addEventListener('mouseenter', () => {
+            btn.style.transform = 'scale(1.1)';
+            btn.style.background = 'var(--md-sys-color-primary)';
+            btn.style.color = 'var(--md-sys-color-on-primary)';
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'scale(1)';
+            btn.style.background = 'var(--md-sys-color-primary-container)';
+            btn.style.color = 'var(--md-sys-color-on-primary-container)';
+        });
+    });
+
+    // Handle delete buttons
+    modal.querySelectorAll('.event-btn.delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const eventId = btn.dataset.eventId;
+
+            deleteEvent(eventId);
+            modal.remove();
+            document.getElementById('overlay').classList.remove('visible');
+
+        });
+
+        // Hover effects for delete buttons
+        btn.addEventListener('mouseenter', () => {
+            btn.style.transform = 'scale(1.1)';
+            btn.style.background = '#ff5252';
+            btn.style.color = 'white';
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'scale(1)';
+            btn.style.background = 'var(--md-sys-color-error-container)';
+            btn.style.color = 'var(--md-sys-color-on-error-container)';
+        });
+    });
+
+    // Handle close button
+    document.getElementById('closeEventSelection').addEventListener('click', () => {
+        modal.remove();
+        document.getElementById('overlay').classList.remove('visible');
+    });
+
+    // Handle add new event button
+    document.getElementById('addNewEvent').addEventListener('click', () => {
+        modal.remove();
+        document.getElementById('overlay').classList.remove('visible');
+        showEventModal(date);
+    });
+
+    // Click on event item to view details
+    modal.querySelectorAll('.event-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            // Don't trigger if clicking on action buttons
+            if (e.target.closest('.event-actions')) return;
+
+            const eventId = item.dataset.eventId;
+            const event = events.find(ev => ev.id == eventId);
+            if (event) {
+                showEventDetails(event);
+            }
+        });
+    });
+}
+
+function showEventDetails(event) {
+    // Create a simple details modal
+    const detailsModal = document.createElement('div');
+    detailsModal.className = 'modal';
+    detailsModal.innerHTML = `
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${event.color || '#3498db'};"></div>
+            ${event.title}
+        </div>
+        <div style="line-height: 1.6; color: var(--md-sys-color-on-surface); margin: 20px 0;">
+            ${event.description ? `<p><strong>Description:</strong> ${event.description}</p>` : ''}
+            <p><strong>Date:</strong> ${new Date(event.date).toLocaleDateString()}</p>
+            ${event.startTime ? `<p><strong>Start:</strong> ${event.startTime}</p>` : ''}
+            ${event.endTime ? `<p><strong>End:</strong> ${event.endTime}</p>` : ''}
+            ${event.category ? `<p><strong>Category:</strong> ${event.category}</p>` : ''}
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn primary" id="closeEventDetails">Close</button>
+            <button class="modal-btn secondary" id="editFromDetails">Edit Event</button>
+        </div>
+    `;
+
+    detailsModal.style.maxWidth = '400px';
+    detailsModal.classList.add('visible');
+    document.getElementById('overlay').classList.add('visible');
+    document.body.appendChild(detailsModal);
+
+    // Handle buttons
+    document.getElementById('closeEventDetails').addEventListener('click', () => {
+        detailsModal.remove();
+        document.getElementById('overlay').classList.remove('visible');
+    });
+
+    document.getElementById('editFromDetails').addEventListener('click', () => {
+        detailsModal.remove();
+        document.getElementById('overlay').classList.remove('visible');
+        showEventModal(event.date, event);
+    });
+}
+
+// Only setup standalone todo widget if elements exist (for backward compatibility)
+const todoAddBtn = document.getElementById('todoAddBtn');
+const todoInput = document.getElementById('todoInput');
+
+if (todoAddBtn && todoInput) {
+    todoAddBtn.addEventListener('click', () => {
+        const text = todoInput.value.trim();
+        if (text) {
+            if (!state.todos) state.todos = [];
+            state.todos.push({ text, completed: false });
+            todoInput.value = '';
+            updateTodo();
+            saveSettings();
+        }
+    });
+
+    todoInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            todoAddBtn.click();
+        }
+    });
+}
 
 setInterval(updateClock, 1000);
 
@@ -2186,9 +4141,25 @@ loadWeather();
 updateClock();
 updateGreeting();
 updateCalendar();
-updateTodo();
-setupNotes();
-setupBookmarks();
-setupWidgetDragging();
+
+// Setup functions with error handling
+try {
+    setupNotes();
+} catch (e) {
+    console.error('Error setting up notes:', e);
+}
+
+try {
+    setupBookmarks();
+} catch (e) {
+    console.error('Error setting up bookmarks:', e);
+}
+
+try {
+    setupWidgetDragging();
+} catch (e) {
+    console.error('Error setting up widget dragging:', e);
+}
+
 showKeyboardShortcutsTutorial();
 
