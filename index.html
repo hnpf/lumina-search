@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Lumina - Your personalized Search!</title>
+    <title>Lumina - Spyware Sold Seperately!</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Display:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
     <link rel="stylesheet" href="style.css">
@@ -280,8 +280,8 @@
             </button>
         </div>
 
-
-        <div class="setting-group">
+        <div class="settings-content">
+            <div class="setting-group">
             <label class="setting-label">Color Theme</label>
             <div class="color-grid" id="colorGrid"></div>
         </div>
@@ -483,6 +483,59 @@
             </div>
         </div>
 
+        <div class="setting-group" id="mobileModeGroup">
+            <div class="setting-group-header" id="mobileModeHeader">
+                <label class="setting-label" style="margin: 0;">Mobile Mode</label>
+                <span class="material-icons-round">expand_more</span>
+            </div>
+            <div class="setting-group-content" id="mobileModeContent">
+                <div style="padding: 16px 20px; background: var(--md-sys-color-surface-container-high); border-radius: 16px; margin-bottom: 16px;">
+                    <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 8px;">
+                        <strong>Current Mode:</strong> <span id="currentModeDisplay">Desktop</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 8px;">
+                        <strong>Device Type:</strong> <span id="deviceTypeDisplay">Unknown</span>
+                    </div>
+                    <div id="browserInfoDisplay" style="margin-top: 12px; padding: 12px; background: var(--md-sys-color-surface-container-low); border-radius: 8px;"></div>
+                </div>
+                <div class="toggle-option" id="forceMobileModeToggle">
+                    <span>Force Mobile Mode</span>
+                    <div class="switch">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="forceDesktopModeToggle">
+                    <span>Force Desktop Mode</span>
+                    <div class="switch">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="hideWidgetsOnMobileToggle">
+                    <span>Hide Widgets on Mobile</span>
+                    <div class="switch active">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="hideKeyboardShortcutsOnMobileToggle">
+                    <span>Hide Shortcuts on Mobile</span>
+                    <div class="switch active">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="mobileOptimizedSearchToggle">
+                    <span>Generally Optimized Search</span>
+                    <div class="switch active">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+                <div class="toggle-option" id="testToggle">
+                    <span>preview-primary-container</span>
+                    <div class="switch active">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="setting-group" id="devOptionsGroup">
             <div class="setting-group-header" id="devOptionsHeader">
@@ -523,52 +576,9 @@
                         <option value="custom">Custom Search Engine</option>
                     </select>
                     <input type="text" id="customSearchEngine" placeholder="e.g., search.example.com" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); font-family: 'Google Sans', sans-serif; font-size: 14px; display: none;">
-                    <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px;">Choose your preferred search engine. DuckDuckGo remains the default for privacy.</div>
+                    <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px;">Choose your search engine. DuckDuckGo is the default for privacy.</div>
                 </div>
 
-                <div class="setting-group">
-                    <label class="setting-label">Mobile Mode</label>
-                    <div class="setting-group-content">
-                        <div style="padding: 16px 20px; background: var(--md-sys-color-surface-container-high); border-radius: 16px; margin-bottom: 16px;">
-                            <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 8px;">
-                                <strong>Current Mode:</strong> <span id="currentModeDisplay">Desktop</span>
-                            </div>
-                            <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant);">
-                                <strong>Device Type:</strong> <span id="deviceTypeDisplay">Unknown</span>
-                            </div>
-                        </div>
-                        <div class="toggle-option" id="forceMobileModeToggle">
-                            <span>Force Mobile Mode</span>
-                            <div class="switch">
-                                <div class="switch-thumb"></div>
-                            </div>
-                        </div>
-                        <div class="toggle-option" id="forceDesktopModeToggle">
-                            <span>Force Desktop Mode</span>
-                            <div class="switch">
-                                <div class="switch-thumb"></div>
-                            </div>
-                        </div>
-                        <div class="toggle-option" id="hideWidgetsOnMobileToggle">
-                            <span>Hide Widgets on Mobile</span>
-                            <div class="switch active">
-                                <div class="switch-thumb"></div>
-                            </div>
-                        </div>
-                        <div class="toggle-option" id="hideKeyboardShortcutsOnMobileToggle">
-                            <span>Hide Shortcuts on Mobile</span>
-                            <div class="switch active">
-                                <div class="switch-thumb"></div>
-                            </div>
-                        </div>
-                        <div class="toggle-option" id="mobileOptimizedSearchToggle">
-                            <span>Mobile-Optimized Search</span>
-                            <div class="switch active">
-                                <div class="switch-thumb"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -610,11 +620,12 @@
             <input type="file" id="importBookmarksFile" accept=".html" style="display: none;">
         </div>
 
-        <div class="setting-group">
-            <button class="reset-btn" id="resetBtn">
-                <span class="material-icons-round">restore</span>
-                Restore to Defaults
-            </button>
+            <div class="setting-group">
+                <button class="reset-btn" id="resetBtn">
+                    <span class="material-icons-round">restore</span>
+                    Restore to Defaults
+                </button>
+            </div>
         </div>
     </div>
 
@@ -630,66 +641,75 @@
     </div>
 
     <div class="modal" id="infoModal" style="max-width: 700px;">
-        <div class="modal-title">About Lumina</div>
+        <div class="modal-title">Luminfo - AAA is afraid of us</div>
         <div style="line-height: 1.6; color: var(--md-sys-color-on-surface); max-height: 60vh; overflow-y: auto;">
 
             <div style="margin-bottom: 20px;">
-                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">What is this thing?</h3>
-                <p>So Lumina is basically a search engine interface i made using just plain HTML, CSS, and JavaScript. No fancy frameworks or anything, just the good old web stuff. It's like a privacy-focused alternative to those big search pages that are super heavy and track everything you do.</p>
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">What is this?</h3>
+                <p>Lumina is a search engine interface i made using plain HTML, CSS, and JavaScript. No frameworks or anything, just the way the gods intended. It's a good privacy-focused alternative to those AAA search pages that are super heavy on your system and track everything you do.</p>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Why'd I make it?</h3>
-                <p>I got tired of search engines that feel slow and cluttered, so I built this thing that puts privacy first and lets you customize everything. It's got weather, notes, bookmarks, and a bunch of other stuff all in one place. Plus it looks pretty nice with all the Material Design stuff.</p>
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Why did you make it?</h3>
+                <p>I grew tired of search engines that feel slow and cluttered, so I built what puts privacy first and lets you customize everything. It has weather, notes, bookmarks, and a bunch of other features all in one place without feeling bloated and overwhelming. Inspired by Material Design.</p>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Cool features it has</h3>
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">FAQ:</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
-                        <strong>Search Stuff:</strong><br>
-                        <span style="font-size: 13px;">Works with DuckDuckGo, Google, Bing, and even your own custom search engine. Plus voice search if your browser supports it!</span>
+                        <strong>What search backends does it use?</strong><br>
+                        <span style="font-size: 13px;">This works with DuckDuckGo, Google, Bing, and even your own custom search engine URL. You can use voice search if your browser supports it!</span>
                     </div>
                     <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
-                        <strong>Personalization:</strong><br>
-                        <span style="font-size: 13px;">12 different color themes, custom backgrounds, and you can drag widgets around wherever you want.</span>
+                        <strong>How far does personalization go?</strong><br>
+                        <span style="font-size: 13px;">It has 12 different color themes, custom backgrounds, and you can drag widgets around wherever you want.</span>
                     </div>
                     <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
-                        <strong>Productivity:</strong><br>
-                        <span style="font-size: 13px;">Notes with markdown, bookmarks, weather, clock, calendar, and quick action buttons.</span>
+                        <strong>AI Features?</strong><br>
+                        <span style="font-size: 13px;">Using custom search engines, you can alternatively use Perplexity or Google AI. To avoid bloat, these features arent baked into the search engine or shoved in your face.</span>
                     </div>
                     <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
-                        <strong>Privacy:</strong><br>
-                        <span style="font-size: 13px;">Doesn't track you, stores everything locally, and uses privacy-focused APIs.</span>
+                        <strong>Is this even reliable??</strong><br>
+                        <span style="font-size: 13px;">Yes. Using full error handling and working fallbacks, youll rarely catch issuses. Make sure your browser is supported first.</span>
+                    </div>
+                    <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                        <strong>How about productivity? How does this thing even hold up in the long run?</strong><br>
+                        <span style="font-size: 13px;">Complete with notes and markdown, bookmarks, weather, clock, calendar, and quick action buttons, its perfect for your productive setups!</span>
+                    </div>
+                    <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
+                        <strong>Okay, but, is it even private?</strong><br>
+                        <span style="font-size: 13px;">Nope! This doesn't track you, stores everything locally, and uses privacy-focused APIs. Due to storing everything locally, your history and data is safe.</span>
                     </div>
                 </div>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">How it works under the hood</h3>
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Heres how it works under the hood.</h3>
                 <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
-                    <p style="margin: 0 0 8px 0;"><strong>Tech Stack:</strong> Just some blessed HTML5, CSS3, and JavaScript. No npm packages or build bloat needed!</p>
-                    <p style="margin: 0 0 8px 0;"><strong>APIs:</strong> Gets weather from Open-Meteo (which is privacy-focused) and uses IP location for weather.</p>
-                    <p style="margin: 0;"><strong>Storage:</strong> Everything saves to your browser's local storage, and you can export/import your settings.</p>
+                    <p style="margin: 0 0 8px 0;"><strong>Tech Stack:</strong> Using HTML5, CSS3, and JavaScript. No npm packages or build bloat needed!</p>
+                    <p style="margin: 0 0 8px 0;"><strong>APIs:</strong> Gets weather from Open-Meteo (which is also privacy-focused) and uses IP location for its weather.</p>
+                    <p style="margin: 0;"><strong>Storage:</strong> As stated before, everything saves to your browser's local storage, and you can export/import your settings.</p>
                 </div>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">About me (the creator)</h3>
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">About me (the developer)</h3>
                 <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
-                    <p>I'm just some developer who likes making web apps that are fast and respect your privacy. I believe in keeping things simple but powerful - no unnecessary complexity. This project is open source so anyone can contribute or learn from it!</p>
+                    <p>I'm your random Full-stack developer who likes making web apps open-source and for fun that also respects your privacy. I believe in keeping things simple but powerful. Theres no need for unnecessary complexity, this project is open source so anyone can contribute or learn from it!</p>
                 </div>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Privacy stuff</h3>
+                <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">Privacy, Plain and Simple</h3>
                 <div style="background: var(--md-sys-color-surface-container-low); padding: 12px; border-radius: 8px;">
                     <ul style="margin: 0; padding-left: 16px; font-size: 14px;">
-                        <li>Your searches don't get stored or sent anywhere</li>
-                        <li>All your settings stay in your browser</li>
-                        <li>Weather location is just approximate (from your IP)</li>
-                        <li>No tracking scripts or analytics junk</li>
-                        <li>Totally transparent about what data it uses</li>
+                        <li>No accounts, no tracking, no hidden data collection.</li>
+                        <li>Search history and preferences live only in your browser, and never sent online.</li>
+                        <li>Clearing cache or cookies wipes everything, earn a clean slate because you need it!</li>
+                        <li>Weather uses a rough IP-based location, never GPS or invasive tracking.</li>
+                        <li>No analytics, ads, or third-party scripts. Just whats needed to make it work.</li>
+                        <li>Everything about data use is open and transparent. Nothing to hide.</li>
                     </ul>
                 </div>
             </div>
@@ -697,7 +717,7 @@
             <div style="margin-bottom: 20px;">
                 <h3 style="margin: 16px 0 8px 0; color: var(--md-sys-color-primary); font-size: 16px;">What's next?</h3>
                 <div style="background: var(--md-sys-color-info-container); color: var(--md-sys-color-on-info-container); padding: 12px; border-radius: 8px;">
-                    <p>I'll keep making it faster and adding features that actually help people be more productive. Accessibility improvements and maybe more customization options are on the list too. All while keeping the privacy-first approach!</p>
+                    <p>I'll keep making it faster and compatible while adding friendly features that may actually help people become more productive. Accessibility improvements and maybe more customization options are on the list too, all while keeping the privacy-first approach!</p>
                 </div>
             </div>
 
@@ -708,9 +728,9 @@
 
         </div>
         <div class="modal-actions">
-            <button class="modal-btn primary" id="closeInfo">Got it!</button>
+            <button class="modal-btn primary" id="closeInfo">Thanks!</button>
             <a href="https://github.com/hnpf/lumina-search" target="_blank">
-                <button class="modal-btn secondary">Check out the code</button>
+                <button class="modal-btn secondary">Check out the code on GitHub!</button>
             </a>
         </div>
     </div>

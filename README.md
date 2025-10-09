@@ -1,45 +1,46 @@
 # Lumina Search Engine
 
-Hey there! Lumina is a search engine interface I built using just plain HTML, CSS, and JavaScript. No fancy frameworks or anything - just the good old web stuff working together to make something pretty cool.
+Hello, Lumina is a search engine interface I built using just HTML, CSS, and JavaScript. No fancy frameworks or anything, just the way the web gods intended.
 
-## What is this thing anyway?
+## What is this?
 
-So I got tired of search engines that feel super slow and cluttered, so I made Lumina as a privacy-focused alternative. It's lightweight, customizable, and actually kinda fun to use. Every feature has a purpose and doesn't slow things down.
+I grew tired of search engines that feel slow and cluttered, so I built what puts privacy first and lets you customize everything. It has weather, notes, bookmarks, and a bunch of other features all in one place without feeling bloated and overwhelming. Inspired by Material Design from my eyes instead.
 
-## Cool stuff it can do
+## Features it has:
 
 ### Search & Discovery
-- **Multiple Search Engines**: Works with DuckDuckGo, Google, Bing, Brave Search, and even your own custom search engine. DuckDuckGo is the default because privacy matters!
-- **Voice Search**: Just click the microphone and talk - works great in Chrome and Edge
-- **Smart Suggestions**: Shows you completions based on your search history (stored locally, of course)
-- **Search History**: Keeps track of your recent searches with easy delete options
+- **Multiple Search Engines**: Works with many engines, and even your own custom url;'/. DuckDuckGo is the default because privacy really matters!
+- **Voice Search**: Just click the microphone and talk - works great in Chromium-based browsers.
+- **Smart Suggestions**: Shows you completions based on your search history (stored locally, obviously)
+- **Search History**: Keeps track of your recent searches and has friendly deletion options
 
 ### Personalization
-- **12 Color Themes**: Beautiful color palettes from amethyst to pearl - pick your favorite!
-- **Custom Backgrounds**: Upload your own images with adjustable transparency
+- **12 Color Themes**: Beautiful color palettes from amethyst to pearl.. pick your favorite!
+- **Custom Backgrounds**: Upload your own images with adjustable opacity settings!
 - **Draggable Widgets**: Move weather, clock, and other widgets wherever you want them
-- **Lots of Customization**: Tweak everything to match your style and workflow
+- **Lots of Customization**: Tweak nearly everything to match your style and workflow.
 
 ### Productivity Tools
 - **Notes System**: Full-featured note-taking with Markdown support and live preview
-- **Bookmark Management**: Organize bookmarks with categories and icons, plus import from browsers
-- **Weather Integration**: Real-time weather using privacy-focused APIs and approximate IP location
-- **Calendar Widget**: Interactive monthly calendar that highlights today
+- **Tasks**: Under the Notes System, are tasks. Create small reminders and checklists with categories, it's really user-friendly!
+- **Bookmarks Panel**: Import and organize bookmarks with categories and icons, plus, you can import some from your browser! I love this feature, its so well-implemented!
+- **Weather Integration**: Get real-time weather using privacy-focused APIs and your approximate IP location. This is not stored anywhere besides locally on your browser!
+- **Calendar Widget**: An interactive monthly calendar which also neatly-integrated events. - i love my design language!
 
 ### Privacy & Security
-- **No Tracking**: Your searches stay private - never stored or sent anywhere
-- **Local Storage**: Everything saves to your browser, with export/import options
-- **Approximate Location**: Weather location from IP (never asks for GPS permission)
+- **Zero Tracking-Policy**: Your searches STAY private. They will never stored or sent anywhere. I hate tracking and data collection as much as you do!
+- **Local Storage**: Self explanatory; Stays with you, Goes to no-one else. Ever.
 - **No Analytics**: Zero tracking scripts or external cookies
+- **Safe & Private APIs**: Uses only safe, free, and private APIs. For your safety and peace-of-mind!
 
-## Installation
+## Use Lumina!
 
-### Option 1: Just open it in your browser
-1. Go to [https://hnpf.github.io/lumina-search](https://hnpf.github.io/lumina-search) in your browser
+### Route 1: Just open it in your browser
+1. Go to [https://search.virex.lol](https://search.virex.lol) in your browser
 2. Boom! You're done. No installation needed!
 
-### Option 2: Run it locally (if you want to tinker)
-For the best experience, especially if you want to modify the code:
+### Route 2: Run it locally (if you want to go that route.)
+For a good experience, especially if you want to modify the code:
 
 ```bash
 # Using Python 3
@@ -177,13 +178,19 @@ I'm planning to:
 ## Changelog
 
 ### Recent Updates
-- **Added Full Mobile Mode Support**: Implemented comprehensive mobile device detection, responsive UI/UX, and mobile-optimized features including touch-friendly interfaces, widget management, and developer controls for testing mobile/desktop modes across different devices.
-- **Fixed Settings Panel Visual Issues**: Resolved viewport clipping and pseudo-element rendering problems that were causing the settings panel to be cut off, ensuring full visibility and proper layout on all screen sizes.
-- **Enhanced Mobile Accessibility**: Improved touch interactions, mobile-specific spacing, and responsive design patterns for better usability on mobile devices and accessibility compliance.
+- **Fixed Mobile mode detection**: Implemented comprehensive mobile device detection, responsive UI/UX, and moved the mobile section.
+- **Mode detection Info**: Now shows detailed device and browser info for better Mobile Mode Detection!
+- **Fixed search bar**: Fixed the search bar for device scaling.
+- **Cleaned up code and deprecated features**: Removed un-necessary functions and comments.
+- **Revamped Info and Documentation**: Also self-explanatory; rewrote and updated Luminfo and README.
+- **New titles around the engine**: Title bar, about, and some button texts changed.
+- **Moved site to Virex.lol subdomain**: Added Lumina to my personal site!
 
 ### Previous Updates
 - **Removed Quick Actions Widget**: Eliminated the problematic quick actions widget after several bugs and performance issues. The feature was causing interface freezes and has been completely removed for a smoother user experience.
-
+- **Added Full Mobile Mode Support**: Implemented comprehensive mobile device detection, responsive UI/UX, and mobile-optimized features including touch-friendly interfaces, widget management, and developer controls for testing mobile/desktop modes across different devices.
+- **Fixed Settings Panel Visual Issues**: Resolved viewport clipping and pseudo-element rendering problems that were causing the settings panel to be cut off, ensuring full visibility and proper layout on all screen sizes.
+- **Enhanced Mobile Accessibility**: Improved touch interactions, mobile-specific spacing, and responsive design patterns for better usability on mobile devices and accessibility compliance.
 ---
 
 *Built with love for the modern web. Simple, private, and actually pretty fun to use!*

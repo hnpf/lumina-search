@@ -390,21 +390,126 @@ const state = {
 const defaultState = JSON.parse(JSON.stringify(state));
 
 // Set default auto dark mode based on system preference
-defaultState.autoDarkMode = detectSystemDarkMode();
+if (typeof window !== 'undefined' && window.matchMedia) {
+    defaultState.autoDarkMode = detectSystemDarkMode();
+}
 
-// Mobile device detection function
+// Enhanced mobile device detection with browser info
 function detectMobileDevice() {
     const userAgent = navigator.userAgent.toLowerCase();
     const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmallScreen = window.innerWidth <= 768;
 
-    return isMobileUA || (isTouchDevice && isSmallScreen);
+    // Enhanced detection for better mobile identification
+    const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    const isAndroid = /android/.test(userAgent);
+    const isChrome = /chrome|crios/.test(userAgent);
+    const isSafari = /safari/.test(userAgent) && !/chrome|crios/.test(userAgent);
+    const isFirefox = /firefox|fxios/.test(userAgent);
+    const isEdge = /edg/.test(userAgent);
+
+    // Get device pixel ratio for high-DPI displays
+    const devicePixelRatio = window.devicePixelRatio || 1;
+
+    // Check for mobile viewport meta tag support
+    const hasMobileViewport = document.querySelector('meta[name="viewport"]');
+
+    // Enhanced screen size detection
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+    const isVerySmallScreen = screenWidth <= 480;
+    const isMediumScreen = screenWidth <= 1024;
+
+    // Detect device orientation
+    const isPortrait = window.innerHeight > window.innerWidth;
+
+    // Store browser info for debugging and optimization
+    const browserInfo = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        isIOS,
+        isAndroid,
+        isChrome,
+        isSafari,
+        isFirefox,
+        isEdge,
+        devicePixelRatio,
+        screenWidth,
+        screenHeight,
+        isPortrait,
+        isVerySmallScreen,
+        isSmallScreen,
+        isMediumScreen,
+        hasTouch: isTouchDevice,
+        hasMobileViewport
+    };
+
+    // Store browser info globally for debugging
+    window.luminaBrowserInfo = browserInfo;
+
+    // Enhanced mobile detection logic
+    const isMobile = isMobileUA || (isTouchDevice && (isSmallScreen || isVerySmallScreen));
+
+    // Log browser info for debugging (only in development)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('Lumina Browser Detection:', browserInfo);
+        console.log('Mobile Detected:', isMobile);
+    }
+
+    return isMobile;
 }
 
 // Detect system dark mode preference
 function detectSystemDarkMode() {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (typeof window === 'undefined' || !window.matchMedia) {
+        return false; // Default to light mode if matchMedia is not available
+    }
+
+    try {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch (e) {
+        console.warn('Error detecting system dark mode preference:', e);
+        return false; // Default to light mode on error
+    }
+}
+
+// Adjust greeting position based on zoom level and screen size
+function adjustGreetingPosition() {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    try {
+        const greeting = document.getElementById('greeting');
+        if (!greeting || !state.showGreeting) return;
+
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+
+        // Calculate approximate zoom level (this is an estimation)
+        const zoomLevel = Math.round((screenWidth / window.screen.availWidth) * 100);
+
+        // If zoom level is high (> 110%) or screen is small, make greeting static
+        if (zoomLevel > 110 || screenWidth <= 900) {
+            greeting.style.position = 'static';
+            greeting.style.transform = 'none';
+            greeting.style.margin = '8px auto 16px auto';
+            greeting.style.maxWidth = 'calc(100% - 16px)';
+            greeting.style.width = 'fit-content';
+            greeting.style.order = '-1';
+        } else {
+            // Reset to fixed positioning for larger screens with normal zoom
+            greeting.style.position = 'fixed';
+            greeting.style.top = '24px';
+            greeting.style.left = '50%';
+            greeting.style.transform = 'translateX(-50%)';
+            greeting.style.margin = '';
+            greeting.style.maxWidth = 'calc(100vw - 48px)';
+            greeting.style.width = 'fit-content';
+            greeting.style.order = '';
+        }
+    } catch (e) {
+        console.warn('Error adjusting greeting position:', e);
+    }
 }
 
 // Get effective mobile state (considers forced modes)
@@ -443,7 +548,22 @@ function loadSettings() {
     // Detect mobile device on load
     state.isMobile = detectMobileDevice();
 
+    // Ensure auto dark mode is properly initialized if not set
+    if (typeof state.autoDarkMode !== 'boolean') {
+        try {
+            state.autoDarkMode = detectSystemDarkMode();
+        } catch (e) {
+            console.warn('Error initializing auto dark mode:', e);
+            state.autoDarkMode = false;
+        }
+    }
+
     applySettings();
+
+    // Adjust greeting position after settings are applied
+    setTimeout(() => {
+        adjustGreetingPosition();
+    }, 100);
 }
 
 function saveSettings() {
@@ -482,13 +602,26 @@ function applyColorTheme(themeName) {
 }
 
 function applySettings() {
-    // Handle auto dark mode
+    // Handle auto dark mode with better error handling
     let effectiveDarkMode = state.darkMode;
     if (state.autoDarkMode) {
-        effectiveDarkMode = detectSystemDarkMode();
+        try {
+            effectiveDarkMode = detectSystemDarkMode();
+        } catch (e) {
+            console.warn('Error detecting system dark mode in applySettings:', e);
+            effectiveDarkMode = false; // Default to light mode on error
+        }
     }
 
-    document.documentElement.setAttribute('data-theme', effectiveDarkMode ? 'dark' : 'light');
+    // Apply theme attribute with error handling
+    try {
+        document.documentElement.setAttribute('data-theme', effectiveDarkMode ? 'dark' : 'light');
+    } catch (e) {
+        console.warn('Error setting theme attribute:', e);
+    }
+
+    // Handle greeting positioning based on zoom and screen size
+    adjustGreetingPosition();
 
     // Update header button icon based on current mode
     const darkModeIcon = document.getElementById('darkModeBtn').querySelector('.material-icons-round');
@@ -638,11 +771,32 @@ function applySettings() {
     if (currentModeDisplay && deviceTypeDisplay) {
         currentModeDisplay.textContent = isInMobileMode() ? 'Mobile' : 'Desktop';
         deviceTypeDisplay.textContent = state.isMobile ? 'Mobile Device' : 'Desktop Device';
+
+        // Update browser info display if element exists
+        const browserInfoDisplay = document.getElementById('browserInfoDisplay');
+        if (browserInfoDisplay && window.luminaBrowserInfo) {
+            const info = window.luminaBrowserInfo;
+            browserInfoDisplay.innerHTML = `
+                <div style="font-size: 11px; color: var(--md-sys-color-on-surface-variant); margin-top: 8px; line-height: 1.4;">
+                    <strong>Browser:</strong> ${info.isChrome ? 'Chrome' : info.isSafari ? 'Safari' : info.isFirefox ? 'Firefox' : info.isEdge ? 'Edge' : 'Unknown'}<br>
+                    <strong>Platform:</strong> ${info.isIOS ? 'iOS' : info.isAndroid ? 'Android' : info.platform}<br>
+                    <strong>Screen:</strong> ${info.screenWidth}×${info.screenHeight}px<br>
+                    <strong>DPI:</strong> ${info.devicePixelRatio}×<br>
+                    <strong>Touch:</strong> ${info.hasTouch ? 'Yes' : 'No'}
+                </div>
+            `;
+        }
     }
 
     renderColorGrid();
     renderShortcuts();
     renderSearchSuggestions();
+
+    // Apply dynamic search bar optimizations
+    setTimeout(() => {
+        optimizeSearchBarForScreenSize();
+        optimizeColorGridForMobile();
+    }, 100);
 }
 
 function renderSearchSuggestions() {
@@ -1162,13 +1316,17 @@ document.getElementById('darkModeBtn').addEventListener('click', () => {
 
 
 // Listen for system dark mode preference changes
-if (window.matchMedia) {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', (e) => {
-        if (state.autoDarkMode) {
-            applySettings();
-        }
-    });
+if (typeof window !== 'undefined' && window.matchMedia) {
+    try {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', (e) => {
+            if (state.autoDarkMode) {
+                applySettings();
+            }
+        });
+    } catch (e) {
+        console.warn('Error setting up system dark mode listener:', e);
+    }
 }
 
 document.getElementById('themeBtn').addEventListener('click', () => {
@@ -2036,11 +2194,109 @@ function loadCustomThemeForEditing(themeName) {
     }
 }
 
+// Dynamic color grid optimization for mobile devices
+function optimizeColorGridForMobile() {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    // Only apply optimizations when in mobile mode
+    if (!isInMobileMode()) return;
+
+    const colorGrid = document.querySelector('.color-grid');
+    const settingsPanel = document.querySelector('.settings-panel');
+
+    if (!colorGrid || !settingsPanel) return;
+
+    const screenWidth = window.innerWidth;
+    const browserInfo = window.luminaBrowserInfo;
+
+    // Apply mobile-specific color grid optimizations
+    if (browserInfo && browserInfo.isVerySmallScreen) {
+        // Very small screens: 6 columns, minimal spacing
+        colorGrid.style.gridTemplateColumns = 'repeat(6, 1fr)';
+        colorGrid.style.gap = '4px';
+        colorGrid.style.overflowX = 'auto';
+        colorGrid.style.scrollSnapType = 'x mandatory';
+
+        // Make color options smaller
+        const colorOptions = colorGrid.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.style.minWidth = '40px';
+            option.style.minHeight = '40px';
+            option.style.borderRadius = '12px';
+            option.style.borderWidth = '1px';
+        });
+
+    } else if (screenWidth <= 768) {
+        // Standard mobile: 4 columns
+        colorGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+        colorGrid.style.gap = '8px';
+
+        const colorOptions = colorGrid.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.style.borderRadius = '16px';
+            option.style.borderWidth = '2px';
+        });
+    }
+
+    // Touch optimizations for color selection
+    if (browserInfo && browserInfo.hasTouch) {
+        const colorOptions = colorGrid.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.style.touchAction = 'manipulation';
+            option.style.cursor = 'pointer';
+        });
+    }
+}
+
 // Initialize custom theme creator when settings panel opens
 document.getElementById('settingsBtn').addEventListener('click', () => {
     setTimeout(() => {
         initializeCustomThemeCreator();
         renderCustomThemesList();
+        optimizeColorGridForMobile();
+
+        // RADICAL NEW APPROACH: Calculate exact content height and ensure visibility
+        const settingsPanel = document.querySelector('.mobile-mode .settings-panel');
+        const settingsContent = document.querySelector('.mobile-mode .settings-content');
+
+        if (settingsPanel && settingsContent) {
+            // Use requestAnimationFrame for accurate measurements
+            requestAnimationFrame(() => {
+                // Calculate total content height
+                const contentHeight = settingsContent.scrollHeight;
+                const viewportHeight = window.innerHeight;
+                const headerHeight = 80; // Approximate header height
+
+                // If content is taller than viewport, ensure enough space
+                if (contentHeight > viewportHeight - headerHeight) {
+                    // Add dynamic padding based on content height
+                    const neededPadding = Math.max(150, contentHeight - viewportHeight + headerHeight + 100);
+                    settingsContent.style.paddingBottom = neededPadding + 'px';
+
+                    // Force layout recalculation
+                    settingsContent.offsetHeight;
+
+                    // Ensure test toggle is visible
+                    setTimeout(() => {
+                        const testToggle = document.getElementById('testToggle');
+                        if (testToggle) {
+                            // Calculate position of test toggle
+                            const togglePosition = testToggle.offsetTop;
+                            const panelHeight = settingsPanel.offsetHeight;
+
+                            // If toggle is near bottom, add extra spacing
+                            if (togglePosition > panelHeight - 200) {
+                                testToggle.style.marginBottom = '200px';
+                                testToggle.style.paddingBottom = '100px';
+                            }
+                        }
+
+                        // Final scroll adjustment
+                        settingsContent.scrollTop = Math.max(0, contentHeight - viewportHeight + headerHeight);
+                    }, 50);
+                }
+            });
+        }
     }, 100);
 });
 
@@ -2197,6 +2453,11 @@ document.getElementById('closeSettings').addEventListener('click', () => {
 
 document.getElementById('devOptionsHeader').addEventListener('click', () => {
     const group = document.getElementById('devOptionsGroup');
+    group.classList.toggle('collapsed');
+});
+
+document.getElementById('mobileModeHeader').addEventListener('click', () => {
+    const group = document.getElementById('mobileModeGroup');
     group.classList.toggle('collapsed');
 });
 
@@ -4125,7 +4386,7 @@ if (todoAddBtn && todoInput) {
 
 setInterval(updateClock, 1000);
 
-// Handle window resize for mobile detection
+// Handle window resize for mobile detection and greeting positioning
 window.addEventListener('resize', () => {
     const wasMobile = state.isMobile;
     state.isMobile = detectMobileDevice();
@@ -4133,8 +4394,88 @@ window.addEventListener('resize', () => {
     // Only reapply settings if mobile state changed
     if (wasMobile !== state.isMobile) {
         applySettings();
+    } else {
+        // Still adjust greeting position even if mobile state didn't change
+        // This handles zoom level changes
+        adjustGreetingPosition();
     }
+
+    // Dynamic search bar optimization for very small screens
+    optimizeSearchBarForScreenSize();
 });
+
+// Dynamic search bar optimization based on screen size and device capabilities
+function optimizeSearchBarForScreenSize() {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    // Only apply optimizations when in mobile mode
+    if (!isInMobileMode()) return;
+
+    const searchContainer = document.querySelector('.search-container');
+    const searchInput = document.querySelector('.search-input');
+    const voiceSearchBtn = document.querySelector('.voice-search-btn');
+
+    if (!searchContainer || !searchInput || !voiceSearchBtn) return;
+
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const browserInfo = window.luminaBrowserInfo;
+
+    // Apply specific optimizations based on device characteristics - only for mobile
+    if (browserInfo && browserInfo.isVerySmallScreen) {
+        // Very small screens (≤480px)
+        searchInput.style.fontSize = '16px'; // Prevent zoom on iOS
+        searchContainer.style.padding = '4px 8px';
+        voiceSearchBtn.style.width = '28px';
+        voiceSearchBtn.style.height = '28px';
+
+        const icon = voiceSearchBtn.querySelector('.material-icons-round');
+        if (icon) icon.style.fontSize = '16px';
+
+    } else if (screenWidth <= 768) {
+        // Standard mobile screens
+        searchInput.style.fontSize = '16px';
+        searchContainer.style.padding = '6px 12px';
+        voiceSearchBtn.style.width = '32px';
+        voiceSearchBtn.style.height = '32px';
+
+        const icon = voiceSearchBtn.querySelector('.material-icons-round');
+        if (icon) icon.style.fontSize = '18px';
+
+    } else if (screenWidth <= 1024) {
+        // Tablets
+        searchInput.style.fontSize = '16px';
+        searchContainer.style.padding = '8px 16px';
+        voiceSearchBtn.style.width = '36px';
+        voiceSearchBtn.style.height = '36px';
+
+        const icon = voiceSearchBtn.querySelector('.material-icons-round');
+        if (icon) icon.style.fontSize = '20px';
+    }
+
+    // High DPI display optimizations
+    if (browserInfo && browserInfo.devicePixelRatio > 1) {
+        searchInput.style.webkitTextSizeAdjust = '100%';
+        searchInput.style.textSizeAdjust = '100%';
+
+        const searchIcon = document.querySelector('.search-icon');
+        if (searchIcon) {
+            searchIcon.style.webkitFontSmoothing = 'antialiased';
+            searchIcon.style.MozOsxFontSmoothing = 'grayscale';
+        }
+    }
+
+    // Touch device optimizations
+    if (browserInfo && browserInfo.hasTouch) {
+        searchContainer.style.touchAction = 'manipulation';
+        searchInput.style.webkitTapHighlightColor = 'rgba(0, 0, 0, 0.1)';
+
+        // Increase touch targets for better usability
+        if (screenWidth <= 768) {
+            searchContainer.style.minHeight = '44px'; // iOS recommended minimum
+        }
+    }
+}
 
 loadSettings();
 loadWeather();

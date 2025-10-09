@@ -1258,6 +1258,53 @@
             box-sizing: border-box;
             backdrop-filter: blur(8px);
             border: 1px solid var(--md-sys-color-outline-variant);
+            /* Ensure greeting doesn't overlap with search bar when zoomed */
+            margin-bottom: 20px;
+        }
+
+        /* Responsive greeting positioning for different zoom levels */
+        @media (max-width: 1200px) and (min-width: 769px) {
+            .greeting {
+                top: 16px !important;
+                padding: 12px 20px;
+            }
+        }
+
+        /* Handle high zoom levels (125% and above) */
+        @media (max-width: 900px) and (min-width: 769px) {
+            .greeting {
+                position: static !important;
+                margin: 8px auto 16px auto !important;
+                transform: none !important;
+                max-width: calc(100% - 16px);
+                width: fit-content;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .greeting {
+                position: static !important;
+                margin: 8px auto !important;
+                transform: none !important;
+                max-width: calc(100% - 16px);
+                width: fit-content;
+                padding: 8px 16px;
+                order: -1;
+            }
+        }
+
+        /* Very small screens or high zoom */
+        @media (max-width: 600px) {
+            .greeting {
+                padding: 6px 12px;
+                font-size: 14px;
+                margin: 4px auto !important;
+            }
+
+            .greeting-text {
+                font-size: 14px !important;
+            }
         }
 
         .greeting-text {
@@ -1915,20 +1962,15 @@
             right: 0;
         }
 
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            /* Ensure full visibility */
-            padding: 16px 0;
-            margin-top: 0;
-            /* Ensure proper positioning */
-            position: relative;
-            z-index: 1;
-            /* Prevent any cutoff */
-            width: 100%;
-            box-sizing: border-box;
+        /* Mobile settings header - simple sticky */
+        .mobile-mode .settings-header {
+            position: sticky;
+            top: 0;
+            background: var(--md-sys-color-surface-container);
+            z-index: 10;
+            padding: 20px;
+            margin: 0 0 20px 0;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
         }
 
         /* Ensure all settings content is fully visible */
@@ -2099,6 +2141,27 @@
             gap: 12px;
         }
 
+        /* Mobile color grid - more compact */
+        .mobile-mode .color-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        /* Very small screens - even more compact */
+        @media (max-width: 480px) {
+            .mobile-mode .color-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 4px;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+            }
+
+            .mobile-mode .color-option {
+                min-width: 40px;
+                min-height: 40px;
+            }
+        }
+
         .color-option {
             aspect-ratio: 1;
             border-radius: 20px;
@@ -2107,6 +2170,20 @@
             border: 3px solid transparent;
             position: relative;
             overflow: hidden;
+        }
+
+        /* Mobile color options - smaller and more compact */
+        .mobile-mode .color-option {
+            border-radius: 16px;
+            border-width: 2px;
+        }
+
+        /* Very small screens - minimal size */
+        @media (max-width: 480px) {
+            .mobile-mode .color-option {
+                border-radius: 12px;
+                border-width: 1px;
+            }
         }
 
         .color-option::after {
@@ -3687,6 +3764,7 @@
             margin-bottom: 8px;
         }
 
+
         /* Mobile sidebar adjustments */
         .mobile-mode .notes-sidebar,
         .mobile-mode .bookmarks-sidebar {
@@ -3726,41 +3804,105 @@
             bottom: 16px;
         }
 
-        /* Mobile settings panel */
+        /* Mobile settings panel - RADICAL GRID-BASED APPROACH */
         .mobile-mode .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -100vw;
             width: 100vw;
             height: 100vh;
-            right: -100vw;
-            left: auto;
-            top: 0;
-            bottom: 0;
-            border-radius: 0;
-            margin: 0;
-            padding: 20px;
-            /* Ensure full visibility on mobile */
-            position: fixed;
-            box-sizing: border-box;
-            /* Remove any clipping issues */
-            max-height: 100vh;
-            min-height: 100vh;
-            /* Simplify for better mobile rendering */
             background: var(--md-sys-color-surface-container);
             box-shadow: -8px 0 24px rgba(0,0,0,0.15);
-            overflow-y: auto;
             z-index: 1000;
-            /* Ensure no cutoff on mobile */
-            max-width: 100vw;
-            min-width: 100vw;
+            /* Use CSS Grid for precise layout control */
+            display: grid;
+            grid-template-rows: auto 1fr;
+            grid-template-columns: 1fr;
+            overflow: hidden;
+            box-sizing: border-box;
         }
 
         .mobile-mode .settings-panel.open {
             right: 0;
         }
 
-        /* Ensure mobile mode section is fully visible */
+        /* Mobile settings header - grid row 1 */
+        .mobile-mode .settings-header {
+            grid-row: 1;
+            grid-column: 1;
+            position: sticky;
+            top: 0;
+            background: var(--md-sys-color-surface-container);
+            z-index: 10;
+            padding: 20px;
+            margin: 0;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        /* Mobile settings content - grid row 2 with dynamic viewport sizing */
+        .mobile-mode .settings-content {
+            grid-row: 2;
+            grid-column: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px;
+            /* Use viewport-based padding for dynamic sizing */
+            padding-bottom: max(150px, 30vh);
+            /* Ensure content height adapts to viewport */
+            min-height: 60vh;
+            /* Allow content to expand beyond viewport if needed */
+            max-height: none;
+        }
+
+        /* Mobile settings content layout - simple block layout */
+        .mobile-mode .settings-content {
+            padding: 20px;
+            padding-bottom: 120px; /* Extra bottom padding for safety */
+        }
+
+        /* Mobile settings sections with proper spacing */
+        .mobile-mode .setting-group {
+            margin-bottom: 0;
+        }
+
+        .mobile-mode .setting-label {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .mobile-mode .settings-panel.open {
+            right: 0;
+        }
+
+        /* CLEAN MOBILE LAYOUT - No excessive spacing */
+        .mobile-mode .setting-group {
+            margin-bottom: 32px;
+            overflow: visible;
+        }
+
+        /* Reasonable spacing for last section */
         .mobile-mode .setting-group:last-of-type {
-            margin-bottom: 80px;
-            padding-bottom: 60px;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+        }
+
+        /* Extra padding for the mobile mode toggle section specifically */
+        .mobile-mode .setting-group-content .setting-group {
+            padding-bottom: 60px !important;
+            margin-bottom: 40px !important;
+        }
+
+        /* Ensure the last toggle in mobile mode section has extra space */
+        .mobile-mode .setting-group-content .setting-group .toggle-option:last-child {
+            margin-bottom: 60px !important;
+            padding-bottom: 40px !important;
+        }
+
+        /* Fix mobile settings content overflow */
+        .mobile-mode .settings-panel .setting-group {
+            overflow: visible;
+            max-height: none;
         }
 
         /* Fix mobile mode toggle visibility */
@@ -3771,11 +3913,76 @@
             min-height: 60px;
         }
 
-        /* Ensure mobile optimized search toggle is fully visible */
-        .mobile-mode #mobileOptimizedSearchToggle {
-            margin-bottom: 20px;
-            /* Add extra spacing to prevent cutoff */
+        /* Clean mobile mode section styling - now in dedicated section */
+        .mobile-mode #mobileModeGroup .toggle-option {
+            margin-bottom: 16px;
+        }
+
+        /* Fix mobile mode toggle section visibility */
+        .mobile-mode .setting-group-content {
+            overflow: visible !important;
+            max-height: none !important;
+        }
+
+        /* Ensure all mobile toggles are visible */
+        .mobile-mode .toggle-option {
+            min-height: 60px;
+            margin-bottom: 16px;
+            overflow: visible;
+        }
+
+        /* Clean last toggle styling */
+        .mobile-mode .toggle-option:last-child {
+            margin-bottom: 32px;
             padding-bottom: 20px;
+        }
+
+        /* Clean test toggle styling */
+        .mobile-mode #testToggle {
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+        }
+
+        /* Clean mobile mode toggle section */
+        .mobile-mode .setting-group-content .setting-group:last-child {
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        /* Clean toggle spacing */
+        .mobile-mode .setting-group-content .setting-group .toggle-option {
+            margin-bottom: 20px;
+        }
+
+        /* FORCE ALL MOBILE MODE TOGGLES TO BE VISIBLE */
+        .mobile-mode .setting-group-content .setting-group {
+            margin-bottom: 200px !important;
+            padding-bottom: 150px !important;
+            border-bottom: 2px solid var(--md-sys-color-outline-variant);
+            overflow: visible !important;
+            max-height: none !important;
+        }
+
+        /* Ensure mobile mode content containers allow all content */
+        .mobile-mode .setting-group-content {
+            overflow: visible !important;
+            max-height: none !important;
+        }
+
+        /* Clean mobile toggle spacing */
+        .mobile-mode .setting-group-content .setting-group .toggle-option:last-child {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+        }
+
+        /* New dedicated mobile mode section */
+        .mobile-mode #mobileModeGroup {
+            margin-bottom: 32px;
+        }
+
+        .mobile-mode #mobileModeContent {
+            overflow: visible;
         }
 
         /* Additional fix for settings panel viewport issues */
@@ -3801,11 +4008,7 @@
             margin-bottom: 24px;
         }
 
-        /* Ensure no content gets clipped */
-        .mobile-mode .setting-group:last-of-type {
-            margin-bottom: 80px !important;
-            padding-bottom: 60px !important;
-        }
+        /* Clean mobile layout - no excessive spacing needed */
 
         /* Touch-friendly interactions */
         .mobile-mode .shortcut,
@@ -3840,9 +4043,101 @@
             }
         }
 
+        /* Enhanced mobile breakpoints for different phone sizes */
+
+        /* Very small phones (iPhone SE, small Android phones) - only when in mobile mode */
+        @media (max-width: 480px) {
+            .mobile-mode .search-container {
+                padding: 4px 8px;
+                border-radius: 14px;
+            }
+
+            .mobile-mode .search-input {
+                font-size: 16px; /* Prevent zoom on iOS */
+                padding: 4px 0;
+                width: calc(100% - 50px);
+            }
+
+            .mobile-mode .search-icon {
+                font-size: 16px;
+            }
+
+            .mobile-mode .voice-search-btn {
+                width: 28px;
+                height: 28px;
+            }
+
+            .mobile-mode .voice-search-btn .material-icons-round {
+                font-size: 16px;
+            }
+
+            .mobile-mode .header-actions {
+                gap: 2px;
+            }
+
+            .mobile-mode .icon-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .mobile-mode .icon-btn .material-icons-round {
+                font-size: 18px;
+            }
+
+            .mobile-mode .container {
+                padding: 6px 4px;
+            }
+
+            .mobile-mode .header {
+                margin-bottom: 12px;
+            }
+        }
+
+        /* Small phones (standard size) - only when in mobile mode */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .mobile-mode .search-container {
+                padding: 6px 12px;
+            }
+
+            .mobile-mode .search-input {
+                font-size: 16px;
+                padding: 6px 0;
+                width: calc(100% - 60px);
+            }
+
+            .mobile-mode .voice-search-btn {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        /* Tablets and larger phones - only when in mobile mode */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .mobile-mode .search-container {
+                padding: 8px 16px;
+            }
+
+            .mobile-mode .search-input {
+                font-size: 16px;
+                padding: 8px 0;
+            }
+
+            .mobile-mode .voice-search-btn {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+        /* General mobile styles */
         @media (max-width: 768px) {
             .settings-panel {
                 width: 100%;
+            }
+
+            /* Mobile color grid optimizations */
+            .mobile-mode .color-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
             }
 
             .weather, .clock, .calendar, .todo-widget {
@@ -3901,13 +4196,15 @@
                 padding: 8px 4px;
             }
 
-            .search-container {
+            /* Enhanced search bar for mobile - only when in mobile mode */
+            .mobile-mode .search-container {
                 padding: 8px 12px;
                 width: calc(100% - 8px);
                 margin: 0 auto;
+                border-radius: 20px;
             }
 
-            .search-input {
+            .mobile-mode .search-input {
                 font-size: 16px;
                 padding: 6px 0;
             }
@@ -3927,6 +4224,37 @@
                 width: 100vw !important;
                 margin: 0 !important;
                 padding: 0 !important;
+            }
+        }
+
+        /* High DPI / Retina display optimizations */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .mobile-mode .search-input {
+                -webkit-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+            }
+
+            .mobile-mode .search-icon,
+            .mobile-mode .voice-search-btn .material-icons-round {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        }
+
+        /* Landscape orientation optimizations for mobile - only when in mobile mode */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .mobile-mode .search-section {
+                padding: 10px 0;
+                min-height: auto;
+            }
+
+            .mobile-mode .search-container {
+                margin: 0 auto;
+                width: calc(100% - 16px);
+            }
+
+            .mobile-mode .header {
+                margin-bottom: 8px;
             }
         }
 
