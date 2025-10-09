@@ -32,7 +32,7 @@
             --shadow-2: 0 1px 2px rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15);
             --shadow-3: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
 
-            /* Theme preview variables */
+            /* theme preview variables */
             --preview-primary: #6750A4;
             --preview-primary-container: #E9DDFF;
             --preview-on-primary-container: #22005D;
@@ -75,15 +75,15 @@
             color: var(--md-sys-color-on-surface);
             transition: background 0.5s cubic-bezier(0.2, 0, 0, 1), color 0.5s cubic-bezier(0.2, 0, 0, 1);
             min-height: 100vh;
-            min-height: 100dvh; /* Dynamic viewport height for mobile */
+            min-height: 100dvh; /* viewport height on mobile */
             overflow-x: hidden;
             position: relative;
-            /* Prevent rendering artifacts */
+            /* might prevent rendering artifacts, or nothing at all. */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Mobile body improvements */
+        /* simple mobile body improvements */
         .mobile-mode body {
             min-height: 100dvh;
             max-height: 100dvh;
@@ -94,7 +94,7 @@
             padding: 0;
         }
 
-        /* Ensure html also has no overflow */
+        /* html also shouldnt have overflow. */
         .mobile-mode html {
             overflow-x: hidden;
             width: 100vw;
@@ -115,20 +115,20 @@
             z-index: -2;
             opacity: 0.3;
             transition: opacity 0.5s ease;
-            /* Ensure no cutoff */
+            /* this fixed cutoffs, dont touch! */
             min-width: 100vw;
             min-height: 100vh;
         }
 
-        /* Ensure background covers full mobile viewport */
+        /* i forgot what this does, i think its just mobile bg */
         .mobile-mode .background-image {
             width: 100vw;
-            height: 100dvh; /* Use dvh for mobile */
+            height: 100dvh; /* dvh because mobile */
             min-width: 100vw;
             min-height: 100dvh;
             background-size: cover;
             background-position: center center;
-            background-attachment: scroll; /* Better for mobile */
+            background-attachment: scroll; /* just better */
         }
 
         .background-overlay {
@@ -145,7 +145,7 @@
                 radial-gradient(circle at 85% 30%, var(--md-sys-color-secondary-container), transparent 40%),
                 radial-gradient(circle at 60% 80%, var(--md-sys-color-tertiary-container), transparent 40%);
             transition: opacity 0.5s ease;
-            /* Ensure no cutoff */
+            /* no cutoff, again. */
             min-width: 100vw;
             min-height: 100vh;
         }
@@ -160,7 +160,6 @@
             z-index: -1;
             opacity: 1;
             transition: opacity 0.5s ease;
-            /* Ensure no cutoff */
             min-width: 100vw;
             min-height: 100vh;
         }
@@ -172,7 +171,7 @@
             animation: floatAround 15s ease-in-out infinite;
         }
 
-        /* Dark theme adjustments for floating shapes */
+        /* dark theme support for shapes */
         [data-theme="dark"] .floating-shape {
             opacity: 0.8;
         }
@@ -281,7 +280,7 @@
             }
         }
 
-        /* Ensure overlay covers full mobile viewport */
+        /* overlay covers full mobile viewport */
         .mobile-mode .background-overlay {
             width: 100vw;
             height: 100dvh;
@@ -289,7 +288,7 @@
             min-height: 100dvh;
         }
 
-        /* Mobile mode background shapes */
+        /* mobile mode background shapes support */
         .mobile-mode .background-shapes {
             width: 100vw;
             height: 100dvh;
@@ -356,7 +355,7 @@
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Dark theme logo */
+        /* dark theme fixes */
         [data-theme="dark"] .logo {
             color: var(--md-sys-color-on-surface);
         }
@@ -428,7 +427,7 @@
             border: 2px solid transparent;
         }
 
-        /* Dark theme search container */
+        /* dark theme search container. */
         [data-theme="dark"] .search-container {
             background: var(--md-sys-color-surface-container-high);
         }
@@ -461,7 +460,7 @@
             font-family: 'Google Sans', sans-serif;
         }
 
-        /* Dark theme search input */
+        /* dark theme search input, different from container itself. */
         [data-theme="dark"] .search-input {
             color: var(--md-sys-color-on-surface);
         }
@@ -489,7 +488,7 @@
             height: 48px;
         }
 
-        /* Dark theme search button */
+        /* search button for the dark theme, self explanatory */
         [data-theme="dark"] .search-btn {
             background: var(--md-sys-color-primary);
             color: var(--md-sys-color-on-primary);
@@ -510,12 +509,12 @@
             font-size: 20px;
         }
 
-        /* Desktop-only search button */
+        /* desktop search button */
         .desktop-only {
             display: block;
         }
 
-        /* Hide search button on mobile */
+        /* hide desktop search button on mobile. seriously, who needs that? */
         .mobile-mode .desktop-only {
             display: none !important;
         }
@@ -654,7 +653,7 @@
             pointer-events: none;
         }
 
-        /* Enhanced drag performance for touch devices */
+        /*  beteta drag performance for mobile, dont want them screaming at me */
         @media (hover: none) and (pointer: coarse) {
             .shortcut.dragging {
                 transform: rotate(1deg) scale(1.08) translateZ(0);
@@ -669,7 +668,7 @@
             }
         }
 
-        /* Prevent text selection during drag */
+        /* stop text selection during drag */
         .shortcut.dragging,
         .shortcut.dragging * {
             -webkit-user-select: none;
@@ -682,7 +681,7 @@
             -o-user-drag: none;
         }
 
-        /* Custom drag image */
+        /* i forgot what this does */
         .shortcut.dragging::after {
             content: '';
             position: absolute;
@@ -696,7 +695,7 @@
             z-index: -1;
         }
 
-        /* Ensure smooth animations during drag operations */
+        /* fixed smooth animations during drag */
         .shortcuts * {
             will-change: transform, opacity;
         }
@@ -856,7 +855,7 @@
         .weather.dragging {
             cursor: grabbing;
             box-shadow: var(--shadow-3);
-            /* Remove transform effects during drag for smooth movement */
+            /* stop transform effects during drag for smooth movement.. */
             transform: none !important;
         }
 
@@ -915,7 +914,7 @@
         .clock.dragging {
             cursor: grabbing;
             box-shadow: var(--shadow-3);
-            /* Remove transform effects during drag for smooth movement */
+            /* break transform effects during drag once again */
             transform: none !important;
         }
 
@@ -939,7 +938,6 @@
         .calendar.dragging {
             cursor: grabbing;
             box-shadow: var(--shadow-3);
-            /* Remove transform effects during drag for smooth movement */
             transform: none !important;
         }
 
@@ -1091,7 +1089,6 @@
         .todo-widget.dragging {
             cursor: grabbing;
             box-shadow: var(--shadow-3);
-            /* Remove transform effects during drag for smooth movement */
             transform: none !important;
         }
 
@@ -1258,11 +1255,11 @@
             box-sizing: border-box;
             backdrop-filter: blur(8px);
             border: 1px solid var(--md-sys-color-outline-variant);
-            /* Ensure greeting doesn't overlap with search bar when zoomed */
+            /* this is so the greeting doesn't overlap with search bar when schaled. i hated the greeting until now! */
             margin-bottom: 20px;
         }
 
-        /* Responsive greeting positioning for different zoom levels */
+        /* better greeting positioning for different zoom levels, also fixed my issue. */
         @media (max-width: 1200px) and (min-width: 769px) {
             .greeting {
                 top: 16px !important;
@@ -1270,7 +1267,7 @@
             }
         }
 
-        /* Handle high zoom levels (125% and above) */
+        /*this handles high zoom levels (125% and above), i love my low-res users. */
         @media (max-width: 900px) and (min-width: 769px) {
             .greeting {
                 position: static !important;
@@ -1294,7 +1291,7 @@
             }
         }
 
-        /* Very small screens or high zoom */
+        /* small screens or high zoom once again */
         @media (max-width: 600px) {
             .greeting {
                 padding: 6px 12px;
@@ -1566,7 +1563,7 @@
             transform: scale(1.1);
         }
 
-        /* Dark theme adjustments for help button */
+        /* for help button */
         [data-theme="dark"] .notes-help-btn {
             background: var(--md-sys-color-surface-container-highest);
             color: var(--md-sys-color-on-surface);
@@ -1605,13 +1602,13 @@
             box-shadow: var(--shadow-3);
         }
 
-        /* Dark theme notes toggle */
+        /* dark note */
         [data-theme="dark"] .notes-toggle {
             background: var(--md-sys-color-primary);
             color: var(--md-sys-color-on-primary);
         }
 
-        /* Light theme notes toggle - ensure contrast */
+        /* light theme notes toggle - fixed contrast? */
         .notes-toggle {
             background: var(--md-sys-color-primary);
             color: var(--md-sys-color-on-primary);
@@ -1942,14 +1939,13 @@
             padding: 32px;
             border-radius: 0;
             margin: 0;
-            /* Ensure full visibility */
             box-sizing: border-box;
-            /* Remove any potential clipping */
+            /* stopped clipping before it happens */
             max-height: 100vh;
             min-height: 100vh;
         }
 
-        /* Remove pseudo-elements that cause clipping */
+        /* delete pseudo-elements that also caused clipping, my own creation is my biggest enemy. */
         .settings-panel::before {
             display: none;
         }
@@ -1962,7 +1958,7 @@
             right: 0;
         }
 
-        /* Mobile settings header - simple sticky */
+        /* mobile settings header - simple sticky! */
         .mobile-mode .settings-header {
             position: sticky;
             top: 0;
@@ -1973,7 +1969,7 @@
             border-bottom: 1px solid var(--md-sys-color-outline-variant);
         }
 
-        /* Ensure all settings content is fully visible */
+        /* this is so all settings contents are fully visible */
         .settings-panel > * {
             box-sizing: border-box;
             max-width: 100%;
@@ -1988,13 +1984,13 @@
             padding-bottom: 40px;
         }
 
-        /* Ensure mobile mode section is never cut off */
+        /* mobile mode section is never cut off now thanks to this */
         .mobile-mode .settings-header {
             padding: 20px 0 16px 0;
             margin-bottom: 24px;
         }
 
-        /* Fix for mobile mode section visibility */
+        /* and this */
         .setting-group-content {
             max-height: 1000px;
             overflow: visible;
@@ -2016,9 +2012,9 @@
         .setting-group {
             margin-bottom: 32px;
             animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            /* Prevent rendering artifacts */
+            /* stops rendering artifacts */
             contain: layout;
-            /* Ensure proper spacing and prevent cutoff */
+            /* proper spacing and prevent cutoff.. again */
             padding-top: 4px;
             padding-bottom: 4px;
         }
@@ -2027,7 +2023,7 @@
             margin-bottom: 16px;
         }
 
-        /* Fix mobile mode section cutoff */
+        /* mobile mode section cutoff fix */
         .setting-group:last-of-type {
             margin-bottom: 48px;
             padding-bottom: 20px;
@@ -2130,7 +2126,7 @@
             transform: scale(1.1);
         }
 
-        /* Dark theme switch thumb */
+        /* dark theme switch thumb */
         [data-theme="dark"] .switch-thumb {
             background: var(--md-sys-color-surface);
         }
@@ -2141,13 +2137,13 @@
             gap: 12px;
         }
 
-        /* Mobile color grid - more compact */
+        /* mobile color grid - probably more compact */
         .mobile-mode .color-grid {
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
         }
 
-        /* Very small screens - even more compact */
+        /* very small screens? even more compact */
         @media (max-width: 480px) {
             .mobile-mode .color-grid {
                 grid-template-columns: repeat(6, 1fr);
@@ -2172,13 +2168,13 @@
             overflow: hidden;
         }
 
-        /* Mobile color options - smaller and more compact */
+        /* color options for mobile; smaller and more compact */
         .mobile-mode .color-option {
             border-radius: 16px;
             border-width: 2px;
         }
 
-        /* Very small screens - minimal size */
+        /* very small screens, probably minimal size */
         @media (max-width: 480px) {
             .mobile-mode .color-option {
                 border-radius: 12px;
@@ -2211,15 +2207,15 @@
             transform: scale(1.05) rotate(5deg);
         }
 
-        /* Custom Theme Creator Styles */
+        /* theme creator style */
         .theme-customization-panel {
             background: var(--md-sys-color-surface-container-low);
             border-radius: 26px;
             padding: 24px;
             margin-bottom: 32px;
-            min-height: 400px; /* Increased height for font dropdown */
+            min-height: 400px; /* bigger height for font dropdown */
             position: relative;
-            max-height: 1000px; /* Prevent it from getting too tall */
+            max-height: 1000px; /* stop it from getting too tall, even though it is */
         }
 
         .color-pickers-grid {
@@ -2313,6 +2309,7 @@
             z-index: 10;
             box-shadow: var(--shadow-1);
             appearance: none;
+            /* svg ?*/
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 14px center;
@@ -2320,7 +2317,7 @@
             padding-right: 40px;
         }
 
-        /* Enhanced dropdown styling for webkit browsers */
+        /* for webkit browsers */
         .font-selection-management select::-webkit-scrollbar {
             width: 8px;
         }
@@ -2415,7 +2412,7 @@
             font-size: 14px;
         }
 
-        /* Animation keyframes for dropdown options */
+        /* keyframes for dropdown options */
         @keyframes optionFadeIn {
             from {
                 opacity: 0;
@@ -2444,7 +2441,7 @@
             position: relative;
             z-index: 10;
             box-shadow: var(--shadow-1);
-            appearance: none; /* Remove default browser styling */
+            appearance: none; /* stop default browser styling, more svg */
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 12px center;
@@ -2468,7 +2465,7 @@
             transform: translateY(-1px);
         }
 
-        /* Style the dropdown options to match Material Design */
+        /* style the dropdown options to match my material design stuff */
         .font-selection select option {
             padding: 12px 16px;
             background: var(--md-sys-color-surface);
@@ -2637,7 +2634,7 @@
             background: var(--md-sys-color-surface-container-low);
         }
 
-        /* Theme Management Styles */
+        /* chills bro, chills */
         .theme-management-panel {
             background: var(--md-sys-color-surface-container-low);
             border-radius: 26px;
@@ -2829,7 +2826,7 @@
             opacity: 1;
             pointer-events: all;
         }
-
+        /* cat 😭 */
         .add-shortcut {
             background: var(--md-sys-color-primary-container);
             border-radius: 24px;
@@ -2850,9 +2847,9 @@
             justify-content: center;
             gap: 4px;
             margin: 0 auto;
-            /* Enable drop events */
+            /* drop events */
             pointer-events: auto;
-            /* Ensure drop events work */
+            /* forgot what this was */
             user-select: none;
         }
 
@@ -2964,7 +2961,7 @@
             color: var(--md-sys-color-on-surface);
         }
 
-        /* Dark theme modal title */
+        /* dark cat */
         [data-theme="dark"] .modal-title {
             color: var(--md-sys-color-on-surface);
         }
@@ -3310,37 +3307,6 @@
             box-shadow: var(--shadow-2);
         }
 
-        /* Funny modal special styling */
-        #funnyModal {
-            background: linear-gradient(135deg, #ffebee, #ffcdd2);
-            border: 3px solid #f44336;
-            animation: shake 0.5s ease-in-out;
-        }
-
-        #funnyModal .modal-title {
-            color: #d32f2f;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            font-weight: bold;
-        }
-
-        #funnyModal #funnyDieBtn {
-            background: linear-gradient(45deg, #ff5252, #e53935);
-            box-shadow: 0 4px 8px rgba(255, 82, 82, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        #funnyModal #funnyDieBtn::before {
-            content: '☠️';
-            position: absolute;
-            top: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 60px;
-            opacity: 0.3;
-            animation: float 3s ease-in-out infinite;
-        }
-
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
@@ -3372,7 +3338,7 @@
             border-left: 4px solid var(--md-sys-color-primary);
         }
 
-        /* Dark theme markdown sections */
+        /* theme markdown sections */
         [data-theme="dark"] .markdown-section {
             background: var(--md-sys-color-surface-container-highest);
         }
@@ -3384,7 +3350,7 @@
             font-weight: 600;
         }
 
-        /* Dark theme markdown section headers */
+        /* markdown section headers */
         [data-theme="dark"] .markdown-section h4 {
             color: var(--md-sys-color-primary);
         }
@@ -3395,7 +3361,7 @@
             color: var(--md-sys-color-on-surface);
         }
 
-        /* Dark theme markdown examples */
+        /* theme markdown ex */
         [data-theme="dark"] .markdown-example {
             color: var(--md-sys-color-on-surface);
         }
@@ -3458,7 +3424,7 @@
         .notes-preview h2 { font-size: 20px; }
         .notes-preview h3 { font-size: 18px; }
 
-        /* Dark theme preview headers */
+        /* theme preview headers */
         [data-theme="dark"] .notes-preview h1,
         [data-theme="dark"] .notes-preview h2,
         [data-theme="dark"] .notes-preview h3 {
@@ -3536,7 +3502,7 @@
             color: var(--md-sys-color-on-primary-container);
         }
 
-        /* Dark theme adjustments for preview toggle */
+        /* theme adjustments for preview toggle */
         [data-theme="dark"] .notes-preview-toggle {
             background: var(--md-sys-color-surface-container-low);
             color: var(--md-sys-color-on-surface);
@@ -3557,10 +3523,6 @@
             box-shadow: var(--shadow-2);
         }
 
-        /* Mobile Mode Styles */
-        .mobile-mode {
-            /* Hide desktop-specific elements in mobile mode */
-        }
 
         .mobile-mode .weather,
         .mobile-mode .clock,
@@ -3629,7 +3591,7 @@
         }
 
         .mobile-mode .search-input {
-            font-size: 16px; /* Prevent zoom on iOS */
+            font-size: 16px; /* stops zoom on iOS, havent tested because F%&* apple */
             padding: 8px 0;
             line-height: 1.2;
         }
@@ -3666,21 +3628,21 @@
             box-sizing: border-box;
         }
 
-        /* Ensure full viewport coverage */
+        /* full viewport coverage */
         .mobile-mode body {
             width: 100vw;
             overflow-x: hidden;
             margin: 0;
             padding: 0;
-            /* Handle mobile browser UI */
+            /* handle mobile browser UI */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* Additional mobile background fix */
+        /* other mobile background fix */
         .mobile-mode .background-image,
         .mobile-mode .background-overlay {
-            transform: scale(1.05); /* Slightly larger to prevent any edge gaps */
+            transform: scale(1.05); /* bit larger to prevent any edge gaps, this works somehwo */
             width: 105vw;
             height: 105vh;
             left: -2.5vw;
@@ -3697,7 +3659,7 @@
             padding: 20px 0;
         }
 
-        /* Ensure search container is properly centered */
+        /* for search container to properly center */
         .mobile-mode .search-container {
             width: calc(100% - 16px);
             margin: 0 auto;
@@ -3707,7 +3669,7 @@
             margin-bottom: 20px;
         }
 
-        /* Mobile-optimized widgets */
+        /* dont trust mobile widgets */
         .mobile-mode .weather {
             min-width: auto;
             min-height: auto;
@@ -3765,7 +3727,7 @@
         }
 
 
-        /* Mobile sidebar adjustments */
+        /* sidebar adjustments for mobile */
         .mobile-mode .notes-sidebar,
         .mobile-mode .bookmarks-sidebar {
             width: 100vw;
@@ -3804,7 +3766,7 @@
             bottom: 16px;
         }
 
-        /* Mobile settings panel - RADICAL GRID-BASED APPROACH */
+        /* RADICAL GRID-BASED APPROACH? IM SO TIRED */
         .mobile-mode .settings-panel {
             position: fixed;
             top: 0;
@@ -3814,7 +3776,7 @@
             background: var(--md-sys-color-surface-container);
             box-shadow: -8px 0 24px rgba(0,0,0,0.15);
             z-index: 1000;
-            /* Use CSS Grid for precise layout control */
+            /* cutoff protection didnt work here so i just recoded */
             display: grid;
             grid-template-rows: auto 1fr;
             grid-template-columns: 1fr;
@@ -3826,7 +3788,7 @@
             right: 0;
         }
 
-        /* Mobile settings header - grid row 1 */
+        /* mobile settings header - grid row 1 */
         .mobile-mode .settings-header {
             grid-row: 1;
             grid-column: 1;
@@ -3839,7 +3801,7 @@
             border-bottom: 1px solid var(--md-sys-color-outline-variant);
         }
 
-        /* Mobile settings content - grid row 2 with dynamic viewport sizing */
+        /* mobile settings content - grid row 2 with dynamic viewport sizing */
         .mobile-mode .settings-content {
             grid-row: 2;
             grid-column: 1;
@@ -3847,21 +3809,21 @@
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
             padding: 20px;
-            /* Use viewport-based padding for dynamic sizing */
+            /* using viewport-based padding for cooler sizing */
             padding-bottom: max(150px, 30vh);
-            /* Ensure content height adapts to viewport */
+            /* make suer content height adapts to viewport */
             min-height: 60vh;
-            /* Allow content to expand beyond viewport if needed */
+            /* content should expand beyond viewport if needed, also havent tested.. bug testers come my way! */
             max-height: none;
         }
 
-        /* Mobile settings content layout - simple block layout */
+        /* mobile settings content layout - block layout */
         .mobile-mode .settings-content {
             padding: 20px;
-            padding-bottom: 120px; /* Extra bottom padding for safety */
+            padding-bottom: 120px; /* rxtra bottom padding just for safety */
         }
 
-        /* Mobile settings sections with proper spacing */
+        /* mobile settings sections with proper spacing */
         .mobile-mode .setting-group {
             margin-bottom: 0;
         }
@@ -3875,87 +3837,80 @@
             right: 0;
         }
 
-        /* CLEAN MOBILE LAYOUT - No excessive spacing */
+        /* CLEAN MOBILE LAYOUT - no excessive spacing too */
         .mobile-mode .setting-group {
             margin-bottom: 32px;
             overflow: visible;
         }
 
-        /* Reasonable spacing for last section */
+        /* reasonable spacing for that last section */
         .mobile-mode .setting-group:last-of-type {
             margin-bottom: 60px;
             padding-bottom: 40px;
         }
 
-        /* Extra padding for the mobile mode toggle section specifically */
+        /* extra padding for the mobile mode toggle section specifically, i sleep now */
         .mobile-mode .setting-group-content .setting-group {
             padding-bottom: 60px !important;
             margin-bottom: 40px !important;
         }
 
-        /* Ensure the last toggle in mobile mode section has extra space */
         .mobile-mode .setting-group-content .setting-group .toggle-option:last-child {
             margin-bottom: 60px !important;
             padding-bottom: 40px !important;
         }
 
-        /* Fix mobile settings content overflow */
         .mobile-mode .settings-panel .setting-group {
             overflow: visible;
             max-height: none;
         }
 
-        /* Fix mobile mode toggle visibility */
+        /* fix mobile mode toggle Visibility */
         .mobile-mode .toggle-option {
             margin-bottom: 16px;
             padding: 20px;
-            /* Ensure proper touch targets */
+            /* fix touch targets */
             min-height: 60px;
         }
 
-        /* Clean mobile mode section styling - now in dedicated section */
+        /* clean mobile mode section styling - now in its dedicated section because its not a dev option anymore! */
         .mobile-mode #mobileModeGroup .toggle-option {
             margin-bottom: 16px;
         }
 
-        /* Fix mobile mode toggle section visibility */
         .mobile-mode .setting-group-content {
             overflow: visible !important;
             max-height: none !important;
         }
 
-        /* Ensure all mobile toggles are visible */
         .mobile-mode .toggle-option {
             min-height: 60px;
             margin-bottom: 16px;
             overflow: visible;
         }
 
-        /* Clean last toggle styling */
+        /* cleanup toggle styling */
         .mobile-mode .toggle-option:last-child {
             margin-bottom: 32px;
             padding-bottom: 20px;
         }
 
-        /* Clean test toggle styling */
         .mobile-mode #testToggle {
             margin-bottom: 32px;
             padding-bottom: 20px;
         }
 
-        /* Clean mobile mode toggle section */
+        /* clean mobile mode toggle section */
         .mobile-mode .setting-group-content .setting-group:last-child {
             margin-bottom: 48px;
             padding-bottom: 32px;
             border-bottom: 1px solid var(--md-sys-color-outline-variant);
         }
 
-        /* Clean toggle spacing */
         .mobile-mode .setting-group-content .setting-group .toggle-option {
             margin-bottom: 20px;
         }
 
-        /* FORCE ALL MOBILE MODE TOGGLES TO BE VISIBLE */
         .mobile-mode .setting-group-content .setting-group {
             margin-bottom: 200px !important;
             padding-bottom: 150px !important;
@@ -3964,19 +3919,16 @@
             max-height: none !important;
         }
 
-        /* Ensure mobile mode content containers allow all content */
         .mobile-mode .setting-group-content {
             overflow: visible !important;
             max-height: none !important;
         }
 
-        /* Clean mobile toggle spacing */
         .mobile-mode .setting-group-content .setting-group .toggle-option:last-child {
             margin-bottom: 32px;
             padding-bottom: 32px;
         }
 
-        /* New dedicated mobile mode section */
         .mobile-mode #mobileModeGroup {
             margin-bottom: 32px;
         }
@@ -3985,14 +3937,10 @@
             overflow: visible;
         }
 
-        /* Additional fix for settings panel viewport issues */
         .settings-panel {
-            /* Prevent any edge clipping */
             max-height: 100vh;
             min-height: 100vh;
-            /* Ensure proper containment */
             contain: layout style;
-            /* Force full visibility */
             top: 0 !important;
             left: auto !important;
             right: -100%;
@@ -4002,15 +3950,15 @@
             right: 0 !important;
         }
 
-        /* Fix for any remaining cutoff issues */
+        /* fix for any cutoff issues hopefully */
         .mobile-mode .settings-header {
             padding: 20px 0 16px 0 !important;
             margin-bottom: 24px;
         }
 
-        /* Clean mobile layout - no excessive spacing needed */
+        /* clean mobile layout - no excessive spacing needed */
 
-        /* Touch-friendly interactions */
+        /* tuch-friendly interactions */
         .mobile-mode .shortcut,
         .mobile-mode .icon-btn,
         .mobile-mode .toggle-option {
@@ -4018,20 +3966,17 @@
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* Hide drag handles on mobile for cleaner look */
+        /* fah */
         .mobile-mode .shortcut-drag-handle,
         .mobile-mode .shortcut-remove {
             display: none;
         }
-
-        /* Mobile-specific animations */
         .mobile-mode .weather,
         .mobile-mode .clock,
         .mobile-mode .calendar,
         .mobile-mode .todo-widget {
             animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
         @keyframes slideInUp {
             from {
                 opacity: 0;
@@ -4043,9 +3988,9 @@
             }
         }
 
-        /* Enhanced mobile breakpoints for different phone sizes */
+        /* mobile breakpoints for different phone sizes */
 
-        /* Very small phones (iPhone SE, small Android phones) - only when in mobile mode */
+        /* super small phones (iPhone SE, small Android phones) - only when in mobile mode! */
         @media (max-width: 480px) {
             .mobile-mode .search-container {
                 padding: 4px 8px;
@@ -4053,7 +3998,7 @@
             }
 
             .mobile-mode .search-input {
-                font-size: 16px; /* Prevent zoom on iOS */
+                font-size: 16px; /* stops zoom on iOS */
                 padding: 4px 0;
                 width: calc(100% - 50px);
             }
@@ -4093,7 +4038,7 @@
             }
         }
 
-        /* Small phones (standard size) - only when in mobile mode */
+        /* nirmal phones - only when in mobile mode */
         @media (min-width: 481px) and (max-width: 768px) {
             .mobile-mode .search-container {
                 padding: 6px 12px;
@@ -4111,7 +4056,7 @@
             }
         }
 
-        /* Tablets and larger phones - only when in mobile mode */
+        /* tablets and larger phones - only when in mobile mode */
         @media (min-width: 769px) and (max-width: 1024px) {
             .mobile-mode .search-container {
                 padding: 8px 16px;
@@ -4128,13 +4073,13 @@
             }
         }
 
-        /* General mobile styles */
+        /* normal mobile styles */
         @media (max-width: 768px) {
             .settings-panel {
                 width: 100%;
             }
 
-            /* Mobile color grid optimizations */
+            /* mobile color grid optimization */
             .mobile-mode .color-grid {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 8px;
@@ -4196,7 +4141,7 @@
                 padding: 8px 4px;
             }
 
-            /* Enhanced search bar for mobile - only when in mobile mode */
+            /* search bar for mobile - only when in mobile mode */
             .mobile-mode .search-container {
                 padding: 8px 12px;
                 width: calc(100% - 8px);
@@ -4209,7 +4154,7 @@
                 padding: 6px 0;
             }
 
-            /* Fix background coverage on small screens */
+            /* fix background coverage on small screens */
             .background-image, .background-overlay {
                 width: 105vw !important;
                 height: 105vh !important;
@@ -4218,7 +4163,7 @@
                 transform: scale(1.05) !important;
             }
 
-            /* Ensure body has no overflow on small screens */
+            /* no overflow on small screens - important */
             body {
                 overflow-x: hidden !important;
                 width: 100vw !important;
@@ -4227,7 +4172,7 @@
             }
         }
 
-        /* High DPI / Retina display optimizations */
+        /* high DPI / retina display optimizations */
         @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
             .mobile-mode .search-input {
                 -webkit-text-size-adjust: 100%;
@@ -4241,7 +4186,7 @@
             }
         }
 
-        /* Landscape orientation optimizations for mobile - only when in mobile mode */
+        /* landscape orientation optimizations for mobile - only when in mobile mode */
         @media (max-width: 768px) and (orientation: landscape) {
             .mobile-mode .search-section {
                 padding: 10px 0;
@@ -4276,7 +4221,7 @@
             background: var(--md-sys-color-outline);
         }
 
-        /* Search engine dropdown styling */
+        /* dropdown styling */
         #searchEngine {
             background: var(--md-sys-color-surface-container-high) !important;
             color: var(--md-sys-color-on-surface) !important;
@@ -4300,7 +4245,7 @@
             padding: 8px !important;
         }
 
-        /* Dark theme search engine dropdown */
+        /* dark theme search engine dropdown */
         [data-theme="dark"] #searchEngine {
             background: var(--md-sys-color-surface-container-highest) !important;
             color: var(--md-sys-color-on-surface) !important;
@@ -4311,7 +4256,7 @@
             color: var(--md-sys-color-on-surface) !important;
         }
 
-        /* Notes Todo Section Styles */
+        /* todo section Styles */
         .notes-todo-section {
             padding: 20px 24px;
             border-top: 1px solid var(--md-sys-color-outline-variant);
@@ -4572,7 +4517,7 @@
             transform: scale(1.1);
         }
 
-        /* Dark theme adjustments for notes todo */
+        /* dark theme fix for todo */
         [data-theme="dark"] .notes-todo-section {
             background: var(--md-sys-color-surface-container-highest);
         }
@@ -4592,7 +4537,7 @@
             border-color: var(--md-sys-color-outline);
         }
 
-        /* Mobile responsive for notes todo */
+        /* responsive mobile todo */
         .mobile-mode .notes-todo-section {
             padding: 16px 20px;
         }
@@ -4621,7 +4566,6 @@
             font-size: 13px;
         }
 
-        /* Calendar Event Modal Styles */
         .modal textarea.modal-input {
             resize: vertical;
             min-height: 80px;
@@ -4649,12 +4593,10 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        /* Dark theme color options */
+        /* cat */
         [data-theme="dark"] .modal .color-option {
             border-color: var(--md-sys-color-surface-container-highest);
         }
-
-        /* Custom Color Picker Styles */
         .custom-color-picker {
             display: flex;
             align-items: center;
@@ -4716,7 +4658,6 @@
             color: var(--md-sys-color-primary);
         }
 
-        /* Color Picker Modal Styles */
         .color-picker-modal-content {
             padding: 20px 0;
         }
@@ -4836,7 +4777,6 @@
             border-radius: 2px;
             background: var(--md-sys-color-outline-variant);
             outline: none;
-            -webkit-appearance: none;
         }
 
         #colorPickerAlpha::-webkit-slider-thumb {

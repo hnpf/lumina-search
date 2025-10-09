@@ -1,6 +1,6 @@
-// Enhanced theme configuration system
+// fix theme configuration system
 const themeConfig = {
-    // Predefined color themes
+    // preset colors
     colorThemes: {
         amethyst: {
             primary: '#9b59b6',
@@ -112,7 +112,7 @@ const themeConfig = {
         }
     },
 
-    // Available fonts for themes
+    // fonts for themes
     availableFonts: [
         { name: 'Google Sans', family: "'Google Sans', sans-serif" },
         { name: 'Inter', family: 'Inter, sans-serif' },
@@ -131,10 +131,10 @@ const themeConfig = {
         { name: 'Times New Roman', family: "'Times New Roman', serif" }
     ],
 
-    // Custom themes storage
+    // custom themes storage
     customThemes: {},
 
-    // Theme management functions
+    // theme management functions
     saveCustomTheme: function(name, themeData) {
         this.customThemes[name] = {
             ...themeData,
@@ -204,12 +204,10 @@ const themeConfig = {
     },
 
     getTheme: function(themeName) {
-        // Check custom themes first
+        // check custom themes first
         if (this.customThemes[themeName]) {
             return this.customThemes[themeName];
         }
-
-        // Check predefined themes
         if (this.colorThemes[themeName]) {
             return {
                 name: themeName,
@@ -226,7 +224,7 @@ const themeConfig = {
     getAllThemes: function() {
         const themes = {};
 
-        // Add predefined themes
+        // show preset themes
         Object.keys(this.colorThemes).forEach(name => {
             themes[name] = {
                 name: name,
@@ -237,7 +235,7 @@ const themeConfig = {
             };
         });
 
-        // Add custom themes
+        // add custom themes for when custom themes are custom.
         Object.keys(this.customThemes).forEach(name => {
             themes[name] = this.customThemes[name];
         });
@@ -253,14 +251,14 @@ const themeConfig = {
     }
 };
 
-// Legacy compatibility - keep the old colorThemes object for backward compatibility
+// keep the old colorThemes object for backward compatibility, muight not go a long way..
 const colorThemes = themeConfig.colorThemes;
 
 const state = {
     darkMode: false,
     autoDarkMode: false,
     colorTheme: 'amethyst',
-    customTheme: null, // For storing current custom theme data
+    customTheme: null, // for storing current custom theme data
     fontFamily: "'Google Sans', sans-serif",
     showWeather: true,
     showShortcuts: true,
@@ -273,7 +271,7 @@ const state = {
     showGreeting: true,
     showCalendar: false,
     showTodo: false,
-    // Mobile mode settings
+    // too much for my small brain
     isMobile: false,
     forceMobileMode: false,
     forceDesktopMode: false,
@@ -287,7 +285,7 @@ const state = {
     todos: [
         { text: "Welcome to Lumina todos!", completed: false, category: "General" },
         { text: "Try creating a new todo with categories", completed: false, category: "General" },
-        { text: "Use the filter dropdown to sort by category", completed: false, category: "General" }
+        { text: "Use the filter dropdown to sort by category.", completed: false, category: "General" }
     ],
     todoCategories: ['General', 'Work', 'Personal', 'Shopping', 'Health'],
     searchHistory: [],
@@ -307,29 +305,10 @@ const state = {
     calendarPosition: null,
     todoPosition: null,
     calendarEvents: [
-        // Sample events for demonstration
-        {
-            id: Date.now(),
-            title: 'Team Meeting',
-            description: 'Weekly team standup meeting',
-            date: '2024-12-20',
-            startTime: '10:00',
-            endTime: '11:00',
-            category: 'Work',
-            color: '#3498db'
-        },
-        {
-            id: Date.now() + 1,
-            title: 'Lunch with Sarah',
-            description: 'Catch up over lunch',
-            date: '2024-12-22',
-            startTime: '12:30',
-            endTime: '14:00',
-            category: 'Personal',
-            color: '#2ecc71'
-        }
+        // preset events if you wanna add them
     ],
     shortcuts: [
+        // use custom shortcuts!
         {label: 'YouTube', url: 'https://youtube.com', icon: 'play_circle'},
         {label: 'GitHub', url: 'https://github.com', icon: 'code'},
         {label: 'Discord', url: 'https://discord.com/app', icon: 'chat'},
@@ -389,42 +368,36 @@ const state = {
 //                         <span>Search Reddit</span>
 const defaultState = JSON.parse(JSON.stringify(state));
 
-// Set default auto dark mode based on system preference
+// set default auto based on system preference
 if (typeof window !== 'undefined' && window.matchMedia) {
     defaultState.autoDarkMode = detectSystemDarkMode();
 }
 
-// Enhanced mobile device detection with browser info
+// enhanced mobile detection with browser info, happy this works
 function detectMobileDevice() {
     const userAgent = navigator.userAgent.toLowerCase();
     const isMobileUA = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmallScreen = window.innerWidth <= 768;
-
-    // Enhanced detection for better mobile identification
+    // alos, added enhanced detection for better mobile info
     const isIOS = /iphone|ipad|ipod/.test(userAgent);
     const isAndroid = /android/.test(userAgent);
     const isChrome = /chrome|crios/.test(userAgent);
     const isSafari = /safari/.test(userAgent) && !/chrome|crios/.test(userAgent);
     const isFirefox = /firefox|fxios/.test(userAgent);
     const isEdge = /edg/.test(userAgent);
-
-    // Get device pixel ratio for high-DPI displays
+    // get device pixel ratio for high-DPI displays, useful!
     const devicePixelRatio = window.devicePixelRatio || 1;
-
-    // Check for mobile viewport meta tag support
+    // check for mobile viewport meta tag support
     const hasMobileViewport = document.querySelector('meta[name="viewport"]');
-
-    // Enhanced screen size detection
+    // screen size detection
     const screenWidth = window.screen.width;
     const screenHeight = window.screen.height;
     const isVerySmallScreen = screenWidth <= 480;
     const isMediumScreen = screenWidth <= 1024;
-
-    // Detect device orientation
+    // detect device orientation
     const isPortrait = window.innerHeight > window.innerWidth;
-
-    // Store browser info for debugging and optimization
+    // store browser info for debugging and optimization
     const browserInfo = {
         userAgent: navigator.userAgent,
         platform: navigator.platform,
@@ -444,37 +417,28 @@ function detectMobileDevice() {
         hasTouch: isTouchDevice,
         hasMobileViewport
     };
-
-    // Store browser info globally for debugging
+    // store browser info globally for debugging
     window.luminaBrowserInfo = browserInfo;
-
-    // Enhanced mobile detection logic
+    // enhanced mobile detection logic
     const isMobile = isMobileUA || (isTouchDevice && (isSmallScreen || isVerySmallScreen));
-
-    // Log browser info for debugging (only in development)
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        console.log('Lumina Browser Detection:', browserInfo);
-        console.log('Mobile Detected:', isMobile);
-    }
-
     return isMobile;
 }
 
-// Detect system dark mode preference
+// detect system dark mode preference
 function detectSystemDarkMode() {
     if (typeof window === 'undefined' || !window.matchMedia) {
-        return false; // Default to light mode if matchMedia is not available
+        return false; // default to light mode if matchMedia isnt available
     }
 
     try {
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
     } catch (e) {
         console.warn('Error detecting system dark mode preference:', e);
-        return false; // Default to light mode on error
+        return false; // default to light mode on error, trash code but works
     }
 }
 
-// Adjust greeting position based on zoom level and screen size
+// adjust greeting pos based on zoom level and screen
 function adjustGreetingPosition() {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
@@ -485,10 +449,10 @@ function adjustGreetingPosition() {
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
 
-        // Calculate approximate zoom level (this is an estimation)
+        // zoom level (this is an estimation!)
         const zoomLevel = Math.round((screenWidth / window.screen.availWidth) * 100);
 
-        // If zoom level is high (> 110%) or screen is small, make greeting static
+        // if zoom level is high (> 110%) or screen is small, it shall make greeting stuff static
         if (zoomLevel > 110 || screenWidth <= 900) {
             greeting.style.position = 'static';
             greeting.style.transform = 'none';
@@ -497,7 +461,7 @@ function adjustGreetingPosition() {
             greeting.style.width = 'fit-content';
             greeting.style.order = '-1';
         } else {
-            // Reset to fixed positioning for larger screens with normal zoom
+            // reset to fixed positioning for larger screens with normal zoom
             greeting.style.position = 'fixed';
             greeting.style.top = '24px';
             greeting.style.left = '50%';
@@ -511,15 +475,13 @@ function adjustGreetingPosition() {
         console.warn('Error adjusting greeting position:', e);
     }
 }
-
-// Get effective mobile state (considers forced modes)
+// get effective mobile state (considers forced modes)
 function getEffectiveMobileState() {
     if (state.forceMobileMode) return true;
     if (state.forceDesktopMode) return false;
     return state.isMobile;
 }
-
-// Check if currently in mobile mode
+// check if currently in mobile mode
 function isInMobileMode() {
     return getEffectiveMobileState();
 }
@@ -542,13 +504,13 @@ function loadSettings() {
         }
     }
 
-    // Load custom themes
+    // load ur custom themes
     themeConfig.loadCustomThemes();
 
-    // Detect mobile device on load
+    // detect mobile device on load
     state.isMobile = detectMobileDevice();
 
-    // Ensure auto dark mode is properly initialized if not set
+    // auto dark mode properly initialized, if not set
     if (typeof state.autoDarkMode !== 'boolean') {
         try {
             state.autoDarkMode = detectSystemDarkMode();
@@ -560,7 +522,7 @@ function loadSettings() {
 
     applySettings();
 
-    // Adjust greeting position after settings are applied
+    // adjust greeting pos after settings are applied
     setTimeout(() => {
         adjustGreetingPosition();
     }, 100);
@@ -576,7 +538,7 @@ function applyColorTheme(themeName) {
 
     const root = document.documentElement;
 
-    // Apply color variables
+    // apply color vars
     if (theme.colors) {
         root.style.setProperty('--md-sys-color-primary', theme.colors.primary);
         root.style.setProperty('--md-sys-color-primary-container', theme.colors.primaryContainer);
@@ -587,13 +549,13 @@ function applyColorTheme(themeName) {
         root.style.setProperty('--md-sys-color-tertiary-container', theme.colors.tertiaryContainer);
     }
 
-    // Apply font family
+    // font family - didnt test
     if (theme.fonts && theme.fonts.primary) {
         root.style.setProperty('--font-family-primary', theme.fonts.primary);
         state.fontFamily = theme.fonts.primary;
     }
 
-    // Update font family display in settings if available
+    // update font family display in settings if works
     const fontDisplay = document.getElementById('currentFontDisplay');
     if (fontDisplay) {
         const fontName = themeConfig.availableFonts.find(f => f.family === theme.fonts?.primary)?.name || 'Google Sans';
@@ -602,28 +564,22 @@ function applyColorTheme(themeName) {
 }
 
 function applySettings() {
-    // Handle auto dark mode with better error handling
+    // handle auto dark mode with better handling
     let effectiveDarkMode = state.darkMode;
     if (state.autoDarkMode) {
         try {
             effectiveDarkMode = detectSystemDarkMode();
         } catch (e) {
             console.warn('Error detecting system dark mode in applySettings:', e);
-            effectiveDarkMode = false; // Default to light mode on error
+            effectiveDarkMode = false; // default to light mode on error.. wow guys im such a good programmer
         }
     }
-
-    // Apply theme attribute with error handling
     try {
         document.documentElement.setAttribute('data-theme', effectiveDarkMode ? 'dark' : 'light');
     } catch (e) {
         console.warn('Error setting theme attribute:', e);
     }
-
-    // Handle greeting positioning based on zoom and screen size
     adjustGreetingPosition();
-
-    // Update header button icon based on current mode
     const darkModeIcon = document.getElementById('darkModeBtn').querySelector('.material-icons-round');
     if (state.autoDarkMode) {
         darkModeIcon.textContent = 'auto_fix_high';
@@ -636,27 +592,24 @@ function applySettings() {
 
     applyColorTheme(state.colorTheme);
 
-    // Apply font family
+    // apply font family
     if (state.fontFamily) {
         document.body.style.fontFamily = state.fontFamily;
         document.documentElement.style.setProperty('--font-family-primary', state.fontFamily);
     }
-
-    // Apply mobile mode styles
+    // apply mobile mode styles
     document.body.classList.toggle('mobile-mode', isInMobileMode());
-
-    // Handle widget visibility in mobile mode
+    // handle widget visibility in mobile mode
     const effectiveMobile = isInMobileMode();
     const hideWidgetsOnMobile = effectiveMobile && state.hideWidgetsOnMobile;
     const hideKeyboardShortcutsOnMobile = effectiveMobile && state.hideKeyboardShortcutsOnMobile;
-
+    //im not epileptic but god this hurts myh eyes
     document.getElementById('weather').style.display = (state.showWeather && !hideWidgetsOnMobile) ? 'block' : 'none';
     document.getElementById('shortcuts').style.display = (state.showShortcuts && !hideKeyboardShortcutsOnMobile) ? 'grid' : 'none';
     document.querySelector('.background-overlay').style.display = state.showAnimations ? 'block' : 'none';
     document.getElementById('clock').style.display = (state.showClock && !hideWidgetsOnMobile) ? 'block' : 'none';
     document.getElementById('greeting').style.display = state.showGreeting ? 'block' : 'none';
     document.getElementById('calendar').style.display = (state.showCalendar && !hideWidgetsOnMobile) ? 'block' : 'none';
-
     const backgroundImage = document.getElementById('backgroundImage');
     if (state.backgroundImage) {
         backgroundImage.style.backgroundImage = `url(${state.backgroundImage})`;
@@ -665,7 +618,6 @@ function applySettings() {
         backgroundImage.style.backgroundImage = '';
         backgroundImage.style.opacity = '0';
     }
-
     const backgroundShapes = document.getElementById('backgroundShapes');
     if (backgroundShapes) {
         backgroundShapes.style.opacity = state.showBackgroundShapes ? '1' : '0';
@@ -683,15 +635,12 @@ function applySettings() {
         clock.style.left = state.clockPosition.left + 'px';
         clock.style.top = state.clockPosition.top + 'px';
     }
-
     if (state.calendarPosition) {
         const calendar = document.getElementById('calendar');
         calendar.style.left = state.calendarPosition.left + 'px';
         calendar.style.top = state.calendarPosition.top + 'px';
         calendar.style.right = 'auto';
     }
-
-
 
     document.getElementById('searchSuggestions').style.display = state.searchSuggestions ? 'flex' : 'none';
 
@@ -712,7 +661,7 @@ function applySettings() {
         customInput.style.display = state.searchEngine === 'custom' ? 'block' : 'none';
     }
 
-    // Simple toggle state application
+    // toggle state application
     const toggleMap = {
         'weatherToggle': 'showWeather',
         'clockToggle': 'showClock',
@@ -748,7 +697,7 @@ function applySettings() {
         }
     });
 
-    // Mobile mode toggles
+    // mobile mode toggles
     const mobileModeToggles = [
         {id: 'forceMobileModeToggle', key: 'forceMobileMode'},
         {id: 'forceDesktopModeToggle', key: 'forceDesktopMode'},
@@ -765,14 +714,14 @@ function applySettings() {
         }
     });
 
-    // Update mode display
+    // update mode display
     const currentModeDisplay = document.getElementById('currentModeDisplay');
     const deviceTypeDisplay = document.getElementById('deviceTypeDisplay');
     if (currentModeDisplay && deviceTypeDisplay) {
         currentModeDisplay.textContent = isInMobileMode() ? 'Mobile' : 'Desktop';
         deviceTypeDisplay.textContent = state.isMobile ? 'Mobile Device' : 'Desktop Device';
 
-        // Update browser info display if element exists
+        // update browser info display if element exists
         const browserInfoDisplay = document.getElementById('browserInfoDisplay');
         if (browserInfoDisplay && window.luminaBrowserInfo) {
             const info = window.luminaBrowserInfo;
@@ -787,12 +736,10 @@ function applySettings() {
             `;
         }
     }
-
     renderColorGrid();
     renderShortcuts();
     renderSearchSuggestions();
-
-    // Apply dynamic search bar optimizations
+    // apply dynamic search bar optimization
     setTimeout(() => {
         optimizeSearchBarForScreenSize();
         optimizeColorGridForMobile();
@@ -897,7 +844,6 @@ function renderShortcuts() {
     const importBookmarksBtn = document.getElementById('importBookmarksBtn');
     if (importBookmarksBtn) {
         importBookmarksBtn.addEventListener('click', () => {
-            alert('Browser Bookmark Import\n\nTo import your browser bookmarks:\n1. Export your bookmarks as HTML from your browser\n2. Use the Import Settings feature in Developer Options\n3. Your bookmarks will be available in the Bookmarks sidebar\n\nNote: Direct browser bookmark access requires a browser extension for security reasons.');
         });
     }
 }
@@ -928,7 +874,7 @@ function setupDragAndDrop() {
 
         addBtn.addEventListener('dragleave', (e) => {
             e.preventDefault();
-            // Reset visual state
+            // reset visual state
             addBtn.style.background = '';
             addBtn.style.borderColor = '';
             addBtn.style.transform = '';
@@ -939,7 +885,7 @@ function setupDragAndDrop() {
             e.preventDefault();
             e.stopPropagation();
 
-            // Reset visual state immediately
+            // reset visual state immediately
             addBtn.style.background = '';
             addBtn.style.borderColor = '';
             addBtn.style.transform = '';
@@ -962,10 +908,10 @@ function setupDragAndDrop() {
         shortcut.draggable = true;
 
         shortcut.addEventListener('dragstart', (e) => {
-            // Add dragging class immediately for smooth animation
+            // add dragging class asap for smooth animation
             shortcut.classList.add('dragging');
 
-            // Set drag data with multiple formats for better compatibility
+            // set drag data with multiple formats for good compatibiklitr
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', shortcut.outerHTML);
             e.dataTransfer.setData('text/plain', shortcut.dataset.index);
@@ -994,7 +940,7 @@ function setupDragAndDrop() {
         });
 
         shortcut.addEventListener('dragend', (e) => {
-            // Remove dragging class with slight delay for smooth animation
+            // remove dragging class with slight delay for a somewhat smooth animation
             setTimeout(() => {
                 shortcut.classList.remove('dragging');
                 shortcut.style.pointerEvents = '';
@@ -1164,7 +1110,7 @@ function renderSearchHistoryModal() {
         </div>
     `).join('');
 
-    // Add click listeners to history items
+    // add click listeners to history items
     document.querySelectorAll('.search-history-modal-item').forEach(item => {
         item.addEventListener('click', (e) => {
             if (e.target.closest('.search-history-delete-btn')) return;
@@ -1177,7 +1123,7 @@ function renderSearchHistoryModal() {
         });
     });
 
-    // Add click listeners to delete buttons
+    // add click listeners to delete buttons
     document.querySelectorAll('.search-history-delete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1200,7 +1146,7 @@ function renderBookmarks() {
         return;
     }
 
-    // Group bookmarks by category
+    // group bookmarks by category
     const bookmarksByCategory = {};
     state.bookmarks.forEach(bookmark => {
         const category = bookmark.category || 'General';
@@ -1234,7 +1180,7 @@ function renderBookmarks() {
 
     bookmarksList.innerHTML = html;
 
-    // Add click listeners to delete buttons
+    // add click listeners to delete buttons
     document.querySelectorAll('.bookmark-delete').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1276,7 +1222,7 @@ function setupBookmarks() {
         bookmarksSidebar.classList.remove('open');
     });
 
-    // Prevent clicks inside bookmarks sidebar from closing it
+    // stop clicks inside bookmarks sidebar from closing it
     bookmarksSidebar.addEventListener('click', (e) => {
         e.stopPropagation();
     });
@@ -1296,17 +1242,17 @@ function showFunnyModal() {
     overlay.classList.add('visible');
 }
 
-// Dark mode button cycles through: manual light -> manual dark -> auto
+// dark mode button cycles through: manual light -> manual dark -> auto
 document.getElementById('darkModeBtn').addEventListener('click', () => {
     if (state.autoDarkMode) {
-        // Currently auto, switch to manual dark
+        // currently auto, switch to manual dark
         state.autoDarkMode = false;
         state.darkMode = true;
     } else if (state.darkMode) {
-        // Currently manual dark, switch to manual light
+        // currently manual dark, switch to manual light
         state.darkMode = false;
     } else {
-        // Currently manual light, switch to auto
+        // currently manual light, switch to auto
         state.darkMode = false;
         state.autoDarkMode = true;
     }
@@ -1315,7 +1261,7 @@ document.getElementById('darkModeBtn').addEventListener('click', () => {
 });
 
 
-// Listen for system dark mode preference changes
+// listen for system dark mode preference changes
 if (typeof window !== 'undefined' && window.matchMedia) {
     try {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -1337,7 +1283,7 @@ document.getElementById('themeBtn').addEventListener('click', () => {
     saveSettings();
 });
 
-// Custom Theme Creator functionality
+// custom Theme Creator functionality
 let customThemeData = {
     colors: {
         primary: '#6750A4',
@@ -1361,25 +1307,19 @@ let isDraggingCanvas = false;
 let isDraggingHue = false;
 
 function initializeCustomThemeCreator() {
-    // Initialize color pickers with current theme values
+    // initialize color pickers with current theme values
     updateColorPickersFromCurrentTheme();
-
-    // Setup color picker event listeners
+    // setup color picker event listeners
     setupColorPickerListeners();
-
-    // Setup font selection listener
+    // setup font selection listener
     setupFontSelectionListener();
-
-    // Setup theme action listeners
+    // setup theme action listeners
     setupThemeActionListeners();
-
-    // Setup theme management listeners
+    // setup theme management listeners
     setupThemeManagementListeners();
-
-    // Setup custom color picker modal
+    // setup custom color picker modal
     setupCustomColorPicker();
-
-    // Initial preview update
+    // initial preview update
     updateThemePreview();
 }
 
@@ -1408,7 +1348,7 @@ function updateFontSelectionDisplay() {
 }
 
 function updateColorPickerInputs() {
-    // Update color picker inputs
+    // update color picker inputs
     document.getElementById('primaryColorPicker').value = customThemeData.colors.primary;
     document.getElementById('primaryColorText').value = customThemeData.colors.primary;
     document.getElementById('primaryContainerColorPicker').value = customThemeData.colors.primaryContainer;
@@ -1424,12 +1364,12 @@ function updateColorPickerInputs() {
     document.getElementById('tertiaryContainerColorPicker').value = customThemeData.colors.tertiaryContainer;
     document.getElementById('tertiaryContainerColorText').value = customThemeData.colors.tertiaryContainer;
 
-    // Update font selection
+    // update font selection
     document.getElementById('fontFamilySelect').value = customThemeData.fonts.primary;
 }
 
 function setupColorPickerListeners() {
-    // Custom color picker click listeners
+    // custom color picker click listeners
     const colorPickerIds = [
         'primary', 'primaryContainer', 'onPrimaryContainer',
         'secondary', 'secondaryContainer', 'tertiary', 'tertiaryContainer'
@@ -1483,7 +1423,7 @@ function setupFontSelectionListener() {
         });
     }
 
-    // Ensure font selection is visible
+    // ensure font selection is visible
     if (fontSelect) {
         fontSelect.style.display = 'block';
         fontSelect.style.visibility = 'visible';
@@ -1497,8 +1437,7 @@ function setupFontSelectionListener() {
 
 function updateThemePreview() {
     const root = document.documentElement;
-
-    // Apply preview colors as CSS custom properties
+    // apply preview colors as CSS custom props
     root.style.setProperty('--preview-primary', customThemeData.colors.primary);
     root.style.setProperty('--preview-primary-container', customThemeData.colors.primaryContainer);
     root.style.setProperty('--preview-on-primary-container', customThemeData.colors.onPrimaryContainer);
@@ -1507,8 +1446,6 @@ function updateThemePreview() {
     root.style.setProperty('--preview-tertiary', customThemeData.colors.tertiary);
     root.style.setProperty('--preview-tertiary-container', customThemeData.colors.tertiaryContainer);
     root.style.setProperty('--preview-font-family', customThemeData.fonts.primary);
-
-    // Update preview elements
     const previewPrimary = document.getElementById('previewPrimary');
     const previewSecondary = document.getElementById('previewSecondary');
     const previewSurface = document.getElementById('previewSurface');
@@ -1533,13 +1470,13 @@ function updateThemePreview() {
 }
 
 function setupThemeActionListeners() {
-    // Reset to current theme
+    // reset to current theme
     document.getElementById('resetCustomTheme')?.addEventListener('click', () => {
         updateColorPickersFromCurrentTheme();
         updateThemePreview();
     });
 
-    // Apply custom theme
+    // apply custom theme
     document.getElementById('applyCustomTheme')?.addEventListener('click', () => {
         applyCustomThemeToApp();
     });
@@ -1547,20 +1484,12 @@ function setupThemeActionListeners() {
 
 function applyCustomThemeToApp() {
     const root = document.documentElement;
-
-    // Apply the custom theme colors
     Object.entries(customThemeData.colors).forEach(([key, value]) => {
         root.style.setProperty(`--md-sys-color-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`, value);
     });
-
-    // Apply the custom font
     root.style.setProperty('--font-family-primary', customThemeData.fonts.primary);
     document.body.style.fontFamily = customThemeData.fonts.primary;
-
-    // Update state
     state.fontFamily = customThemeData.fonts.primary;
-
-    // Show success feedback
     showThemeAppliedFeedback();
 }
 
@@ -1580,27 +1509,26 @@ function showThemeAppliedFeedback() {
 }
 
 function setupThemeManagementListeners() {
-    // Save custom theme
     document.getElementById('saveCustomTheme')?.addEventListener('click', () => {
         const themeName = document.getElementById('themeNameInput').value.trim();
         if (themeName) {
             saveCustomTheme(themeName);
         } else {
-            alert('Please enter a name for your theme.');
+            alert('Enter a name for your theme.');
         }
     });
 
-    // Export theme
+    // export theme
     document.getElementById('exportTheme')?.addEventListener('click', () => {
         exportCurrentCustomTheme();
     });
 
-    // Import theme
+    // import theme
     document.getElementById('importTheme')?.addEventListener('click', () => {
         document.getElementById('importThemeFile').click();
     });
 
-    // Import theme file change
+    // import theme file change
     document.getElementById('importThemeFile')?.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -1616,11 +1544,11 @@ function setupCustomColorPicker() {
 
     if (!colorPickerModal || !colorPickerCanvas || !hueCanvas) return;
 
-    // Setup modal event listeners
+    // setup event listeners
     document.getElementById('cancelColorPicker')?.addEventListener('click', hideColorPickerModal);
     document.getElementById('applyColorPicker')?.addEventListener('click', applyColorPicker);
 
-    // Setup canvas event listeners
+    // more event listeners
     colorPickerCanvas.addEventListener('mousedown', startCanvasDrag);
     document.addEventListener('mousemove', handleCanvasDrag);
     document.addEventListener('mouseup', stopCanvasDrag);
@@ -1634,20 +1562,15 @@ function setupCustomColorPicker() {
 
     hueCanvas.addEventListener('touchstart', handleHueTouch);
     hueCanvas.addEventListener('touchmove', handleHueTouch);
-
-    // Setup input listeners
+    // input listeners
     document.getElementById('colorPickerHexInput')?.addEventListener('input', handleHexInput);
     document.getElementById('colorPickerAlpha')?.addEventListener('input', handleAlphaInput);
-
-    // Setup preset colors
     document.querySelectorAll('.preset-color').forEach(preset => {
         preset.addEventListener('click', () => {
             const color = preset.dataset.color;
             setColorPickerColor(color);
         });
     });
-
-    // Initialize canvases
     initializeColorPickerCanvases();
 }
 
@@ -1657,7 +1580,7 @@ function showColorPickerModal() {
     colorPickerModal.classList.add('visible');
     document.getElementById('overlay').classList.add('visible');
 
-    // Initialize color picker with current color
+    // init color picker with current color
     setColorPickerColor(currentColorPicker.currentColor);
     drawColorPickerCanvases();
 }
@@ -1724,7 +1647,7 @@ function setColorPickerColor(color) {
     }
     if (alphaValue) alphaValue.textContent = Math.round((color.length > 7 ? parseInt(color.substring(7), 16) / 255 : 1) * 100) + '%';
 
-    // Parse color for canvas positioning
+    // parse color for canvas positioning
     const rgb = hexToRgb(color.length > 7 ? color.substring(0, 7) : color);
     if (rgb) {
         const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
@@ -1774,7 +1697,7 @@ function drawColorPickerCanvases() {
 function updateCanvasPositions(hue, saturation, value) {
     if (!colorPickerCanvas || !hueCanvas) return;
 
-    // Update color picker cursor
+    // update color picker cursor
     const canvasRect = colorPickerCanvas.getBoundingClientRect();
     const x = (saturation / 100) * canvasRect.width;
     const y = ((100 - value) / 100) * canvasRect.height;
@@ -1786,7 +1709,7 @@ function updateCanvasPositions(hue, saturation, value) {
         cursor.style.display = 'block';
     }
 
-    // Update hue cursor
+    // update hue
     const hueRect = hueCanvas.getBoundingClientRect();
     const hueX = (hue / 360) * hueRect.width;
 
@@ -1912,7 +1835,7 @@ function handleAlphaInput(e) {
     const alphaValue = document.getElementById('alphaValue');
     if (alphaValue) alphaValue.textContent = Math.round(alpha * 100) + '%';
 
-    // Update preview with alpha if needed
+    // update preview with alpha if needed
     const hexInput = document.getElementById('colorPickerHexInput');
     if (hexInput) {
         const baseColor = hexInput.value;
@@ -1924,7 +1847,7 @@ function handleAlphaInput(e) {
     }
 }
 
-// Utility functions for color conversion
+// utility functions for color conversion
 function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
@@ -1937,19 +1860,16 @@ function hexToRgb(hex) {
 function rgbToHex(r, g, b) {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
-
+ // gah
 function rgbToHsv(r, g, b) {
     r /= 255;
     g /= 255;
     b /= 255;
-
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
     let h, s, v = max;
-
     const d = max - min;
     s = max === 0 ? 0 : d / max;
-
     if (max === min) {
         h = 0;
     } else {
@@ -1968,14 +1888,13 @@ function hsvToRgb(h, s, v) {
     h /= 360;
     s /= 100;
     v /= 100;
-
     let r, g, b;
     const i = Math.floor(h * 6);
     const f = h * 6 - i;
     const p = v * (1 - s);
     const q = v * (1 - f * s);
-    const t = v * (1 - (1 - f) * s);
 
+    const t = v * (1 - (1 - f) * s);
     switch (i % 6) {
         case 0: r = v; g = t; b = p; break;
         case 1: r = q; g = v; b = p; break;
@@ -2001,20 +1920,18 @@ function saveCustomTheme(themeName) {
             version: '1.0'
         }
     });
-
-    // Update the custom themes list
     renderCustomThemesList();
 
-    // Clear the input
+    // clear input
     document.getElementById('themeNameInput').value = '';
 
-    // Show success message
+    // msg
     alert(`Theme "${themeName}" saved successfully!`);
 }
 
 function exportCurrentCustomTheme() {
     const themeData = {
-        name: 'My Custom Theme',
+        name: 'Custom Theme',
         colors: customThemeData.colors,
         fonts: customThemeData.fonts,
         metadata: {
@@ -2042,23 +1959,21 @@ function importThemeFromFile(file) {
         try {
             const themeData = JSON.parse(event.target.result);
 
-            // Validate theme data
+            // theme data
             if (!themeData.colors || !themeData.name) {
                 throw new Error('Invalid theme file format');
             }
 
-            // Import the theme
+            // import theme
             const themeName = themeConfig.importTheme(themeData);
 
-            // Update the custom theme data
+            // update the custom theme data
             customThemeData.colors = { ...themeData.colors };
             customThemeData.fonts = themeData.fonts || { primary: "'Google Sans', sans-serif" };
-
-            // Update the UI
+            // update the UI
             updateColorPickerInputs();
             updateThemePreview();
-
-            // Update the custom themes list
+            // update the custom themes list
             renderCustomThemesList();
 
             alert(`Theme "${themeName}" imported successfully!`);
@@ -2111,7 +2026,7 @@ function renderCustomThemesList() {
         `;
     }).join('');
 
-    // Add event listeners for custom theme actions
+    // event listeners for custom theme actions
     container.querySelectorAll('.custom-theme-btn.apply').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -2130,7 +2045,7 @@ function renderCustomThemesList() {
         });
     });
 
-    // Add click listener to theme items
+    //  click listener to theme items
     container.querySelectorAll('.custom-theme-item').forEach(item => {
         item.addEventListener('click', () => {
             const themeName = item.dataset.theme;
@@ -2144,19 +2059,19 @@ function applyCustomThemeFromList(themeName) {
     if (theme) {
         const root = document.documentElement;
 
-        // Apply colors
+        // apply colors
         Object.entries(theme.colors).forEach(([key, value]) => {
             root.style.setProperty(`--md-sys-color-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`, value);
         });
 
-        // Apply font
+        // apply font
         if (theme.fonts?.primary) {
             root.style.setProperty('--font-family-primary', theme.fonts.primary);
             document.body.style.fontFamily = theme.fonts.primary;
             state.fontFamily = theme.fonts.primary;
         }
 
-        // Update state
+        // update state
         state.colorTheme = themeName;
         state.fontFamily = theme.fonts?.primary || "'Google Sans', sans-serif";
 
@@ -2169,7 +2084,7 @@ function deleteCustomTheme(themeName) {
     themeConfig.deleteCustomTheme(themeName);
     renderCustomThemesList();
 
-    // If this theme was currently applied, reset to default
+    // if this theme was currently applied, reset to default
     if (state.colorTheme === themeName) {
         state.colorTheme = 'amethyst';
         applySettings();
@@ -2186,7 +2101,7 @@ function loadCustomThemeForEditing(themeName) {
         updateColorPickerInputs();
         updateThemePreview();
 
-        // Switch to the custom theme tab
+        // switch to the custom theme tab
         const customThemeHeader = document.getElementById('customThemeHeader');
         if (customThemeHeader) {
             customThemeHeader.click();
@@ -2194,11 +2109,11 @@ function loadCustomThemeForEditing(themeName) {
     }
 }
 
-// Dynamic color grid optimization for mobile devices
+// dynamic color grid optimization for mobile devices
 function optimizeColorGridForMobile() {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    // Only apply optimizations when in mobile mode
+    // only apply optimizations when in mobile mode
     if (!isInMobileMode()) return;
 
     const colorGrid = document.querySelector('.color-grid');
@@ -2209,15 +2124,15 @@ function optimizeColorGridForMobile() {
     const screenWidth = window.innerWidth;
     const browserInfo = window.luminaBrowserInfo;
 
-    // Apply mobile-specific color grid optimizations
+    // apply mobile-specific color grid optimizations
     if (browserInfo && browserInfo.isVerySmallScreen) {
-        // Very small screens: 6 columns, minimal spacing
+        // very small screens: 6 columns, minimal spacing
         colorGrid.style.gridTemplateColumns = 'repeat(6, 1fr)';
         colorGrid.style.gap = '4px';
         colorGrid.style.overflowX = 'auto';
         colorGrid.style.scrollSnapType = 'x mandatory';
 
-        // Make color options smaller
+        // make color options smaller
         const colorOptions = colorGrid.querySelectorAll('.color-option');
         colorOptions.forEach(option => {
             option.style.minWidth = '40px';
@@ -2227,7 +2142,7 @@ function optimizeColorGridForMobile() {
         });
 
     } else if (screenWidth <= 768) {
-        // Standard mobile: 4 columns
+        // standard mobile: 4 columns
         colorGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
         colorGrid.style.gap = '8px';
 
@@ -2238,7 +2153,7 @@ function optimizeColorGridForMobile() {
         });
     }
 
-    // Touch optimizations for color selection
+    // touch optimizations for color selection.. just realized i havent even tested none of this.
     if (browserInfo && browserInfo.hasTouch) {
         const colorOptions = colorGrid.querySelectorAll('.color-option');
         colorOptions.forEach(option => {
@@ -2248,50 +2163,46 @@ function optimizeColorGridForMobile() {
     }
 }
 
-// Initialize custom theme creator when settings panel opens
+// initialize custom theme creator when settings panel opens
 document.getElementById('settingsBtn').addEventListener('click', () => {
     setTimeout(() => {
         initializeCustomThemeCreator();
         renderCustomThemesList();
         optimizeColorGridForMobile();
 
-        // RADICAL NEW APPROACH: Calculate exact content height and ensure visibility
         const settingsPanel = document.querySelector('.mobile-mode .settings-panel');
         const settingsContent = document.querySelector('.mobile-mode .settings-content');
 
         if (settingsPanel && settingsContent) {
-            // Use requestAnimationFrame for accurate measurements
+            // use requestAnimationFrame for accurate measurements
             requestAnimationFrame(() => {
-                // Calculate total content height
+                // calculate total content height
                 const contentHeight = settingsContent.scrollHeight;
                 const viewportHeight = window.innerHeight;
-                const headerHeight = 80; // Approximate header height
+                const headerHeight = 80; // approximate header height
 
-                // If content is taller than viewport, ensure enough space
+                // if content is taller than viewport, make sure there's enough space
                 if (contentHeight > viewportHeight - headerHeight) {
-                    // Add dynamic padding based on content height
+                    // add dynamic padding based on content height
                     const neededPadding = Math.max(150, contentHeight - viewportHeight + headerHeight + 100);
                     settingsContent.style.paddingBottom = neededPadding + 'px';
-
-                    // Force layout recalculation
+                    // force layout recalc
                     settingsContent.offsetHeight;
 
-                    // Ensure test toggle is visible
+                    // ensure test toggle is visible
                     setTimeout(() => {
                         const testToggle = document.getElementById('testToggle');
                         if (testToggle) {
-                            // Calculate position of test toggle
+                            // calculate position of test toggle
                             const togglePosition = testToggle.offsetTop;
                             const panelHeight = settingsPanel.offsetHeight;
-
-                            // If toggle is near bottom, add extra spacing
                             if (togglePosition > panelHeight - 200) {
                                 testToggle.style.marginBottom = '200px';
                                 testToggle.style.paddingBottom = '100px';
                             }
                         }
 
-                        // Final scroll adjustment
+                        // last scroll adjustment. I think i hate javascript
                         settingsContent.scrollTop = Math.max(0, contentHeight - viewportHeight + headerHeight);
                     }, 50);
                 }
@@ -2310,7 +2221,7 @@ document.getElementById('closeInfo').addEventListener('click', () => {
     document.getElementById('overlay').classList.remove('visible');
 });
 
-// Markdown help modal
+// markdown help modal
 const notesHelpBtn = document.getElementById('notesHelpBtn');
 if (notesHelpBtn) {
     notesHelpBtn.addEventListener('click', () => {
@@ -2336,7 +2247,7 @@ function showConfirmModal(message, callback) {
     const modal = document.getElementById('confirmModal');
     const overlay = document.getElementById('overlay');
 
-    // Update the message if provided
+    // update the message if provided
     if (message) {
         const messageEl = modal.querySelector('.modal-title');
         messageEl.textContent = message;
@@ -2411,7 +2322,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 
 document.getElementById('voiceSearchBtn').addEventListener('click', () => {
     if (!recognition) {
-        alert('Voice search is not supported in this browser. Please use Chrome or Edge.');
+        alert('Voice search is not supported in this browser.. Sorry :(');
         return;
     }
 
@@ -2427,7 +2338,7 @@ document.getElementById('searchHistoryBtn').addEventListener('click', (e) => {
     openSearchHistoryModal();
 });
 
-// Clear all history button in modal
+// clear all history button in modal
 document.getElementById('clearAllHistoryBtn').addEventListener('click', () => {
     if (confirm('Clear all search history?')) {
         state.searchHistory = [];
@@ -2482,14 +2393,11 @@ document.getElementById('overlay').addEventListener('click', () => {
     document.getElementById('searchHistoryModal').classList.remove('visible');
     document.getElementById('funnyModal').classList.remove('visible');
     document.getElementById('calendarEventModal').classList.remove('visible');
-
     document.getElementById('notesSidebar').classList.remove('open');
     document.getElementById('bookmarksSidebar').classList.remove('open');
-
     document.getElementById('overlay').classList.remove('visible');
-    confirmCallback = null; // Reset callback when clicking overlay
-
-    // Remove any event selection modals
+    confirmCallback = null;
+    // remove any event selection modals
     const eventSelectionModal = document.querySelector('.modal .event-list');
     if (eventSelectionModal) {
         const modal = eventSelectionModal.closest('.modal');
@@ -2497,7 +2405,7 @@ document.getElementById('overlay').addEventListener('click', () => {
     }
 });
 
-// Simple event listener attachment
+// event listener attachment
 document.getElementById('weatherToggle')?.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -2525,7 +2433,6 @@ document.getElementById('calendarToggle')?.addEventListener('click', (e) => {
     if (state.showCalendar) updateCalendar();
 });
 
-
 document.getElementById('shortcutsToggle')?.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -2543,7 +2450,6 @@ document.getElementById('greetingToggle')?.addEventListener('click', (e) => {
     if (state.showGreeting) updateGreeting();
 });
 
-
 document.getElementById('searchSuggestionsToggle').addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -2551,6 +2457,8 @@ document.getElementById('searchSuggestionsToggle').addEventListener('click', (e)
     applySettings();
     saveSettings();
 });
+
+
 
 
 document.getElementById('openInSameTabToggle').addEventListener('click', (e) => {
@@ -2569,12 +2477,12 @@ document.getElementById('shiftEnterToggle').addEventListener('click', (e) => {
     saveSettings();
 });
 
-// Mobile mode toggle event listeners
+// mobile mode toggle event listeners
 document.getElementById('forceMobileModeToggle').addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
     state.forceMobileMode = !state.forceMobileMode;
-    // Disable desktop mode if enabling mobile mode
+    // stop desktop mode if enabling mobile mode
     if (state.forceMobileMode) {
         state.forceDesktopMode = false;
     }
@@ -2586,7 +2494,7 @@ document.getElementById('forceDesktopModeToggle').addEventListener('click', (e) 
     e.preventDefault();
     e.stopPropagation();
     state.forceDesktopMode = !state.forceDesktopMode;
-    // Disable mobile mode if enabling desktop mode
+    // stop mobile mode if enabling desktop mode
     if (state.forceDesktopMode) {
         state.forceMobileMode = false;
     }
@@ -2704,8 +2612,6 @@ document.getElementById('importBookmarksFile').addEventListener('change', (e) =>
                 const htmlContent = event.target.result;
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
-
-                // Parse HTML bookmark file
                 const bookmarks = [];
                 const links = doc.querySelectorAll('a');
 
@@ -2727,12 +2633,12 @@ document.getElementById('importBookmarksFile').addEventListener('change', (e) =>
                     state.bookmarks = [...state.bookmarks, ...bookmarks];
                     saveSettings();
                     renderBookmarks();
-                    alert(`Successfully imported ${bookmarks.length} bookmarks!`);
+                    alert(`Imported ${bookmarks.length} bookmarks!`);
                 } else {
-                    alert('No valid bookmarks found in the HTML file.');
+                    alert('No working bookmarks found in that HTML file. Is it formatted correctly?');
                 }
             } catch (error) {
-                alert('Error reading bookmarks file: ' + error.message);
+                alert('Couldnt read bookmarks file: ' + error.message);
             }
         };
         reader.readAsText(file);
@@ -2778,9 +2684,9 @@ document.getElementById('backgroundShapesToggle')?.addEventListener('click', (e)
 });
 
 document.getElementById('resetBtn').addEventListener('click', () => {
-    if (confirm('Are you sure you want to reset all settings to default?')) {
+    if (confirm('Do you really want to reset all settings to default?')) {
         Object.assign(state, JSON.parse(JSON.stringify(defaultState)));
-        // Update default auto dark mode based on current system preference
+        // update default auto dark mode based on current brwoser settings
         state.autoDarkMode = detectSystemDarkMode();
         applySettings();
         saveSettings();
@@ -2846,8 +2752,6 @@ document.getElementById('cancelBookmark').addEventListener('click', () => {
     document.getElementById('bookmarkModal').classList.remove('visible');
     document.getElementById('overlay').classList.remove('visible');
 });
-
-// Calendar Event Modal Event Listeners
 document.getElementById('saveEvent').addEventListener('click', saveEvent);
 
 document.getElementById('cancelEvent').addEventListener('click', () => {
@@ -2855,7 +2759,6 @@ document.getElementById('cancelEvent').addEventListener('click', () => {
     document.getElementById('overlay').classList.remove('visible');
 });
 
-// Color selection for events
 document.querySelectorAll('.modal .color-option').forEach(option => {
     option.addEventListener('click', () => {
         document.querySelectorAll('.modal .color-option').forEach(opt => {
@@ -2863,42 +2766,6 @@ document.querySelectorAll('.modal .color-option').forEach(option => {
         });
         option.classList.add('active');
     });
-});
-
-document.getElementById('funnyOkayBtn').addEventListener('click', () => {
-    document.getElementById('funnyModal').classList.remove('visible');
-    document.getElementById('overlay').classList.remove('visible');
-});
-
-document.getElementById('funnyDieBtn').addEventListener('click', () => {
-    try {
-        // Try to close the current tab (works in most browsers)
-        window.close();
-    } catch (e) {
-        console.log('💀 SELF-DESTRUCT SEQUENCE INITIATED 💀');
-        // Create a funny "crash" effect
-        document.body.innerHTML = `
-            <div style="
-                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-                background: black; color: red; font-family: monospace;
-                display: flex; align-items: center; justify-content: center;
-                font-size: 48px; z-index: 999999;
-                animation: blink 0.1s infinite;
-            ">
-                💀 SYSTEM CRASH 💀<br>
-                <span style="font-size: 24px; margin-top: 20px;">
-                    You chose... poorly
-                </span>
-            </div>
-            <style>
-                @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
-            </style>
-        `;
-
-        setTimeout(() => {
-            window.close();
-        }, 3000);
-    }
 });
 
 document.getElementById('overlay').addEventListener('click', () => {
@@ -2925,7 +2792,7 @@ document.addEventListener('keydown', (e) => {
                 break;
             case '/':
                 e.preventDefault();
-                // Show keyboard shortcuts modal
+                // show keyboard shortcuts
                 document.getElementById('keyboardShortcutsModal').classList.add('visible');
                 document.getElementById('overlay').classList.add('visible');
                 break;
@@ -2947,7 +2814,7 @@ function showKeyboardShortcutsTutorial() {
         setTimeout(() => {
             document.getElementById('keyboardShortcutsModal').classList.add('visible');
             document.getElementById('overlay').classList.add('visible');
-        }, 2000); // Show after 2 seconds
+        }, 2000); // show after 2 secs
     }
 }
 
@@ -2959,7 +2826,7 @@ document.getElementById('searchForm').addEventListener('submit', (e) => {
     }
 });
 
-// Search button functionality (desktop mode only)
+// search button function (desktop only)
 document.getElementById('searchBtn').addEventListener('click', (e) => {
     e.preventDefault();
     const query = document.getElementById('searchInput').value.trim();
@@ -3047,7 +2914,7 @@ document.querySelectorAll('.auto-suggestion-item').forEach(item => {
         const suggestion = item.dataset.suggestion;
         const searchInput = document.getElementById('searchInput');
 
-        // Create search query based on suggestion
+        // create search query based on suggestion
         let searchQuery = '';
         switch(suggestion) {
             case 'Google':
@@ -3069,7 +2936,7 @@ document.querySelectorAll('.auto-suggestion-item').forEach(item => {
                 searchQuery = searchInput.value;
         }
 
-        // Perform search and hide suggestions
+        // search and hide suggestions
         const container = document.getElementById('searchDropdownsContainer');
         const autoSuggestions = document.getElementById('searchAutoSuggestions');
         autoSuggestions.classList.remove('show');
@@ -3173,7 +3040,7 @@ function setupNotes() {
         notesSidebar.classList.remove('open');
     });
 
-    // Prevent clicks inside notes sidebar from closing it
+    // prevent clicks inside notes sidebar from closing it
     notesSidebar.addEventListener('click', (e) => {
         e.stopPropagation();
     });
@@ -3256,7 +3123,7 @@ function setupNotes() {
                     saveSettings();
                     renderNotes();
 
-                    // Initialize notes todo display
+                    // initialize notes todo display
                     updateNotesTodo();
                 }
             });
@@ -3268,7 +3135,7 @@ function setupNotes() {
                 titleEl.contentEditable = true;
                 titleEl.focus();
 
-                // Select all text for easy editing
+                // select all text for easy editing
                 const range = document.createRange();
                 range.selectNodeContents(titleEl);
                 const selection = window.getSelection();
@@ -3298,7 +3165,7 @@ function setupNotes() {
                 }
             });
 
-            // Prevent click events when editing
+            // stop click events when editing
             titleEl.addEventListener('click', (e) => {
                 if (titleEl.contentEditable === 'true') {
                     e.stopPropagation();
@@ -3312,9 +3179,9 @@ function setupNotes() {
                 const noteId = Number(deleteBtn.dataset.id);
                 const noteTitle = state.notes.find(n => n.id === noteId)?.title || 'this note';
 
-                // Show custom confirmation modal
+                // confirmation modal
                 showConfirmModal(`Delete "${noteTitle}"?`, () => {
-                    // Confirmed deletion
+                    // confirmed deletion
                     state.notes = state.notes.filter(n => n.id !== noteId);
                     if (state.currentNoteId === noteId) {
                         state.currentNoteId = state.notes.length > 0 ? state.notes[0].id : null;
@@ -3360,36 +3227,36 @@ function setupNotes() {
         if (!text) return '';
 
         return text
-            // Headers
+            // headers
             .replace(/^### (.*$)/gim, '<h3>$1</h3>')
             .replace(/^## (.*$)/gim, '<h2>$1</h2>')
             .replace(/^# (.*$)/gim, '<h1>$1</h1>')
 
-            // Bold and italic
+            // bold and italic
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>')
 
-            // Strikethrough
+            // strikethrough
             .replace(/~~(.*?)~~/g, '<del>$1</del>')
 
-            // Code blocks
+            // code blocks
             .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
 
-            // Inline code
+            // inline code
             .replace(/`([^`]+)`/g, '<code>$1</code>')
 
-            // Links
+            // links
             .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
 
-            // Blockquotes
+            // blockquotes
             .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
 
-            // Lists
+            // lists
             .replace(/^\* (.*$)/gim, '<li>$1</li>')
             .replace(/^- (.*$)/gim, '<li>$1</li>')
             .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
 
-            // Wrap consecutive list items in ul/ol
+            // wrap consecutive list items in ul/ol
             .replace(/(<li>.*<\/li>)/g, function(match) {
                 const items = match.split('</li>').filter(item => item.trim());
                 if (items.length > 1) {
@@ -3398,7 +3265,7 @@ function setupNotes() {
                 return match;
             })
 
-            // Paragraphs
+            // paragraphs
             .replace(/\n\n/g, '</p><p>')
             .replace(/^/, '<p>')
             .replace(/$/, '</p>');
@@ -3428,7 +3295,7 @@ function setupNotes() {
         if (currentNote) {
             currentNote.title = notesTitleInput.value.trim() || 'Untitled Note';
             saveSettings();
-            renderNotes(); // Update the tab title as well
+            renderNotes(); // update the tab title as well
         }
     });
 
@@ -3475,7 +3342,7 @@ function setupNotes() {
 
     renderNotes();
 
-    // Setup notes todo functionality after render
+    // setup notes todo functionality after render
     setTimeout(() => {
         try {
             console.log('Setting up notes todo functionality...');
@@ -3483,7 +3350,7 @@ function setupNotes() {
         } catch (e) {
             console.error('Error setting up notes todo:', e);
         }
-    }, 500); // Increased delay to ensure DOM is ready
+    }, 500); // increased delay to ensure DOM is ready
 }
 
 function refreshCategoryFilter() {
@@ -3496,7 +3363,7 @@ function refreshCategoryFilter() {
         categoryFilter.innerHTML = '<option value="">All Categories</option>' +
             uniqueCategories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
 
-        // Also update the input dropdown
+        // also, update the input dropdown
         if (categoryInput) {
             uniqueCategories.forEach(cat => {
                 if (!categoryInput.querySelector(`option[value="${cat}"]`)) {
@@ -3526,14 +3393,14 @@ function setupNotesTodo() {
             todoCategoryFilter
         });
 
-        // Setup event listeners regardless of sidebar state - they'll work when sidebar opens
+        // setup event listeners regardless of sidebar state.. they'll work when the sidebar opens
         const notesSidebar = document.getElementById('notesSidebar');
         if (!notesSidebar) {
             console.log('Notes sidebar not found, skipping todo setup');
             return;
         }
 
-        // Setup event listeners only if elements exist
+        // setup event listeners only if elements exist
         if (notesTodoAddBtn) {
             notesTodoAddBtn.addEventListener('click', showNotesTodoInput);
         }
@@ -3561,7 +3428,7 @@ function setupNotesTodo() {
             });
         }
 
-        // Initialize todo display and category filter
+        // initialize todo display and category filter
         console.log('Initializing todo display with existing todos:', state.todos ? state.todos.length : 0);
         refreshCategoryFilter();
         if (state.todos && state.todos.length > 0) {
@@ -3589,7 +3456,7 @@ function setupWidgetDragging() {
             let startX, startY, startLeft, startTop;
 
             widget.addEventListener('mousedown', (e) => {
-                // Check if clicking on interactive elements within widgets
+                // check if clicking on interactive elements within widgets
                 const interactiveSelectors = [
                     '.weather-temp', '.weather-desc', '.weather-location',
                     '.clock-time', '.clock-date',
@@ -3623,11 +3490,10 @@ function setupWidgetDragging() {
                 const widgetWidth = widgetRect.width;
                 const widgetHeight = widgetRect.height;
 
-                // Calculate new position with boundary constraints
                 let newLeft = startLeft + deltaX;
                 let newTop = startTop + deltaY;
 
-                // Boundary constraints - keep widget fully visible
+                // keep widget fully visible
                 const minLeft = 0;
                 const minTop = 0;
                 const maxLeft = window.innerWidth - widgetWidth;
@@ -3636,7 +3502,6 @@ function setupWidgetDragging() {
                 newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
                 newTop = Math.max(minTop, Math.min(newTop, maxTop));
 
-                // Direct position update - no transitions or transforms
                 widget.style.left = newLeft + 'px';
                 widget.style.top = newTop + 'px';
                 widget.style.right = 'auto';
@@ -3660,7 +3525,7 @@ function setupWidgetDragging() {
             });
         });
     } catch (e) {
-        console.error('Error setting up widget dragging:', e);
+        console.error('couldnt set-up widget dragging:', e);
     }
 }
 
@@ -3712,26 +3577,26 @@ function updateCalendar() {
 
     grid.innerHTML = html;
 
-    // Add click listeners to calendar days for adding/managing events
+    // click listeners to calendar days for adding/managing events
     document.querySelectorAll('.calendar-day[data-date]').forEach(dayEl => {
         dayEl.addEventListener('click', (e) => {
-            // Don't trigger if clicking on an event dot (handled separately)
+            // don't trigger if clicking on an event dot (handled separately)
             if (e.target.closest('.calendar-event-dot')) return;
 
             const date = dayEl.dataset.date;
             const dayEvents = getEventsForDate(date);
 
             if (dayEvents.length > 0) {
-                // Show event selection modal for dates with existing events
+                // show event selection modal for dates with existing events
                 showEventSelectionModal(date, dayEvents);
             } else {
-                // Show add event modal for empty dates
+                // show add event modal for empty dates
                 showEventModal(date);
             }
         });
     });
 
-    // Add click listeners to event dots for editing
+    // add click listeners to event dots for editing
     document.querySelectorAll('.calendar-event-dot[data-event-id]').forEach(dotEl => {
         dotEl.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -3742,13 +3607,13 @@ function updateCalendar() {
             }
         });
 
-        // Add hover effects and tooltips
+        // add hover effects and tooltips
         dotEl.addEventListener('mouseenter', (e) => {
             dotEl.style.transform = 'scale(1.2)';
             dotEl.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
             dotEl.style.zIndex = '10';
 
-            // Show tooltip with event title
+            // tooltip with event title
             const tooltip = document.createElement('div');
             tooltip.className = 'event-tooltip';
             tooltip.textContent = dotEl.title;
@@ -3774,7 +3639,7 @@ function updateCalendar() {
             dotEl.style.boxShadow = 'none';
             dotEl.style.zIndex = '';
 
-            // Remove tooltip
+            // remove tooltip
             const tooltip = dotEl.querySelector('.event-tooltip');
             if (tooltip) {
                 tooltip.remove();
@@ -3791,7 +3656,7 @@ function showEventModal(date = null, eventToEdit = null) {
     const modal = document.getElementById('calendarEventModal');
     const overlay = document.getElementById('overlay');
 
-    // Reset form
+    // reset form
     document.getElementById('eventTitle').value = '';
     document.getElementById('eventDescription').value = '';
     document.getElementById('eventDate').value = date || new Date().toISOString().split('T')[0];
@@ -3799,14 +3664,14 @@ function showEventModal(date = null, eventToEdit = null) {
     document.getElementById('eventEndTime').value = '';
     document.getElementById('eventCategory').value = '';
 
-    // Reset color selection
+    // reset color selection
     document.querySelectorAll('.modal .color-option').forEach(opt => {
         opt.classList.remove('active');
     });
     document.querySelector('.modal .color-option').classList.add('active');
 
     if (eventToEdit) {
-        // Edit mode
+        // edit mode
         document.getElementById('eventTitle').value = eventToEdit.title;
         document.getElementById('eventDescription').value = eventToEdit.description || '';
         document.getElementById('eventDate').value = eventToEdit.date;
@@ -3814,7 +3679,7 @@ function showEventModal(date = null, eventToEdit = null) {
         document.getElementById('eventEndTime').value = eventToEdit.endTime || '';
         document.getElementById('eventCategory').value = eventToEdit.category || '';
 
-        // Set active color
+        // set active color
         document.querySelectorAll('.modal .color-option').forEach(opt => {
             if (opt.dataset.color === eventToEdit.color) {
                 opt.classList.add('active');
@@ -3823,14 +3688,14 @@ function showEventModal(date = null, eventToEdit = null) {
             }
         });
 
-        // Update modal title and button text
+        // update modal title and button text
         modal.querySelector('.modal-title').textContent = 'Edit Calendar Event';
         document.getElementById('saveEvent').textContent = 'Update Event';
 
-        // Store event ID for update
+        // store event ID for updates
         document.getElementById('saveEvent').dataset.editId = eventToEdit.id;
     } else {
-        // Add mode
+        // addmode
         modal.querySelector('.modal-title').textContent = 'Add Calendar Event';
         document.getElementById('saveEvent').textContent = 'Save Event';
         delete document.getElementById('saveEvent').dataset.editId;
@@ -3852,14 +3717,14 @@ function saveEvent() {
     const color = activeColorOption ? activeColorOption.dataset.color : '#3498db';
 
     if (!title || !date) {
-        alert('Please fill in at least the title and date.');
+        alert('Please fill in the title and date!');
         return;
     }
 
     const editId = document.getElementById('saveEvent').dataset.editId;
 
     if (editId) {
-        // Update existing event
+        // upd existing event
         const eventIndex = state.calendarEvents.findIndex(e => e.id == editId);
         if (eventIndex !== -1) {
             state.calendarEvents[eventIndex] = {
@@ -3874,7 +3739,7 @@ function saveEvent() {
             };
         }
     } else {
-        // Create new event
+        // make new event
         const newEvent = {
             id: Date.now() + Math.random(),
             title,
@@ -3891,7 +3756,7 @@ function saveEvent() {
     saveSettings();
     updateCalendar();
 
-    // Close modal
+    // close
     document.getElementById('calendarEventModal').classList.remove('visible');
     document.getElementById('overlay').classList.remove('visible');
 }
@@ -3944,7 +3809,7 @@ function updateTodo() {
     });
 }
 
-// New notes-integrated todo functions
+// new notes-integrated todo functions
 function updateNotesTodo() {
     const todoList = document.getElementById('notesTodoList');
     const categoryFilter = document.getElementById('todoCategoryFilter');
@@ -3952,12 +3817,12 @@ function updateNotesTodo() {
 
     if (!state.todos) state.todos = [];
 
-    // Update category filter options
+    // update category filter options
     if (categoryFilter) {
         refreshCategoryFilter();
     }
 
-    // Filter todos based on selected category
+    // filter todos based on selected category
     const selectedCategory = categoryFilter ? categoryFilter.value : '';
     const filteredTodos = selectedCategory ?
         state.todos.filter(todo => (todo.category || 'General') === selectedCategory) :
@@ -3979,7 +3844,7 @@ function updateNotesTodo() {
         </div>
     `).join('');
 
-    // Add event listeners
+    // add event listeners
     document.querySelectorAll('.notes-todo-checkbox').forEach(checkbox => {
         checkbox.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -4005,7 +3870,7 @@ function updateNotesTodo() {
             if (actualIndex !== -1) {
                 state.todos.splice(actualIndex, 1);
                 saveSettings();
-                refreshCategoryFilter(); // Refresh categories after deletion
+                refreshCategoryFilter(); // refresh categories after deletion
                 updateNotesTodo();
             }
         });
@@ -4065,7 +3930,7 @@ function saveNotesTodoItem() {
             category: category || 'General'
         });
         saveSettings();
-        refreshCategoryFilter(); // Refresh the category filter with new categories
+        refreshCategoryFilter(); // refresh the category filter with new categories
         updateNotesTodo();
         hideNotesTodoInput();
         console.log('Todo saved with category:', category);
@@ -4087,7 +3952,7 @@ function editNotesTodoItem(index) {
     input.value = todo.text;
     categoryInput.value = todo.category || 'General';
 
-    // Replace save functionality temporarily
+    // replace save functionality temporarily
     const saveBtn = document.getElementById('notesTodoSaveBtn');
     const originalClick = saveBtn.onclick;
     saveBtn.onclick = () => {
@@ -4100,7 +3965,7 @@ function editNotesTodoItem(index) {
                 category: newCategory || 'General'
             };
             saveSettings();
-            refreshCategoryFilter(); // Refresh the category filter
+            refreshCategoryFilter(); // refresh the category filter
             updateNotesTodo();
             hideNotesTodoInput();
             saveBtn.onclick = originalClick;
@@ -4108,7 +3973,7 @@ function editNotesTodoItem(index) {
         }
     };
 
-    // Add escape key to cancel edit
+    // add esc key to cancel edit
     const cancelBtn = document.getElementById('notesTodoCancelBtn');
     const originalCancelClick = cancelBtn.onclick;
     cancelBtn.onclick = () => {
@@ -4129,12 +3994,12 @@ document.getElementById('calendarNext').addEventListener('click', () => {
     updateCalendar();
 });
 
-// Add Event button
+// add event button
 document.getElementById('addEventBtn').addEventListener('click', () => {
     showEventModal();
 });
 
-// Show event selection modal for dates with existing events
+// show event selection for dates with existing events
 function showEventSelectionModal(date, events) {
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -4240,7 +4105,7 @@ function showEventSelectionModal(date, events) {
     document.getElementById('overlay').classList.add('visible');
     document.body.appendChild(modal);
 
-    // Handle edit buttons
+    // handle edit buttons
     modal.querySelectorAll('.event-btn.edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -4253,7 +4118,7 @@ function showEventSelectionModal(date, events) {
             }
         });
 
-        // Hover effects for edit buttons
+        // hover effects for edit buttons - yay!
         btn.addEventListener('mouseenter', () => {
             btn.style.transform = 'scale(1.1)';
             btn.style.background = 'var(--md-sys-color-primary)';
@@ -4267,7 +4132,7 @@ function showEventSelectionModal(date, events) {
         });
     });
 
-    // Handle delete buttons
+    // handle delete buttons
     modal.querySelectorAll('.event-btn.delete').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -4279,7 +4144,7 @@ function showEventSelectionModal(date, events) {
 
         });
 
-        // Hover effects for delete buttons
+        // hover effects for delete buttons
         btn.addEventListener('mouseenter', () => {
             btn.style.transform = 'scale(1.1)';
             btn.style.background = '#ff5252';
@@ -4293,23 +4158,23 @@ function showEventSelectionModal(date, events) {
         });
     });
 
-    // Handle close button
+    // handle close button
     document.getElementById('closeEventSelection').addEventListener('click', () => {
         modal.remove();
         document.getElementById('overlay').classList.remove('visible');
     });
 
-    // Handle add new event button
+    // handle add new event button
     document.getElementById('addNewEvent').addEventListener('click', () => {
         modal.remove();
         document.getElementById('overlay').classList.remove('visible');
         showEventModal(date);
     });
 
-    // Click on event item to view details
+    // click on event item to view details
     modal.querySelectorAll('.event-item').forEach(item => {
         item.addEventListener('click', (e) => {
-            // Don't trigger if clicking on action buttons
+            // don't trigger if clicking on action buttons
             if (e.target.closest('.event-actions')) return;
 
             const eventId = item.dataset.eventId;
@@ -4322,7 +4187,7 @@ function showEventSelectionModal(date, events) {
 }
 
 function showEventDetails(event) {
-    // Create a simple details modal
+    // create a simple details section
     const detailsModal = document.createElement('div');
     detailsModal.className = 'modal';
     detailsModal.innerHTML = `
@@ -4348,7 +4213,7 @@ function showEventDetails(event) {
     document.getElementById('overlay').classList.add('visible');
     document.body.appendChild(detailsModal);
 
-    // Handle buttons
+    // handle buttons
     document.getElementById('closeEventDetails').addEventListener('click', () => {
         detailsModal.remove();
         document.getElementById('overlay').classList.remove('visible');
@@ -4361,7 +4226,7 @@ function showEventDetails(event) {
     });
 }
 
-// Only setup standalone todo widget if elements exist (for backward compatibility)
+// only setup standalone todo widget if elements exist (for backward compatibility)
 const todoAddBtn = document.getElementById('todoAddBtn');
 const todoInput = document.getElementById('todoInput');
 
@@ -4386,29 +4251,25 @@ if (todoAddBtn && todoInput) {
 
 setInterval(updateClock, 1000);
 
-// Handle window resize for mobile detection and greeting positioning
+// handle window resize for mobile detection and greeting positioning
 window.addEventListener('resize', () => {
     const wasMobile = state.isMobile;
     state.isMobile = detectMobileDevice();
 
-    // Only reapply settings if mobile state changed
+    // only reapply settings if mobile state changed
     if (wasMobile !== state.isMobile) {
         applySettings();
     } else {
-        // Still adjust greeting position even if mobile state didn't change
-        // This handles zoom level changes
+        // still adjust greeting position even if mobile state didn't change
+        // this handles zoom level changes
         adjustGreetingPosition();
     }
 
-    // Dynamic search bar optimization for very small screens
+    // search bar optimization for small screens
     optimizeSearchBarForScreenSize();
 });
-
-// Dynamic search bar optimization based on screen size and device capabilities
 function optimizeSearchBarForScreenSize() {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
-
-    // Only apply optimizations when in mobile mode
     if (!isInMobileMode()) return;
 
     const searchContainer = document.querySelector('.search-container');
@@ -4421,10 +4282,8 @@ function optimizeSearchBarForScreenSize() {
     const screenHeight = window.innerHeight;
     const browserInfo = window.luminaBrowserInfo;
 
-    // Apply specific optimizations based on device characteristics - only for mobile
     if (browserInfo && browserInfo.isVerySmallScreen) {
-        // Very small screens (≤480px)
-        searchInput.style.fontSize = '16px'; // Prevent zoom on iOS
+        searchInput.style.fontSize = '16px';
         searchContainer.style.padding = '4px 8px';
         voiceSearchBtn.style.width = '28px';
         voiceSearchBtn.style.height = '28px';
@@ -4433,7 +4292,7 @@ function optimizeSearchBarForScreenSize() {
         if (icon) icon.style.fontSize = '16px';
 
     } else if (screenWidth <= 768) {
-        // Standard mobile screens
+        // standard mobile screens
         searchInput.style.fontSize = '16px';
         searchContainer.style.padding = '6px 12px';
         voiceSearchBtn.style.width = '32px';
@@ -4443,7 +4302,7 @@ function optimizeSearchBarForScreenSize() {
         if (icon) icon.style.fontSize = '18px';
 
     } else if (screenWidth <= 1024) {
-        // Tablets
+        // tablets
         searchInput.style.fontSize = '16px';
         searchContainer.style.padding = '8px 16px';
         voiceSearchBtn.style.width = '36px';
@@ -4453,7 +4312,7 @@ function optimizeSearchBarForScreenSize() {
         if (icon) icon.style.fontSize = '20px';
     }
 
-    // High DPI display optimizations
+    // high DPI display optimizations
     if (browserInfo && browserInfo.devicePixelRatio > 1) {
         searchInput.style.webkitTextSizeAdjust = '100%';
         searchInput.style.textSizeAdjust = '100%';
@@ -4465,12 +4324,12 @@ function optimizeSearchBarForScreenSize() {
         }
     }
 
-    // Touch device optimizations
+    // touch device optimization
     if (browserInfo && browserInfo.hasTouch) {
         searchContainer.style.touchAction = 'manipulation';
         searchInput.style.webkitTapHighlightColor = 'rgba(0, 0, 0, 0.1)';
 
-        // Increase touch targets for better usability
+        // increase touch targets for better usability
         if (screenWidth <= 768) {
             searchContainer.style.minHeight = '44px'; // iOS recommended minimum
         }
@@ -4483,7 +4342,7 @@ updateClock();
 updateGreeting();
 updateCalendar();
 
-// Setup functions with error handling
+// setup functions with error handling
 try {
     setupNotes();
 } catch (e) {
