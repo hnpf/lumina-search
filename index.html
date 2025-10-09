@@ -282,9 +282,19 @@
 
         <div class="settings-content">
             <div class="setting-group">
-            <label class="setting-label">Color Theme</label>
-            <div class="color-grid" id="colorGrid"></div>
-        </div>
+                <label class="setting-label">Color Theme</label>
+                <div class="color-grid" id="colorGrid"></div>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">Accessibility</label>
+                <div class="toggle-option" id="highContrastToggle">
+                    <span>High Contrast Mode</span>
+                    <div class="switch">
+                        <div class="switch-thumb"></div>
+                    </div>
+                </div>
+            </div>
 
         <div class="setting-group" id="customThemeGroup">
             <div class="setting-group-header" id="customThemeHeader">
@@ -523,13 +533,7 @@
                     </div>
                 </div>
                 <div class="toggle-option" id="mobileOptimizedSearchToggle">
-                    <span>Generally Optimized Search</span>
-                    <div class="switch active">
-                        <div class="switch-thumb"></div>
-                    </div>
-                </div>
-                <div class="toggle-option" id="testToggle">
-                    <span>preview-primary-container</span>
+                    <span>Optimized Search</span>
                     <div class="switch active">
                         <div class="switch-thumb"></div>
                     </div>
@@ -561,6 +565,7 @@
                         <div class="switch-thumb"></div>
                     </div>
                 </div>
+
                 <div style="padding: 16px 20px; background: var(--md-sys-color-surface-container-high); border-radius: 16px; margin-bottom: 12px;">
                     <label style="font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px; color: var(--md-sys-color-on-surface);">Manual City Override</label>
                     <input type="text" id="manualCity" placeholder="e.g., San Francisco, CA" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); font-family: 'Google Sans', sans-serif; font-size: 14px;">
@@ -579,6 +584,58 @@
                     <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px;">Choose your search engine. DuckDuckGo is the default for privacy.</div>
                 </div>
 
+            </div>
+        </div>
+
+        <div class="setting-group" id="customCssGroup">
+            <div class="setting-group-header" id="customCssHeader">
+                <label class="setting-label" style="margin: 0;">Custom CSS Injection</label>
+                <span class="material-icons-round">expand_more</span>
+            </div>
+            <div class="setting-group-content" id="customCssContent">
+                <div style="padding: 16px 20px; background: var(--md-sys-color-surface-container-high); border-radius: 16px; margin-bottom: 16px;">
+                    <div style="font-size: 12px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 12px; padding: 8px 12px; background: var(--md-sys-color-warning-container); border-radius: 8px; border-left: 3px solid var(--md-sys-color-warning);">
+                        <strong>Remember:</strong> only inject CSS from people you trust. Malicious CSS can break the interface or add security risks for you.
+                    </div>
+                    <label style="font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px; color: var(--md-sys-color-on-surface);">Custom CSS Code</label>
+                    <textarea id="customCssInput" placeholder="/* Enter your custom CSS here */
+/* Example: */
+/* .search-input { border-radius: 50px !important; } */
+/* .logo { animation: spin 2s linear infinite; } */" style="width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); font-family: 'Courier New', monospace; font-size: 13px; resize: vertical; outline: none; transition: all 0.3s;" oninput="validateAndPreviewCss()"></textarea>
+                    <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center;">
+                        <div id="cssValidationStatus" style="font-size: 12px; color: var(--md-sys-color-on-surface-variant);">
+                            Ready to inject custom CSS
+                        </div>
+                        <div style="flex: 1;"></div>
+                        <button id="resetCustomCssBtn" style="padding: 6px 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface-container-high); color: var(--md-sys-color-on-surface-variant); font-size: 12px; cursor: pointer; transition: all 0.3s;" onclick="resetCustomCss()">
+                            <span class="material-icons-round" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">refresh</span>
+                            Reset
+                        </button>
+                        <button id="applyCustomCssBtn" style="padding: 6px 12px; border-radius: 8px; border: none; background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); font-size: 12px; cursor: pointer; transition: all 0.3s;" onclick="applyCustomCss()">
+                            <span class="material-icons-round" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">code</span>
+                            Apply CSS
+                        </button>
+                    </div>
+                </div>
+
+                <div style="padding: 16px 20px; background: var(--md-sys-color-surface-container-low); border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--md-sys-color-outline-variant);">
+                    <label style="font-size: 14px; font-weight: 500; display: block; margin-bottom: 12px; color: var(--md-sys-color-on-surface);">Live Preview Area</label>
+                    <div id="cssPreviewArea" style="background: var(--md-sys-color-surface); border: 1px solid var(--md-sys-color-outline-variant); border-radius: 12px; padding: 16px; min-height: 80px; position: relative;">
+                        <div style="font-size: 14px; color: var(--md-sys-color-on-surface); margin-bottom: 8px;">Sample content to preview your CSS changes</div>
+                        <button class="preview-btn" style="padding: 8px 16px; border-radius: 8px; border: none; background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); font-size: 13px; cursor: pointer;">Preview Button</button>
+                        <div class="preview-text" style="margin-top: 12px; padding: 8px; background: var(--md-sys-color-surface-container-high); border-radius: 6px; font-size: 12px; color: var(--md-sys-color-on-surface-variant);">This area shows how your custom CSS affects various elements.</div>
+                    </div>
+                </div>
+
+                <div style="padding: 16px 20px; background: var(--md-sys-color-info-container); border-radius: 16px; margin-bottom: 16px;">
+                    <label style="font-size: 14px; font-weight: 500; display: block; margin-bottom: 8px; color: var(--md-sys-color-on-info-container);">Tips</label>
+                    <div style="font-size: 12px; color: var(--md-sys-color-on-info-container); line-height: 1.4;">
+                        • Use CSS selectors to target specific elements<br>
+                        • Start with simple changes like colors and spacing<br>
+                        • Test your CSS<br>
+                        • You can save your CSS with themes for later use
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -618,6 +675,28 @@
             </div>
             <input type="file" id="importFile" accept=".json" style="display: none;">
             <input type="file" id="importBookmarksFile" accept=".html" style="display: none;">
+        </div>
+
+        <div class="setting-group">
+            <label class="setting-label">Support Lumina</label>
+            <div class="donation-section">
+                <p style="color: var(--md-sys-color-on-surface-variant); margin-bottom: 16px; font-size: 14px; line-height: 1.5;">
+                    Help keep virex.lol our home domain! Your support helps maintain this privacy-focused search engine.
+                </p>
+                <div class="litecoin-address-compact">
+                    <div class="address-display">
+                        <span class="address-label">Litecoin Address:</span>
+                        <span class="address-value">Lff8Zq8ZEjApxoVo2T1bAV7o1CKSitFp9S</span>
+                        <button class="copy-address-btn" id="copyAddressBtn" title="Copy Address">
+                            <span class="material-icons-round">content_copy</span>
+                        </button>
+                    </div>
+                </div>
+                <button class="donation-info-btn" id="donationInfoBtn">
+                    <span class="material-icons-round">info</span>
+                    <span>Learn More</span>
+                </button>
+            </div>
         </div>
 
             <div class="setting-group">
@@ -871,6 +950,43 @@
                 </button>
             </div>
             <div class="search-history-modal-list" id="searchHistoryModalList"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="donationModal" style="max-width: 450px;">
+        <div class="modal-title">Help keep virex.lol our home domain!</div>
+        <div style="line-height: 1.6; color: var(--md-sys-color-on-surface); margin: 20px 0;">
+            <div style="background: var(--md-sys-color-surface-container-low); padding: 20px; border-radius: 16px; margin-bottom: 20px; text-align: center; border: 2px solid var(--md-sys-color-primary);">
+                <div style="font-size: 14px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 12px;">
+                    Your support helps maintain this privacy-focused search engine and keep our domain running!
+                </div>
+                <div style="background: var(--md-sys-color-surface-container-high); padding: 16px; border-radius: 12px; margin-bottom: 16px; word-break: break-all; font-family: monospace; font-size: 16px; font-weight: 600; color: var(--md-sys-color-primary); border: 1px solid var(--md-sys-color-outline-variant);">
+                    Lff8Zq8ZEjApxoVo2T1bAV7o1CKSitFp9S
+                </div>
+                <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                    <button class="modal-btn secondary" id="copyLitecoinAddress">
+                        <span class="material-icons-round">content_copy</span>
+                        Copy Address
+                    </button>
+                    <button class="modal-btn primary" id="openSettingsFromModal">
+                        <span class="material-icons-round">tune</span>
+                        Open Settings
+                    </button>
+                </div>
+            </div>
+            <p style="font-size: 14px; color: var(--md-sys-color-on-surface-variant); text-align: center; margin: 0;">
+                Thank you for your support! Every contribution helps keep Lumina free and privacy-focused.
+            </p>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn secondary" id="dontShowAgainBtn">
+                <span class="material-icons-round">visibility_off</span>
+                Don't Show Again
+            </button>
+            <button class="modal-btn primary" id="closeDonationModal">
+                <span class="material-icons-round">close</span>
+                Close
+            </button>
         </div>
     </div>
 

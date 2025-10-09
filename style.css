@@ -192,6 +192,164 @@
             background: var(--md-sys-color-primary-container);
         }
 
+        /* High Contrast Mode Styles */
+        [data-high-contrast="true"] {
+            --md-sys-color-primary: #000000;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #000000;
+            --md-sys-color-on-primary-container: #FFFFFF;
+            --md-sys-color-secondary: #000000;
+            --md-sys-color-secondary-container: #FFFFFF;
+            --md-sys-color-on-secondary-container: #000000;
+            --md-sys-color-tertiary: #000000;
+            --md-sys-color-tertiary-container: #FFFFFF;
+            --md-sys-color-on-tertiary-container: #000000;
+            --md-sys-color-error-container: #000000;
+            --md-sys-color-on-error-container: #FFFFFF;
+            --md-sys-color-surface: #FFFFFF;
+            --md-sys-color-surface-bright: #FFFFFF;
+            --md-sys-color-surface-dim: #F0F0F0;
+            --md-sys-color-surface-container: #F5F5F5;
+            --md-sys-color-surface-container-low: #F8F8F8;
+            --md-sys-color-surface-container-high: #E0E0E0;
+            --md-sys-color-surface-container-highest: #D0D0D0;
+            --md-sys-color-on-surface: #000000;
+            --md-sys-color-on-surface-variant: #000000;
+            --md-sys-color-outline: #000000;
+            --md-sys-color-outline-variant: #000000;
+            --shadow-1: 0 2px 4px rgba(0,0,0,0.5), 0 1px 3px 1px rgba(0,0,0,0.3);
+            --shadow-2: 0 2px 4px rgba(0,0,0,0.5), 0 2px 8px 2px rgba(0,0,0,0.3);
+            --shadow-3: 0 4px 12px 4px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        [data-high-contrast="true"][data-theme="dark"] {
+            --md-sys-color-primary: #FFFFFF;
+            --md-sys-color-on-primary: #000000;
+            --md-sys-color-primary-container: #FFFFFF;
+            --md-sys-color-on-primary-container: #000000;
+            --md-sys-color-secondary: #FFFFFF;
+            --md-sys-color-secondary-container: #000000;
+            --md-sys-color-on-secondary-container: #FFFFFF;
+            --md-sys-color-tertiary: #FFFFFF;
+            --md-sys-color-tertiary-container: #000000;
+            --md-sys-color-on-tertiary-container: #FFFFFF;
+            --md-sys-color-error-container: #FFFFFF;
+            --md-sys-color-on-error-container: #000000;
+            --md-sys-color-surface: #000000;
+            --md-sys-color-surface-bright: #000000;
+            --md-sys-color-surface-dim: #0A0A0A;
+            --md-sys-color-surface-container: #1A1A1A;
+            --md-sys-color-surface-container-low: #000000;
+            --md-sys-color-surface-container-high: #2A2A2A;
+            --md-sys-color-surface-container-highest: #3A3A3A;
+            --md-sys-color-on-surface: #FFFFFF;
+            --md-sys-color-on-surface-variant: #FFFFFF;
+            --md-sys-color-outline: #FFFFFF;
+            --md-sys-color-outline-variant: #FFFFFF;
+        }
+
+        /* High contrast mode enhanced styling */
+        [data-high-contrast="true"] * {
+            border-width: 2px !important;
+        }
+
+        [data-high-contrast="true"] .icon-btn,
+        [data-high-contrast="true"] .search-btn,
+        [data-high-contrast="true"] .voice-search-btn,
+        [data-high-contrast="true"] .toggle-option,
+        [data-high-contrast="true"] .switch,
+        [data-high-contrast="true"] .color-option,
+        [data-high-contrast="true"] .shortcut,
+        [data-high-contrast="true"] .weather,
+        [data-high-contrast="true"] .clock,
+        [data-high-contrast="true"] .calendar,
+        [data-high-contrast="true"] .todo-widget,
+        [data-high-contrast="true"] .notes-toggle,
+        [data-high-contrast="true"] .bookmarks-toggle,
+        [data-high-contrast="true"] .modal,
+        [data-high-contrast="true"] .settings-panel {
+            border: 3px solid var(--md-sys-color-outline) !important;
+            background-clip: padding-box !important;
+        }
+
+        [data-high-contrast="true"] .search-input,
+        [data-high-contrast="true"] .notes-textarea,
+        [data-high-contrast="true"] .notes-title-input,
+        [data-high-contrast="true"] .modal-input {
+            border: 3px solid var(--md-sys-color-outline) !important;
+            background: var(--md-sys-color-surface) !important;
+            color: var(--md-sys-color-on-surface) !important;
+        }
+
+        [data-high-contrast="true"] .search-container:focus-within {
+            border-color: var(--md-sys-color-primary) !important;
+            border-width: 4px !important;
+        }
+
+        [data-high-contrast="true"] .toggle-option:hover,
+        [data-high-contrast="true"] .icon-btn:hover,
+        [data-high-contrast="true"] .search-btn:hover,
+        [data-high-contrast="true"] .shortcut:hover {
+            border-color: var(--md-sys-color-primary) !important;
+            border-width: 4px !important;
+            transform: translateY(-2px) !important;
+        }
+
+        [data-high-contrast="true"] .switch.active {
+            background: var(--md-sys-color-primary) !important;
+            border: 3px solid var(--md-sys-color-outline) !important;
+        }
+
+        [data-high-contrast="true"] .switch-thumb {
+            background: var(--md-sys-color-on-primary) !important;
+            border: 2px solid var(--md-sys-color-outline) !important;
+            width: 20px !important;
+            height: 20px !important;
+            top: 2px !important;
+            left: 2px !important;
+        }
+
+        [data-high-contrast="true"] .switch.active .switch-thumb {
+            left: 26px !important;
+            background: var(--md-sys-color-primary) !important;
+        }
+
+        [data-high-contrast="true"] .logo {
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: var(--md-sys-color-on-surface) !important;
+            background-clip: unset !important;
+            color: var(--md-sys-color-on-surface) !important;
+            font-weight: 900 !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+        }
+
+        [data-high-contrast="true"] .greeting-text,
+        [data-high-contrast="true"] .weather-temp,
+        [data-high-contrast="true"] .clock-time {
+            font-weight: 900 !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+        }
+
+        [data-high-contrast="true"] .background-overlay,
+        [data-high-contrast="true"] .background-shapes {
+            opacity: 0.1 !important;
+        }
+
+        [data-high-contrast="true"] .floating-shape {
+            opacity: 0.3 !important;
+            border: 2px solid var(--md-sys-color-outline) !important;
+        }
+
+        [data-high-contrast="true"] .modal {
+            border: 4px solid var(--md-sys-color-outline) !important;
+            background: var(--md-sys-color-surface-container-high) !important;
+        }
+
+        [data-high-contrast="true"] .settings-panel {
+            border: 4px solid var(--md-sys-color-outline) !important;
+        }
+
         .floating-shape.circle {
             width: 60px;
             height: 60px;
@@ -2050,13 +2208,17 @@
         .setting-group-content {
             max-height: 1000px;
             overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 1;
+            margin-top: 16px;
+            margin-bottom: 16px;
         }
 
         .setting-group.collapsed .setting-group-content {
             max-height: 0;
             opacity: 0;
+            margin-top: 0;
+            margin-bottom: 0;
         }
 
         @keyframes slideInUp {
@@ -2137,24 +2299,25 @@
             gap: 12px;
         }
 
-        /* mobile color grid - probably more compact */
+        /* mobile color grid - more compact but no scrollbar */
         .mobile-mode .color-grid {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
+            max-width: 100%;
+            overflow: visible;
         }
 
         /* very small screens? even more compact */
         @media (max-width: 480px) {
             .mobile-mode .color-grid {
-                grid-template-columns: repeat(6, 1fr);
-                gap: 4px;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+                overflow: visible;
             }
 
             .mobile-mode .color-option {
-                min-width: 40px;
-                min-height: 40px;
+                min-width: 48px;
+                min-height: 48px;
             }
         }
 
@@ -2770,6 +2933,19 @@
             gap: 8px;
             margin-bottom: 16px;
             align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* mobile theme save section */
+        .mobile-mode .theme-save-section {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .mobile-mode .theme-save-section input {
+            margin-right: 0;
+            margin-bottom: 0;
         }
 
         .theme-save-section input {
@@ -2800,12 +2976,25 @@
         .theme-import-export {
             display: flex;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .theme-import-export .theme-btn {
             flex: 1;
+            min-width: 120px;
             justify-content: center;
             padding: 12px 16px;
+        }
+
+        /* mobile theme import export */
+        .mobile-mode .theme-import-export {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mobile-mode .theme-import-export .theme-btn {
+            flex: none;
+            width: 100%;
         }
 
         .overlay {
@@ -3514,13 +3703,244 @@
         }
 
         .modal-btn.secondary {
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .modal-btn.secondary:hover {
             background: var(--md-sys-color-surface-container-highest);
             color: var(--md-sys-color-on-surface);
+            border-color: var(--md-sys-color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2);
         }
 
         .modal-btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-2);
+        }
+        [data-theme="dark"] .modal-btn.secondary {
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface);
+            border-color: var(--md-sys-color-outline-variant);
+        }
+
+        [data-theme="dark"] .modal-btn.secondary:hover {
+            background: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface);
+            border-color: var(--md-sys-color-primary);
+        }
+
+        /* some button fixes */
+        [data-theme="dark"] .donation-info-btn {
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface);
+            border-color: var(--md-sys-color-outline-variant);
+        }
+
+        [data-theme="dark"] .donation-info-btn:hover {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border-color: var(--md-sys-color-primary);
+        }
+
+        /* custom CSS styles */
+        .custom-css-section {
+            margin-bottom: 32px;
+        }
+
+        .custom-css-section .setting-group-header {
+            cursor: pointer;
+            padding: 8px 0;
+            user-select: none;
+        }
+
+        .custom-css-section .setting-group-content {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .custom-css-section.collapsed .setting-group-content {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        #customCssInput {
+            font-family: 'Courier New', monospace;
+            line-height: 1.4;
+            tab-size: 4;
+        }
+
+        #customCssInput:focus {
+            border-color: var(--md-sys-color-primary);
+            box-shadow: 0 0 0 2px var(--md-sys-color-primary-container);
+        }
+
+        #cssValidationStatus.valid {
+            color: var(--md-sys-color-primary);
+        }
+
+        #cssValidationStatus.invalid {
+            color: var(--md-sys-color-error);
+        }
+
+        #cssValidationStatus.warning {
+            color: var(--md-sys-color-warning);
+        }
+
+        #cssPreviewArea {
+            transition: all 0.3s ease;
+        }
+
+        .preview-btn {
+            transition: all 0.3s ease;
+        }
+
+        .preview-btn:hover {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            transform: translateY(-1px);
+        }
+
+        .preview-text {
+            transition: all 0.3s ease;
+        }
+
+        /* warning container styles */
+        .warning-container {
+            background: var(--md-sys-color-warning-container);
+            border: 1px solid var(--md-sys-color-warning);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+        }
+
+        .warning-text {
+            color: var(--md-sys-color-on-warning-container);
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* custom CSS button styles */
+        #resetCustomCssBtn {
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface-variant);
+            border: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        #resetCustomCssBtn:hover {
+            background: var(--md-sys-color-surface-container-highest);
+            color: var(--md-sys-color-on-surface);
+            border-color: var(--md-sys-color-outline);
+        }
+
+        #applyCustomCssBtn {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        #applyCustomCssBtn:hover {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            transform: translateY(-1px);
+        }
+
+        #applyCustomCssBtn.applied {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        #applyCustomCssBtn.applied::after {
+            content: ' ✓';
+        }
+
+        /* info container for tips */
+        .info-container {
+            background: var(--md-sys-color-info-container);
+            border: 1px solid var(--md-sys-color-info);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .info-text {
+            color: var(--md-sys-color-on-info-container);
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* mobile responsive styles for custom CSS section */
+        .mobile-mode .custom-css-section .setting-group-content {
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .mobile-mode #customCssInput {
+            height: 100px;
+            font-size: 12px;
+        }
+
+        .mobile-mode #cssPreviewArea {
+            padding: 12px;
+            min-height: 60px;
+        }
+
+        .mobile-mode .preview-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .mobile-mode .preview-text {
+            font-size: 11px;
+        }
+
+        .mobile-mode .info-container {
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .mobile-mode .info-text {
+            font-size: 11px;
+        }
+
+        .mobile-mode .warning-container {
+            padding: 6px 10px;
+            margin-bottom: 10px;
+        }
+
+        .mobile-mode .warning-text {
+            font-size: 11px;
+        }
+
+        /* dark theme copy address button fixes */
+        [data-theme="dark"] .copy-address-btn {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border-color: var(--md-sys-color-primary);
+        }
+
+        [data-theme="dark"] .copy-address-btn:hover {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border-color: var(--md-sys-color-primary);
+        }
+
+        /* dark theme address display fixes */
+        [data-theme="dark"] .address-display {
+            background: var(--md-sys-color-surface-container-high);
+            border-color: var(--md-sys-color-outline-variant);
+        }
+
+        [data-theme="dark"] .address-display:hover {
+            background: var(--md-sys-color-surface-container-highest);
+            border-color: var(--md-sys-color-primary);
         }
 
 
@@ -3836,16 +4256,6 @@
             will-change: scroll-position;
         }
 
-        /* ensure settings content starts at top when panel opens */
-        .mobile-mode .settings-panel:not(.open) .settings-content {
-            scroll-top: 0;
-        }
-
-        /* smooth scroll reset when panel opens */
-        .mobile-mode .settings-panel.open .settings-content {
-            scroll-top: 0;
-            animation: none;
-        }
 
         /* enhanced scroll management for seamless animation */
         .mobile-mode .settings-content::-webkit-scrollbar {
@@ -3867,13 +4277,28 @@
 
         /* mobile settings content layout - block layout */
         .mobile-mode .settings-content {
-            padding: 20px;
-            padding-bottom: 120px; /* rxtra bottom padding just for safety */
+            padding: 16px;
+            padding-bottom: 100px;
+        }
+
+        /* ensure proper mobile collapsing behavior */
+        .mobile-mode .setting-group-content {
+            margin-top: 8px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .mobile-mode .setting-group.collapsed .setting-group-content {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
         }
 
         /* mobile settings sections with proper spacing */
         .mobile-mode .setting-group {
-            margin-bottom: 0;
+            margin-bottom: 16px;
+        }
+
+        .mobile-mode .setting-group.collapsed {
+            margin-bottom: 8px;
         }
 
         .mobile-mode .setting-label {
@@ -3893,19 +4318,19 @@
 
         /* reasonable spacing for that last section */
         .mobile-mode .setting-group:last-of-type {
-            margin-bottom: 60px;
-            padding-bottom: 40px;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
         }
 
-        /* extra padding for the mobile mode toggle section specifically, i sleep now */
+        /* mobile mode toggle section spacing */
         .mobile-mode .setting-group-content .setting-group {
-            padding-bottom: 60px !important;
-            margin-bottom: 40px !important;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
         }
 
         .mobile-mode .setting-group-content .setting-group .toggle-option:last-child {
-            margin-bottom: 60px !important;
-            padding-bottom: 40px !important;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
         }
 
         .mobile-mode .settings-panel .setting-group {
@@ -3927,8 +4352,20 @@
         }
 
         .mobile-mode .setting-group-content {
-            overflow: visible !important;
-            max-height: none !important;
+            overflow: hidden !important;
+            max-height: 1000px !important;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), margin 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            margin-top: 8px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .mobile-mode .setting-group.collapsed .setting-group-content {
+            max-height: 0 !important;
+            opacity: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            overflow: hidden !important;
         }
 
         .mobile-mode .toggle-option {
@@ -3959,22 +4396,11 @@
             margin-bottom: 20px;
         }
 
-        .mobile-mode .setting-group-content .setting-group {
-            margin-bottom: 200px !important;
-            padding-bottom: 150px !important;
-            border-bottom: 2px solid var(--md-sys-color-outline-variant);
-            overflow: visible !important;
-            max-height: none !important;
-        }
 
-        .mobile-mode .setting-group-content {
-            overflow: visible !important;
-            max-height: none !important;
-        }
 
         .mobile-mode .setting-group-content .setting-group .toggle-option:last-child {
-            margin-bottom: 32px;
-            padding-bottom: 32px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
         }
 
         .mobile-mode #mobileModeGroup {
@@ -4129,8 +4555,10 @@
 
             /* mobile color grid optimization */
             .mobile-mode .color-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 8px;
+                max-width: 100%;
+                overflow: visible;
             }
 
             .weather, .clock, .calendar, .todo-widget {
@@ -4870,4 +5298,243 @@
             transform: scale(1.1);
             box-shadow: var(--shadow-2);
             border-color: var(--md-sys-color-primary);
+        }
+
+        /* Donation section styles */
+        .donation-section {
+            padding: 20px;
+            background: var(--md-sys-color-surface-container-low);
+            border-radius: 16px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .donation-section:hover {
+            background: var(--md-sys-color-surface-container-high);
+            border-color: var(--md-sys-color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2);
+        }
+
+        .donation-section p {
+            color: var(--md-sys-color-on-surface-variant);
+            transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .donation-section:hover p {
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .litecoin-address-compact {
+            margin-bottom: 16px;
+        }
+
+        .address-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--md-sys-color-surface-container-high);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .address-display:hover {
+            background: var(--md-sys-color-surface-container-highest);
+            border-color: var(--md-sys-color-primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-1);
+        }
+
+        .address-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--md-sys-color-primary);
+            white-space: nowrap;
+        }
+
+        .address-value {
+            flex: 1;
+            font-family: monospace;
+            font-size: 13px;
+            color: var(--md-sys-color-on-surface);
+            word-break: break-all;
+            line-height: 1.3;
+        }
+
+        .copy-address-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--md-sys-color-primary);
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            box-shadow: var(--shadow-1);
+        }
+
+        .copy-address-btn:hover {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border-color: var(--md-sys-color-primary);
+            transform: scale(1.1);
+            box-shadow: var(--shadow-2);
+        }
+
+        .copy-address-btn:active {
+            transform: scale(0.95);
+        }
+
+        .copy-address-btn .material-icons-round {
+            font-size: 16px;
+        }
+
+        .donation-info-btn {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-on-surface);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Google Sans', sans-serif;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow-1);
+        }
+
+        .donation-info-btn:hover {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border-color: var(--md-sys-color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2);
+        }
+
+        .donation-info-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .donation-info-btn .material-icons-round {
+            font-size: 18px;
+            color: var(--md-sys-color-primary);
+        }
+
+        .donation-info-btn:hover .material-icons-round {
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        /* Donation modal styles - Corner positioned and compact */
+        #donationModal {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            left: auto;
+            bottom: auto;
+            transform: translate(0, 0) scale(0.9);
+            background: var(--md-sys-color-surface-container-high);
+            border: 2px solid var(--md-sys-color-primary);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow-3);
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 350px;
+            width: 90vw;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #donationModal.visible {
+            opacity: 1;
+            transform: translate(0, 0) scale(1);
+            pointer-events: all;
+        }
+
+        #donationModal .modal-title {
+            color: var(--md-sys-color-primary);
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        #donationModal .modal-btn {
+            position: relative;
+            overflow: hidden;
+            padding: 10px 16px;
+            font-size: 13px;
+            min-height: 40px;
+        }
+
+        #donationModal .modal-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 0;
+        }
+
+        #donationModal .modal-btn:hover::before {
+            width: 120%;
+            height: 120%;
+        }
+
+        #donationModal .modal-btn span {
+            z-index: 1;
+            position: relative;
+        }
+
+        #donationModal .modal-btn .material-icons-round {
+            z-index: 1;
+            position: relative;
+            font-size: 16px;
+        }
+
+        #donationModal .modal-actions {
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        #donationModal .modal-actions .modal-btn {
+            min-width: 80px;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .copy-address-btn.copied {
+            background: var(--md-sys-color-primary) !important;
+            color: var(--md-sys-color-on-primary) !important;
+            border-color: var(--md-sys-color-primary) !important;
+        }
+
+        /* Mobile responsive for corner modal */
+        @media (max-width: 768px) {
+            #donationModal {
+                top: 16px;
+                right: 16px;
+                left: auto;
+                max-width: calc(100vw - 32px);
+                width: calc(100vw - 32px);
+            }
         }

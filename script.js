@@ -300,6 +300,7 @@ const state = {
     backgroundImage: '',
     backgroundOpacity: 0.3,
     showBackgroundShapes: false,
+    highContrast: false,
     weatherPosition: null,
     clockPosition: null,
     calendarPosition: null,
@@ -353,7 +354,10 @@ const state = {
         // {label: 'Coursera', url: 'https://coursera.com', icon: 'task_outlined'}
         // {label: 'Khan Academy', url: 'https://khanacademy.com', icon: 'task_outlined'}
         // {label: 'TED', url: 'https://ted.com', icon: 'task_outlined'}
-    ]
+    ],
+    // Custom CSS injection state
+    customCss: '',
+    customCssEnabled: false
 };
 //                     <div class="auto-suggestion-item" data-suggestion="GitHub">
 //                         <span class="material-icons-round">code</span>
@@ -576,6 +580,7 @@ function applySettings() {
     }
     try {
         document.documentElement.setAttribute('data-theme', effectiveDarkMode ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-high-contrast', state.highContrast ? 'true' : 'false');
     } catch (e) {
         console.warn('Error setting theme attribute:', e);
     }
@@ -669,7 +674,8 @@ function applySettings() {
         'todoToggle': 'showTodo',
         'shortcutsToggle': 'showShortcuts',
         'greetingToggle': 'showGreeting',
-        'backgroundShapesToggle': 'showBackgroundShapes'
+        'backgroundShapesToggle': 'showBackgroundShapes',
+        'highContrastToggle': 'highContrast'
     };
 
     Object.entries(toggleMap).forEach(([id, key]) => {
@@ -2706,6 +2712,14 @@ document.getElementById('backgroundShapesToggle')?.addEventListener('click', (e)
     saveSettings();
 });
 
+document.getElementById('highContrastToggle')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    state.highContrast = !state.highContrast;
+    applySettings();
+    saveSettings();
+});
+
 document.getElementById('resetBtn').addEventListener('click', () => {
     if (confirm('Do you really want to reset all settings to default?')) {
         Object.assign(state, JSON.parse(JSON.stringify(defaultState)));
@@ -4385,4 +4399,547 @@ try {
 }
 
 showKeyboardShortcutsTutorial();
+
+// donation functionality
+function setupDonation() {
+    const donationInfoBtn = document.getElementById('donationInfoBtn');
+    const donationModal = document.getElementById('donationModal');
+    const closeDonationModal = document.getElementById('closeDonationModal');
+    const copyAddressBtn = document.getElementById('copyAddressBtn');
+    const openSettingsFromModal = document.getElementById('openSettingsFromModal');
+    const dontShowAgainBtn = document.getElementById('dontShowAgainBtn');
+
+    if (!donationInfoBtn || !donationModal) return;
+
+    // auto-show popup for first-time users
+    function showDonationModalAuto() {
+        const hasSeenDonation = localStorage.getItem('lumina-donation-seen');
+        if (!hasSeenDonation) {
+            setTimeout(() => {
+                donationModal.classList.add('visible');
+            }, 3000); // show after 3 seconds
+        }
+    }
+
+    // show donation modal when info button is clicked
+    donationInfoBtn.addEventListener('click', () => {
+        donationModal.classList.add('visible');
+    });
+
+    // close donation
+    if (closeDonationModal) {
+        closeDonationModal.addEventListener('click', () => {
+            donationModal.classList.remove('visible');
+        });
+    }
+
+    // don't show again functionality
+    if (dontShowAgainBtn) {
+        dontShowAgainBtn.addEventListener('click', () => {
+            localStorage.setItem('lumina-donation-seen', 'true');
+            donationModal.classList.remove('visible');
+        });
+    }
+
+    // copy litecoin address to clipboard (for both buttons)
+    const copyButtons = ['copyAddressBtn', 'copyLitecoinAddress'];
+    copyButtons.forEach(buttonId => {
+        const button = document.getElementById(buttonId);
+        if (button) {
+            button.addEventListener('click', async () => {
+                const address = 'Lff8Zq8ZEjApxoVo2T1bAV7o1CKSitFp9S';
+
+                try {
+                    await navigator.clipboard.writeText(address);
+
+                    // show feedback with theme-consistent styling
+                    const originalIcon = button.innerHTML;
+                    button.innerHTML = '<span class="material-icons-round">check</span>';
+                    button.classList.add('copied');
+
+                    setTimeout(() => {
+                        button.innerHTML = originalIcon;
+                        button.classList.remove('copied');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy address:', err);
+
+                    // fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = address;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+
+                    try {
+                        document.execCommand('copy');
+                        button.innerHTML = '<span class="material-icons-round">check</span>';
+                        button.classList.add('copied');
+
+                        setTimeout(() => {
+                            button.innerHTML = originalIcon;
+                            button.classList.remove('copied');
+                        }, 2000);
+                    } catch (fallbackErr) {
+                        console.error('Fallback copy failed:', fallbackErr);
+                        alert('Copy failed. Address: ' + address);
+                    }
+
+                    document.body.removeChild(textArea);
+                }
+            });
+        }
+    });
+
+    // open settings from modal (if button exists)
+    if (openSettingsFromModal) {
+        openSettingsFromModal.addEventListener('click', () => {
+            // close donation modal
+            donationModal.classList.remove('visible');
+
+            // open settings panel
+            document.getElementById('settingsPanel').classList.add('open');
+            document.getElementById('overlay').classList.add('visible');
+
+            // scroll to donation section
+            setTimeout(() => {
+                const donationSection = document.querySelector('.donation-section');
+                if (donationSection) {
+                    donationSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // highlight the donation section briefly
+                    donationSection.style.background = 'var(--md-sys-color-primary-container)';
+                    donationSection.style.transform = 'scale(1.02)';
+
+                    setTimeout(() => {
+                        donationSection.style.background = '';
+                        donationSection.style.transform = '';
+                    }, 2000);
+                }
+            }, 100);
+        });
+    }
+
+    // click outside modal to close (for corner modal)
+    document.addEventListener('click', (e) => {
+        if (donationModal.classList.contains('visible') &&
+            !donationModal.contains(e.target) &&
+            !donationInfoBtn.contains(e.target)) {
+            donationModal.classList.remove('visible');
+        }
+    });
+
+    // initialize auto-show
+    showDonationModalAuto();
+}
+
+// initialize donation functionality
+try {
+    setupDonation();
+} catch (e) {
+    console.error('Error setting up donation functionality:', e);
+}
+
+// ========================================
+// CSS Injection
+// ========================================
+
+// security: check CSS to prevent XSS attacks
+function validateCssSecurity(cssText) {
+    if (!cssText || typeof cssText !== 'string') {
+        return { valid: false, error: 'CSS must be a non-empty string' };
+    }
+
+    // remove null bytes and control characters that could be used for injection
+    const sanitized = cssText.replace(/[\x00-\x1F\x7F]/g, '');
+
+    // check for dangerous patterns
+    const dangerousPatterns = [
+        // JS execution
+        /javascript:/gi,
+        /vbscript:/gi,
+        /data:/gi,
+        /<script/gi,
+        /<\/script>/gi,
+        /eval\(/gi,
+        /setTimeout\(/gi,
+        /setInterval\(/gi,
+        /Function\(/gi,
+        /window\./gi,
+        /document\./gi,
+        /location\./gi,
+        /cookie/gi,
+        /localStorage/gi,
+        /sessionStorage/gi,
+
+        // CSS expressions (IE-specific XSS vector)
+        /expression\(/gi,
+        /expression\s*\(/gi,
+
+        // URL schemes that could also be dangerous
+        /url\s*\(\s*["']?\s*javascript:/gi,
+        /url\s*\(\s*["']?\s*vbscript:/gi,
+        /url\s*\(\s*["']?\s*data:/gi,
+
+        // HTML tags
+        /<[^>]*>/g,
+
+        // CSS import that could load third party resources
+        /@import/gi,
+        /@import\s+url/gi,
+
+        // behavior properties (IE-specific)
+        /behavior\s*:/gi,
+        /-moz-binding/gi,
+
+        // potentially dangerous pseudo-elements
+        /::(before|after)\s*{\s*content\s*:/gi
+    ];
+
+    for (const pattern of dangerousPatterns) {
+        if (pattern.test(sanitized)) {
+            return {
+                valid: false,
+                error: 'CSS contains potentially dangerous patterns',
+                pattern: pattern.source
+            };
+        }
+    }
+
+    // check extremely long CSS (maybe potential DoS?)
+    if (sanitized.length > 100000) { // 100KB limit just to be safe!
+        return { valid: false, error: 'CSS is too large (max 100KB)' };
+    }
+
+    // check for nesting (performance issues)
+    const openBraces = (sanitized.match(/\{/g) || []).length;
+    const closeBraces = (sanitized.match(/\}/g) || []).length;
+
+    if (Math.abs(openBraces - closeBraces) > 50) {
+        return { valid: false, error: 'CSS has mismatched braces' };
+    }
+
+    // syntax validation using CSS parser if available
+    try {
+        // basic CSS syntax check - balanced quotes
+        const singleQuotes = (sanitized.match(/'/g) || []).length;
+        const doubleQuotes = (sanitized.match(/"/g) || []).length;
+
+        if (singleQuotes % 2 !== 0 || doubleQuotes % 2 !== 0) {
+            return { valid: false, error: 'CSS has unbalanced quotes' };
+        }
+
+        // check for unmatched parentheses in URLs and functions
+        const openParens = (sanitized.match(/\(/g) || []).length;
+        const closeParens = (sanitized.match(/\)/g) || []).length;
+
+        if (openParens !== closeParens) {
+            return { valid: false, error: 'CSS has unmatched parentheses' };
+        }
+
+    } catch (e) {
+        console.warn('CSS validation error:', e);
+        return { valid: false, error: 'CSS validation failed' };
+    }
+
+    return { valid: true, sanitized };
+}
+
+// preview CSS in realtime
+function validateAndPreviewCss() {
+    const cssInput = document.getElementById('customCssInput');
+    const validationStatus = document.getElementById('cssValidationStatus');
+    const previewArea = document.getElementById('cssPreviewArea');
+    if (!cssInput || !validationStatus || !previewArea) return;
+    const cssText = cssInput.value.trim();
+    validationStatus.textContent = 'Validating...';
+    validationStatus.className = '';
+
+    // clear previous preview styles
+    clearPreviewStyles();
+
+    if (!cssText) {
+        validationStatus.textContent = 'Ready to inject custom CSS';
+        validationStatus.className = '';
+        return;
+    }
+
+    // check CSS security
+    const validation = validateCssSecurity(cssText);
+
+    if (!validation.valid) {
+        validationStatus.textContent = `❌ ${validation.error}`;
+        validationStatus.className = 'invalid';
+        return;
+    }
+
+    // basic CSS syntax validation
+    const syntaxValidation = validateCssSyntax(cssText);
+
+    if (!syntaxValidation.valid) {
+        validationStatus.textContent = ` ${syntaxValidation.error}`;
+        validationStatus.className = 'warning';
+    } else {
+        validationStatus.textContent = 'Ready to apply CSS';
+        validationStatus.className = 'valid';
+    }
+
+    // apply preview styles
+    applyPreviewStyles(validation.sanitized);
+}
+
+// confirm CSS syntax (basic checks)
+function validateCssSyntax(cssText) {
+    try {
+        // make a temporary style element to test parsing
+        const testStyle = document.createElement('style');
+        testStyle.textContent = cssText;
+        document.head.appendChild(testStyle);
+
+        // if we finally get here, CSS is syntactically valid!
+        document.head.removeChild(testStyle);
+        return { valid: true };
+
+    } catch (e) {
+        return {
+            valid: false,
+            error: 'CSS syntax error: ' + e.message
+        };
+    }
+}
+
+// now, apply the CSS to the preview area
+function applyPreviewStyles(cssText) {
+    if (!cssText) return;
+
+    // remove existing preview styles
+    clearPreviewStyles();
+
+    // and finally, create new style element for preview
+    const previewStyle = document.createElement('style');
+    previewStyle.id = 'css-preview-styles';
+    previewStyle.textContent = `
+        /* Preview Styles */
+        #cssPreviewArea {
+            ${cssText}
+        }
+
+        /* Make preview area more responsive to changes */
+        #cssPreviewArea .preview-btn {
+            ${cssText}
+        }
+
+        #cssPreviewArea .preview-text {
+            ${cssText}
+        }
+    `;
+
+    document.head.appendChild(previewStyle);
+}
+
+// clean preview styles
+function clearPreviewStyles() {
+    const existingPreview = document.getElementById('css-preview-styles');
+    if (existingPreview) {
+        existingPreview.remove();
+    }
+}
+
+// now, we can use that custom CSS & apply it to the entire application.. hehe!
+function applyCustomCss() {
+    const cssInput = document.getElementById('customCssInput');
+    const applyBtn = document.getElementById('applyCustomCssBtn');
+    const validationStatus = document.getElementById('cssValidationStatus');
+
+    if (!cssInput || !applyBtn) return;
+
+    const cssText = cssInput.value.trim();
+
+    if (!cssText) {
+        alert('Please enter some CSS code first.');
+        return;
+    }
+
+    // one final check before applying
+    const validation = validateCssSecurity(cssText);
+
+    if (!validation.valid) {
+        validationStatus.textContent = `❌ ${validation.error}`;
+        validationStatus.className = 'invalid';
+        alert('Cannot apply CSS: ' + validation.error);
+        return;
+    }
+    removeCustomCss();
+
+    // make and apply new custom CSS
+    const customStyle = document.createElement('style');
+    customStyle.id = 'lumina-custom-css';
+    customStyle.textContent = `/* Lumina Custom CSS Injection */\n${validation.sanitized}`;
+    document.head.appendChild(customStyle);
+
+    // update state
+    state.customCss = validation.sanitized;
+    state.customCssEnabled = true;
+    saveSettings();
+
+    // update UI feedback
+    const originalText = applyBtn.innerHTML;
+    applyBtn.innerHTML = '<span class="material-icons-round" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">check</span>Applied!';
+    applyBtn.classList.add('applied');
+
+    setTimeout(() => {
+        applyBtn.innerHTML = originalText;
+        applyBtn.classList.remove('applied');
+    }, 2000);
+
+    // update validation status
+    validationStatus.textContent = 'Custom CSS applied!';
+    validationStatus.className = 'valid';
+
+    console.log('Custom CSS applied successfully');
+}
+
+// remove custom CSS
+function removeCustomCss() {
+    const existingCustomCss = document.getElementById('lumina-custom-css');
+    if (existingCustomCss) {
+        existingCustomCss.remove();
+    }
+    state.customCss = '';
+    state.customCssEnabled = false;
+    saveSettings();
+}
+
+// reset custom CSS
+function resetCustomCss() {
+    const cssInput = document.getElementById('customCssInput');
+    const validationStatus = document.getElementById('cssValidationStatus');
+    if (!cssInput) return;
+    // clear input
+    cssInput.value = '';
+    removeCustomCss();
+    clearPreviewStyles();
+
+    // update validation status
+    validationStatus.textContent = 'Custom CSS reset';
+    validationStatus.className = '';
+
+    // clear validation classes after a moment
+    setTimeout(() => {
+        validationStatus.textContent = 'Ready to inject custom CSS';
+        validationStatus.className = '';
+    }, 1500);
+
+    console.log('Custom CSS reset');
+}
+
+// init custom CSS functions
+function initializeCustomCssFeature() {
+    const cssSection = document.getElementById('customCssSection');
+    const cssHeader = document.getElementById('customCssHeader');
+    const cssInput = document.getElementById('customCssInput');
+
+    if (!cssSection || !cssHeader || !cssInput) {
+        console.warn('Custom CSS elements not found');
+        return;
+    }
+
+    // set-up collapsible section
+    cssHeader.addEventListener('click', () => {
+        cssSection.classList.toggle('collapsed');
+    });
+
+    // reload existing custom CSS if available
+    if (state.customCss) {
+        cssInput.value = state.customCss;
+        if (state.customCssEnabled) {
+            applyCustomCss();
+        }
+    }
+    // setup realtime checking
+    cssInput.addEventListener('input', debounce(validateAndPreviewCss, 300));
+    cssInput.addEventListener('keyup', validateAndPreviewCss);
+
+    // apply button
+    const applyBtn = document.getElementById('applyCustomCssBtn');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', applyCustomCss);
+    }
+
+    // reset button
+    const resetBtn = document.getElementById('resetCustomCssBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', resetCustomCss);
+    }
+
+    console.log('Custom CSS feature initialized');
+}
+
+// debounce function for performance
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// theme management with CSS integration
+const originalSaveCustomTheme = themeConfig.saveCustomTheme;
+themeConfig.saveCustomTheme = function(name, themeData) {
+    // now call the original function, and if custom CSS is enabled, include it in the theme
+    originalSaveCustomTheme.call(this, name, themeData);
+    if (state.customCssEnabled && state.customCss) {
+        const enhancedThemeData = {
+            ...themeData,
+            customCss: state.customCss,
+            hasCustomCss: true
+        };
+        this.customThemes[name] = {
+            ...this.customThemes[name],
+            customCss: state.customCss,
+            hasCustomCss: true
+        };
+        this.saveCustomThemes();
+    }
+};
+
+const originalApplyCustomThemeFromList = applyCustomThemeFromList;
+function applyCustomThemeFromList(themeName) {
+    // call original function, apply the custom CSS.
+    originalApplyCustomThemeFromList(themeName);
+    const theme = themeConfig.getTheme(themeName);
+    if (theme && theme.customCss) {
+        state.customCss = theme.customCss;
+        state.customCssEnabled = true;
+        removeCustomCss();
+        const customStyle = document.createElement('style');
+        customStyle.id = 'lumina-custom-css';
+        customStyle.textContent = `/* Lumina Custom CSS from Theme: ${themeName} */\n${theme.customCss}`;
+        document.head.appendChild(customStyle);
+        // update UI
+        const cssInput = document.getElementById('customCssInput');
+        if (cssInput) {
+            cssInput.value = theme.customCss;
+        }
+
+        saveSettings();
+        console.log(`Applied custom CSS from theme: ${themeName}`);
+    }
+}
+
+// load the custom CSS when settings panel opens
+const originalSettingsBtnClick = document.getElementById('settingsBtn').onclick;
+document.getElementById('settingsBtn').addEventListener('click', () => {
+    // call the original handler
+    if (originalSettingsBtnClick) {
+        originalSettingsBtnClick();
+    }
+    setTimeout(() => {
+        initializeCustomCssFeature();
+    }, 150);
+});
 

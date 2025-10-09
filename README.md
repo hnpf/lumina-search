@@ -170,14 +170,78 @@ This project is open source - see the LICENSE file for details.
 ## What's next
 
 I'm planning to:
-- Make it even faster and more optimized
-- Improve accessibility features
-- Add more search engine options
-- Make the mobile experience smoother
+- Find and fix bugs on both Mobile & Desktop mode.
+- Add text scaling options (not added yet)
+
+- **Mobile**
+- remove keyboard shortcuts for mobile, same for disabling shortcuts guide for mobile users.
+- add PWA capabilities with service worker for offline stuff
+- add "Add to Home Screen" prompts for a slightly better mobile adoption
+- better touch interactions and gesture support (EG, back button goes back a menu instead of going back a page, if possible.)
+- mobile-specific UI patterns (bottom sheets, swipe actions)
+
+- **Performance Goals**
+- lazy loading for widgets and heavy features, faster loading, low resource usage.
+- asset bundling and compression
+- proper state management system
+- comprehensive error boundaries
+
+# More Goals
+- **Advanced Search Capabilities**
+- search result previews and snippets
+- custom search results page itself instead of needing custom search engines - still optional to use them.
+- advanced filtering options (date, type, domain)
+- "search within search results" function
+- keyboard shortcut customization
+
+- **Data Management**
+- bookmark folders and nested organization
+- note versioning and backup system for quick save and load
+- de-clutter notes section
+- add optional data export options (JSON, CSV, PDF)
+
+- **Developer Experience**
+- automated testing framework (unit, integration, e2e)
+- proper error logging and monitoring (Maybe even a custom fallback system)
+- development tools and debugging features
+- documentation system maybe accessible in developer settings which opens another panel for them.
+- plugin/extension system
+
+# Long term goals
+- **Platform Expansion**
+- multi-language support (i18n)
+- dark/light theme variants for different cultural preferences!
+- platform-specific optimizations (Windows, macOS, Linux)
+
+- **Advanced**
+- voice command system beyond search - eg. Hey lumina..
+- data visualization dashboards in Dev settings
+- add some TypeScript for better type safety
+- JSDoc documentation
+- reusable component library
+- consistent patterns
+
+- **Security And Privacy**
+- Content Security Policy (CSP)
+- data encryption for local storage
+- privacy dashboard for users in settings
+- GDPR compliance features
+- security headers and protections
+
 
 ## Changelog
 
 ### Recent Updates
+- LARGE UPDATE!
+- **Fixed bugs**: Fixed more bugs and refined mobile layout
+- **Removed Test Toggle**: Removed accidentally-kept preview-primary-container test toggle in mobile options.
+- **Added optimization**: Made the whole thing feel faster and smoother!
+- **Fixed voice search**: There was an issue with voice detection, this has been fixed.
+- **High Contrast Mode Is Here!**: Added an optional high contrast mode in settings for visually impaired users.
+- **Optional Donation**: Added a donation section in settings, for keeping the domain alive.
+- **Allowing Custom CSS Injection**: - Users can now inject custom CSS. Yay.
+
+### Previous Updates
 - **Fixed Mobile mode detection**: Implemented comprehensive mobile device detection, responsive UI/UX, and moved the mobile section.
 - **Mode detection Info**: Now shows detailed device and browser info for better Mobile Mode Detection!
 - **Fixed search bar**: Fixed the search bar for device scaling.
@@ -185,8 +249,6 @@ I'm planning to:
 - **Revamped Info and Documentation**: Also self-explanatory; rewrote and updated Luminfo and README.
 - **New titles around the engine**: Title bar, about, and some button texts changed.
 - **Moved site to Virex.lol subdomain**: Added Lumina to my personal site!
-
-### Previous Updates
 - **Removed Quick Actions Widget**: Eliminated the problematic quick actions widget after several bugs and performance issues. The feature was causing interface freezes and has been completely removed for a smoother user experience.
 - **Added Full Mobile Mode Support**: Implemented comprehensive mobile device detection, responsive UI/UX, and mobile-optimized features including touch-friendly interfaces, widget management, and developer controls for testing mobile/desktop modes across different devices.
 - **Fixed Settings Panel Visual Issues**: Resolved viewport clipping and pseudo-element rendering problems that were causing the settings panel to be cut off, ensuring full visibility and proper layout on all screen sizes.
