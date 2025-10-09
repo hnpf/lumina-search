@@ -9,8 +9,8 @@ I grew tired of search engines that feel slow and cluttered, so I built what put
 ## Features it has:
 
 ### Search & Discovery
-- **Multiple Search Engines**: Works with many engines, and even your own custom url;'/. DuckDuckGo is the default because privacy really matters!
-- **Voice Search**: Just click the microphone and talk - works great in Chromium-based browsers.
+- **Multiple Search Engines**: Works with many engines, and even your own custom url. DuckDuckGo is the default because privacy really matters!
+- **Voice Search**: Just click the microphone and talk. works great in Chromium-based browsers.
 - **Smart Suggestions**: Shows you completions based on your search history (stored locally, obviously)
 - **Search History**: Keeps track of your recent searches and has friendly deletion options
 
