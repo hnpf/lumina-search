@@ -3782,10 +3782,24 @@
             grid-template-columns: 1fr;
             overflow: hidden;
             box-sizing: border-box;
+            /* enhanced animation performance */
+            transform: translateZ(0);
+            will-change: transform;
+            /* ensure smooth opening transition */
+            transition: right 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .mobile-mode .settings-panel.open {
             right: 0;
+        }
+
+        /* ensure content is ready before panel opens */
+        .mobile-mode .settings-panel:not(.open) {
+            visibility: hidden;
+        }
+
+        .mobile-mode .settings-panel.open {
+            visibility: visible;
         }
 
         /* mobile settings header - grid row 1 */
@@ -3815,6 +3829,40 @@
             min-height: 60vh;
             /* content should expand beyond viewport if needed, also havent tested.. bug testers come my way! */
             max-height: none;
+            /* enhanced scroll behavior for smooth animation */
+            scroll-behavior: smooth;
+            /* ensure consistent scroll reset */
+            transform: translateZ(0);
+            will-change: scroll-position;
+        }
+
+        /* ensure settings content starts at top when panel opens */
+        .mobile-mode .settings-panel:not(.open) .settings-content {
+            scroll-top: 0;
+        }
+
+        /* smooth scroll reset when panel opens */
+        .mobile-mode .settings-panel.open .settings-content {
+            scroll-top: 0;
+            animation: none;
+        }
+
+        /* enhanced scroll management for seamless animation */
+        .mobile-mode .settings-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .mobile-mode .settings-content::-webkit-scrollbar-track {
+            background: var(--md-sys-color-surface-container-low);
+        }
+
+        .mobile-mode .settings-content::-webkit-scrollbar-thumb {
+            background: var(--md-sys-color-outline-variant);
+            border-radius: 4px;
+        }
+
+        .mobile-mode .settings-content::-webkit-scrollbar-thumb:hover {
+            background: var(--md-sys-color-outline);
         }
 
         /* mobile settings content layout - block layout */

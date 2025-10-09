@@ -2289,7 +2289,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 
         if (voiceSearchBtn) {
             voiceSearchBtn.style.background = 'var(--md-sys-color-error-container)';
-            voiceSearchBtn.querySelector('.material-icons-round').textContent = 'mic_off';
+            voiceSearchBtn.querySelector('.material-icons-round').textContent = 'mic';
         }
     };
 
@@ -2304,7 +2304,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const voiceSearchBtn = document.getElementById('voiceSearchBtn');
         if (voiceSearchBtn) {
             voiceSearchBtn.style.background = '';
-            voiceSearchBtn.querySelector('.material-icons-round').textContent = 'mic';
+            voiceSearchBtn.querySelector('.material-icons-round').textContent = 'mic_off';
         }
     };
 
@@ -2315,7 +2315,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 
         if (voiceSearchBtn) {
             voiceSearchBtn.style.background = '';
-            voiceSearchBtn.querySelector('.material-icons-round').textContent = 'mic';
+            voiceSearchBtn.querySelector('.material-icons-round').textContent = 'mic_off';
         }
     };
 }
@@ -2353,6 +2353,29 @@ document.getElementById('closeSearchHistoryModal').addEventListener('click', () 
 });
 
 document.getElementById('settingsBtn').addEventListener('click', () => {
+    // enhanced mobile settings panel opening with pre-visibility scroll reset
+    if (isInMobileMode()) {
+        const settingsContent = document.querySelector('.settings-content');
+        if (settingsContent) {
+            // force scroll reset before panel becomes visible
+            settingsContent.scrollTop = 0;
+            settingsContent.scrollLeft = 0;
+
+            // ensure scroll is reset at key animation points for perfect timing
+            const resetScroll = () => {
+                settingsContent.scrollTop = 0;
+                settingsContent.scrollLeft = 0;
+            };
+
+            // reset at multiple strategic points during animation
+            setTimeout(resetScroll, 5);   // before animation starts
+            setTimeout(resetScroll, 25);  // during animation buildup
+            setTimeout(resetScroll, 100); // after animation completes
+            setTimeout(resetScroll, 200); // final safety reset
+        }
+    }
+
+    // add classes to trigger animations
     document.getElementById('settingsPanel').classList.add('open');
     document.getElementById('overlay').classList.add('visible');
 });
